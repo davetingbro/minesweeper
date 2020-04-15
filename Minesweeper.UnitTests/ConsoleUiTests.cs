@@ -44,5 +44,19 @@ namespace Minesweeper.UnitTests
             Assert.Throws(expectedException, _consoleUiUnderTest.GetDimension);
         }
 
+        [Fact]
+        public void GetUserAction_ValidInput_ReturnsCorrectActionObject()
+        {
+            var sr = new StringReader("R 0,1");
+            Console.SetIn(sr);
+
+            var action = _consoleUiUnderTest.GetUserAction();
+            var expectedAction = new Action(ActionType.Reveal, new Coordinate(0, 1));
+
+            var result = JsonConvert.SerializeObject(action);
+            var expected = JsonConvert.SerializeObject(expectedAction);
+            Assert.Equal(expected, result);
+        }
+
     }
 }
