@@ -44,7 +44,7 @@ namespace Minesweeper
             return new GameBoard(dimension[0], dimension[1]);
         }
 
-        public Coordinate GetCoordinateFromInput()
+        public Action GetUserAction()
         {
             throw new System.NotImplementedException();
         }
