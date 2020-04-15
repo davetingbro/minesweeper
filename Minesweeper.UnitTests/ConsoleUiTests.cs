@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Xunit;
@@ -44,19 +45,26 @@ namespace Minesweeper.UnitTests
             Assert.Throws(expectedException, _consoleUiUnderTest.GetDimension);
         }
 
-        [Fact]
-        public void GetUserAction_ValidInput_ReturnsCorrectActionObject()
+        [Theory]
+        [MemberData(nameof(GetUserActionValidInputData))]
+        public void GetUserAction_ValidInput_ReturnsCorrectActionObject(string input, Action expectedAction)
         {
-            var sr = new StringReader("r 0 1");
+            var sr = new StringReader(input);
             Console.SetIn(sr);
 
             var action = _consoleUiUnderTest.GetUserAction();
-            var expectedAction = new Action(ActionType.Reveal, new Coordinate(0, 1));
 
             var result = JsonConvert.SerializeObject(action);
             var expected = JsonConvert.SerializeObject(expectedAction);
             Assert.Equal(expected, result);
         }
+        
+        public static IEnumerable<object[]> GetUserActionValidInputData => new List<object[]>
+        {
+            new object[] {"r 0 1", new Action(ActionType.Reveal, new Coordinate(0, 1))},
+            new object[] {"f 2 4", new Action(ActionType.Flag, new Coordinate(2, 4))},
+        };
+
 
     }
 }
