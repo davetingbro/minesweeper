@@ -5,13 +5,12 @@ namespace Minesweeper
     /// </summary>
     public class GameBoard
     {
-        public Cell[] Cells;
+        public Cell[] Cells { get; set; }
         public int Width;
         public int Height;
 
-        public GameBoard(Cell[] cells, int width, int height)
+        public GameBoard(int width, int height)
         {
-            Cells = cells;
             Width = width;
             Height = height;
         }
