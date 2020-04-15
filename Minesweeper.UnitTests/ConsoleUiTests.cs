@@ -28,38 +28,21 @@ namespace Minesweeper.UnitTests
             
             Assert.Equal(expected, result);
         }
-
+        
         [Theory]
-        [InlineData("5, a")]
-        [InlineData("9.5 10")]
-        [InlineData("-5 6")]
-        public void GetDimension_InputContainsNonPositiveIntegers_ThrowsFormatException(string input)
+        [InlineData("5, a", typeof(FormatException))]
+        [InlineData("9.5 10", typeof(FormatException))]
+        [InlineData("-5 6", typeof(FormatException))]
+        [InlineData("55", typeof(ArgumentOutOfRangeException))]
+        [InlineData("5 6 7", typeof(ArgumentOutOfRangeException))]
+        [InlineData("", typeof(NullReferenceException))]
+        public void GetDimension_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
         {
             var sr = new StringReader(input);
             Console.SetIn(sr);
 
-            Assert.Throws<FormatException>(_consoleUiUnderTest.GetDimension);
-
+            Assert.Throws(expectedException, _consoleUiUnderTest.GetDimension);
         }
 
-        [Theory]
-        [InlineData("55")]
-        [InlineData("5 6 7")]
-        public void GetDimension_NumberOfInputNotEqualToTwo_ThrowsArgumentOutOfRangeException(string input)
-        {
-            var sr = new StringReader(input);
-            Console.SetIn(sr);
-
-            Assert.Throws<ArgumentOutOfRangeException>(_consoleUiUnderTest.GetDimension);
-        }
-
-        [Fact]
-        public void GetDimension_EmptyInput_ThrowsNullReferenceException()
-        {
-            var sr = new StringReader("");
-            Console.SetIn(sr);
-
-            Assert.Throws<NullReferenceException>(_consoleUiUnderTest.GetDimension);
-        }
     }
 }
