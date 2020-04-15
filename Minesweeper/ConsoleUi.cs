@@ -46,7 +46,11 @@ namespace Minesweeper
 
         public Action GetUserAction()
         {
-            throw new System.NotImplementedException();
+            var input = Console.ReadLine().Split();
+            var actionType = input[0].ToLower() == "r" ? ActionType.Reveal : ActionType.Flag;
+            int x = int.Parse(input[1]), y = int.Parse(input[2]);
+            
+            return new Action(actionType, new Coordinate(x, y));
         }
 
         public void PrintBoard(GameBoard gameBoard)

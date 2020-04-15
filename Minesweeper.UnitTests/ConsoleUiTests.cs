@@ -47,7 +47,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void GetUserAction_ValidInput_ReturnsCorrectActionObject()
         {
-            var sr = new StringReader("R 0,1");
+            var sr = new StringReader("r 0 1");
             Console.SetIn(sr);
 
             var action = _consoleUiUnderTest.GetUserAction();
