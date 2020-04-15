@@ -46,10 +46,24 @@ namespace Minesweeper
 
         public Action GetUserAction()
         {
-            var input = Console.ReadLine().Split();
-            var actionType = input[0].ToLower() == "r" ? ActionType.Reveal : ActionType.Flag;
-            int x = int.Parse(input[1]), y = int.Parse(input[2]);
-            
+            try
+            {
+                var input = Console.ReadLine();
+                return ParseToAction(input);
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("Error: Input cannot be empty (e.g. r 2 2)");
+                throw;
+            }
+        }
+
+        private static Action ParseToAction(string input)
+        {
+            var actionInput = input.Split();
+            var actionType = actionInput[0].ToLower() == "r" ? ActionType.Reveal : ActionType.Flag;
+            int x = int.Parse(actionInput[1]), y = int.Parse(actionInput[2]);
+
             return new Action(actionType, new Coordinate(x, y));
         }
 

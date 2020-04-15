@@ -65,6 +65,17 @@ namespace Minesweeper.UnitTests
             new object[] {"f 2 4", new Action(ActionType.Flag, new Coordinate(2, 4))},
         };
 
+        [Theory]
+        [InlineData("", typeof(NullReferenceException))]
+        public void GetUserAction_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
+        {
+            var sr = new StringReader(input);
+            Console.SetIn(sr);
+
+            Assert.Throws(expectedException, _consoleUiUnderTest.GetUserAction);
+        }
+        
+
 
     }
 }
