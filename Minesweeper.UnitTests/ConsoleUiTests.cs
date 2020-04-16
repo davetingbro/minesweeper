@@ -8,23 +8,16 @@ namespace Minesweeper.UnitTests
 {
     public class ConsoleUiTests
     {
-        private readonly ConsoleUi _consoleUiUnderTest;
-
-        public ConsoleUiTests()
-        {
-            _consoleUiUnderTest = new ConsoleUi();
-        }
-        
         [Fact]
         public void GetDimension_ValidInput_ReturnsGameBoardWithCorrectWidthHeight()
         {
-            var sr = new StringReader("5 5");
-            Console.SetIn(sr);
-
-            var gameBoard = _consoleUiUnderTest.GetDimension();
-            var expectedGameBoard = new GameBoard(5, 5);
-
+            MockConsoleReadLine("5 5");
+            var consoleUiUnderTest = new ConsoleUi();
+            
+            var gameBoard = consoleUiUnderTest.GetDimension();
+            
             var result = JsonConvert.SerializeObject(gameBoard);
+            var expectedGameBoard = new GameBoard(5, 5);
             var expected = JsonConvert.SerializeObject(expectedGameBoard);
             
             Assert.Equal(expected, result);
@@ -39,23 +32,25 @@ namespace Minesweeper.UnitTests
         [InlineData("", typeof(NullReferenceException))]
         public void GetDimension_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
         {
-            var sr = new StringReader(input);
-            Console.SetIn(sr);
+            MockConsoleReadLine(input);
+            
+            var consoleUi = new ConsoleUi();
 
-            Assert.Throws(expectedException, _consoleUiUnderTest.GetDimension);
+            Assert.Throws(expectedException, consoleUi.GetDimension);
         }
 
         [Theory]
         [MemberData(nameof(GetUserActionValidInputData))]
         public void GetUserAction_ValidInput_ReturnsCorrectActionObject(string input, Action expectedAction)
         {
-            var sr = new StringReader(input);
-            Console.SetIn(sr);
-
-            var action = _consoleUiUnderTest.GetUserAction();
+            MockConsoleReadLine(input);
+            var consoleUiUnderTest = new ConsoleUi();
+            
+            var action = consoleUiUnderTest.GetUserAction();
 
             var result = JsonConvert.SerializeObject(action);
             var expected = JsonConvert.SerializeObject(expectedAction);
+            
             Assert.Equal(expected, result);
         }
         
@@ -67,15 +62,27 @@ namespace Minesweeper.UnitTests
 
         [Theory]
         [InlineData("", typeof(NullReferenceException))]
+        [InlineData("r 5 a", typeof(FormatException))]
+        [InlineData("f 9.5 10", typeof(FormatException))]
+        [InlineData("r -5 6", typeof(FormatException))]
+        [InlineData("r 2", typeof(ArgumentOutOfRangeException))]
+        [InlineData("r 9 10 1", typeof(ArgumentOutOfRangeException))]
+        [InlineData("v 9 10", typeof(ArgumentException))]
         public void GetUserAction_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
         {
-            var sr = new StringReader(input);
-            Console.SetIn(sr);
-
-            Assert.Throws(expectedException, _consoleUiUnderTest.GetUserAction);
+            MockConsoleReadLine(input);
+            
+            var consoleUiUnderTest = new ConsoleUi();
+            
+            Assert.Throws(expectedException, consoleUiUnderTest.GetUserAction);
         }
-        
 
+        private static void MockConsoleReadLine(string input)
+        {
+            var sr = new StringReader(input);
+            Console.Clear();
+            Console.SetIn(sr);
+        }
 
     }
 }
