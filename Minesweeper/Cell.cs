@@ -5,10 +5,10 @@ namespace Minesweeper
     /// </summary>
     public class Cell
     {
-        public bool IsMine;
         public Coordinate Coordinate;
         public int NumOfNearbyMine;
         public CellState CellState { get; set; } = CellState.Unrevealed;
+        public bool IsMine { get; private set; }
 
         public Cell(Coordinate coordinate)
         {

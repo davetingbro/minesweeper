@@ -9,23 +9,23 @@ namespace Minesweeper
     public class GameBoard
     {
         public readonly Dictionary<string, Cell> Cells;
-        private readonly int _numOfMines;
-        private readonly int _width;
-        private readonly int _height;
+        public int NumOfMines { get; }
+        public int Width { get; }
+        public int Height { get; }
 
         public GameBoard(int numOfMines, int width, int height)
         {
-            _numOfMines = numOfMines;
-            _width = width;
-            _height = height;
+            NumOfMines = numOfMines;
+            Width = width;
+            Height = height;
             Cells = new Dictionary<string, Cell>();
         }
 
         public void LoadCells()
         {
-            for (var x = 1; x <= _width; x++)
+            for (var x = 1; x <= Width; x++)
             {
-                for (var y = 1; y <= _height; y++)
+                for (var y = 1; y <= Height; y++)
                 {
                     var key = $"{x}{y}";
                     var coordinate = new Coordinate(x, y);
@@ -33,26 +33,15 @@ namespace Minesweeper
                 }
             }
         }
-        
-        public void PlantMines()
+
+        public void PlantMine(string key)
         {
-            var numOfMinePlanted = 0;
-            while (numOfMinePlanted < _numOfMines)
-            {
-                var key = GetRandomCellKey();
-                if (Cells[key].IsMine) continue;
-                Cells[key].PlantMine();
-                numOfMinePlanted++;
-            }
+            Cells[key].PlantMine();
         }
 
-        private string GetRandomCellKey()
+        public bool IsMinePlanted(string key)
         {
-            var random = new Random();
-            var x = random.Next(1, _width + 1);
-            var y = random.Next(1, _height + 1);
-            
-            return $"{x}{y}";
+            return Cells[key].IsMine;
         }
     }
 }
