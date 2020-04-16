@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Minesweeper.UnitTests
 {
-    public class GameEngineTests
+    public class GameBoardTests
     {
         [Fact]
         public void Initialize_WhenCalled_CellArrayHoldsSameNumberOfCellsAsAreaOfGameBoard()
