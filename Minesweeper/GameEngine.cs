@@ -22,8 +22,9 @@ namespace Minesweeper
             {
                 for (var y = 0; y < GameBoard.Height; y++)
                 {
+                    var key = $"{x}{y}";
                     var coordinate = new Coordinate(x, y);
-                    GameBoard.Cells.Add(new Cell(coordinate));
+                    GameBoard.Cells.Add(key, new Cell(coordinate));
                 }
             }
         }

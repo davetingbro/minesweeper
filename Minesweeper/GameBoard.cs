@@ -7,7 +7,7 @@ namespace Minesweeper
     /// </summary>
     public class GameBoard
     {
-        public readonly List<Cell> Cells;
+        public readonly Dictionary<string, Cell> Cells;
         public int NumOfMines;
         public int Width;
         public int Height;
@@ -17,7 +17,7 @@ namespace Minesweeper
             NumOfMines = numOfMines;
             Width = width;
             Height = height;
-            Cells = new List<Cell>();
+            Cells = new Dictionary<string, Cell>();
         }
     }
 }
