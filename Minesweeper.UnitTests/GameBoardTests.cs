@@ -16,15 +16,15 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
-        public void PlantMines_WhenCalled_CanPlantCorrectNumberOfMines()
+        public void PlantMine_WhenCalled_CanSetCellIsMineToTrue()
         {
             var gameBoard = new GameBoard(5, 5, 5);
             gameBoard.LoadCells();
 
-            gameBoard.PlantMines();
+            const string key = "22";
+            gameBoard.PlantMine(key);
             
-            var result = gameBoard.Cells.Values.Count(c => c.IsMine);
-            Assert.Equal(5, result);
+            Assert.True(gameBoard.Cells[key].IsMine);
         }
     }
 }
