@@ -6,29 +6,27 @@ namespace Minesweeper.UnitTests
     public class GameBoardTests
     {
         [Fact]
-        public void Initialize_WhenCalled_CellArrayHoldsSameNumberOfCellsAsAreaOfGameBoard()
+        public void LoadCells_WhenCalled_CellArrayHoldsSameNumberOfCellsAsAreaOfGameBoard()
         {
-            var fakeGameBoard = new GameBoard(5, 5, 5);
-            var gameEngine = new GameEngine(fakeGameBoard);
-            gameEngine.Initialize();
-
-            var gameBoard = gameEngine.GameBoard;
+            var gameBoard = new GameBoard(5, 5, 5);
+            
+            gameBoard.LoadCells();
+            
             var expected = gameBoard.Width * gameBoard.Height;
             
             Assert.Equal(expected, gameBoard.Cells.Count);
         }
 
         [Fact]
-        public void Initialize_WhenCalled_CanPlantCorrectNumberOfMines()
+        public void PlantMines_WhenCalled_CanPlantCorrectNumberOfMines()
         {
-            var fakeGameBoard = new GameBoard(5, 5, 5);
-            var gameEngine = new GameEngine(fakeGameBoard);
-            gameEngine.Initialize();
+            var gameBoard = new GameBoard(5, 5, 5);
+            gameBoard.LoadCells();
+
+            gameBoard.PlantMines();
             
-            var gameBoard = gameEngine.GameBoard;
             var result = gameBoard.Cells.Values.Count(c => c.IsMine);
             var expected = gameBoard.NumOfMines;
-            
             Assert.Equal(expected, result);
         }
     }
