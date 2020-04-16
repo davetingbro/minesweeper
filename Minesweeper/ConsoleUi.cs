@@ -35,12 +35,12 @@ namespace Minesweeper
 
         private static GameBoard ParseToGameBoard(string input)
         {
-            var dimension = input.Split().Select(int.Parse).ToList();
-            if (dimension.Count != 2)
+            var values = input.Split().Select(int.Parse).ToList();
+            if (values.Count != 3)
                 throw new ArgumentOutOfRangeException();
-            if (dimension.Any(d => d < 0))
+            if (values.Any(d => d < 0))
                 throw new FormatException();
-            return new GameBoard(dimension[0], dimension[1]);
+            return new GameBoard(values[0], values[1], values[2]);
         }
 
         public Action GetUserAction()

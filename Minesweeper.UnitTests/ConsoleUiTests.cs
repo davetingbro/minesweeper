@@ -11,24 +11,24 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void GetDimension_ValidInput_ReturnsGameBoardWithCorrectWidthHeight()
         {
-            MockConsoleReadLine("5 5");
+            MockConsoleReadLine("5 5 5");
             var consoleUiUnderTest = new ConsoleUi();
             
             var gameBoard = consoleUiUnderTest.GetDimension();
             
             var result = JsonConvert.SerializeObject(gameBoard);
-            var expectedGameBoard = new GameBoard(5, 5);
+            var expectedGameBoard = new GameBoard(5,5, 5);
             var expected = JsonConvert.SerializeObject(expectedGameBoard);
             
             Assert.Equal(expected, result);
         }
         
         [Theory]
-        [InlineData("5, a", typeof(FormatException))]
-        [InlineData("9.5 10", typeof(FormatException))]
-        [InlineData("-5 6", typeof(FormatException))]
+        [InlineData("5 a 4", typeof(FormatException))]
+        [InlineData("7 9.5 10", typeof(FormatException))]
+        [InlineData("-5 6 8", typeof(FormatException))]
         [InlineData("55", typeof(ArgumentOutOfRangeException))]
-        [InlineData("5 6 7", typeof(ArgumentOutOfRangeException))]
+        [InlineData("5 6 7 2", typeof(ArgumentOutOfRangeException))]
         [InlineData("", typeof(NullReferenceException))]
         public void GetDimension_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
         {

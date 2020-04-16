@@ -6,11 +6,13 @@ namespace Minesweeper
     public class GameBoard
     {
         public Cell[] Cells { get; set; }
+        public int NumOfMines;
         public int Width;
         public int Height;
 
-        public GameBoard(int width, int height)
+        public GameBoard(int numOfMines, int width, int height)
         {
+            NumOfMines = numOfMines;
             Width = width;
             Height = height;
         }
