@@ -27,20 +27,18 @@ namespace Minesweeper
             var numOfMineToPlant = GameBoard.NumOfMines;
             while (numOfMineToPlant > 0)
             {
-                var key = GetRandomCellKey();
-                if (GameBoard.IsMinePlanted(key)) continue;
-                GameBoard.PlantMine(key);
+                var index = GetRandomIndex();
+                if (GameBoard.IsMinePlanted(index)) continue;
+                GameBoard.PlantMine(index);
                 numOfMineToPlant--;
             }
         }
         
-        private string GetRandomCellKey()
+        private int GetRandomIndex()
         {
             var random = new Random();
-            var x = random.Next(1, GameBoard.Width + 1);
-            var y = random.Next(1, GameBoard.Height + 1);
             
-            return $"{x}{y}";
+            return random.Next(GameBoard.Cells.Count);
         }
 
         public void RevealCell(Coordinate coordinate)

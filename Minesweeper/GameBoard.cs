@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Minesweeper
@@ -8,7 +7,7 @@ namespace Minesweeper
     /// </summary>
     public class GameBoard
     {
-        public readonly Dictionary<string, Cell> Cells;
+        public readonly List<Cell> Cells;
         public int NumOfMines { get; }
         public int Width { get; }
         public int Height { get; }
@@ -18,7 +17,7 @@ namespace Minesweeper
             NumOfMines = numOfMines;
             Width = width;
             Height = height;
-            Cells = new Dictionary<string, Cell>();
+            Cells = new List<Cell>();
         }
 
         public void LoadCells()
@@ -27,21 +26,20 @@ namespace Minesweeper
             {
                 for (var y = 1; y <= Height; y++)
                 {
-                    var key = $"{x}{y}";
                     var coordinate = new Coordinate(x, y);
-                    Cells.Add(key, new Cell(coordinate));
+                    Cells.Add(new Cell(coordinate));
                 }
             }
         }
 
-        public void PlantMine(string key)
+        public void PlantMine(int index)
         {
-            Cells[key].PlantMine();
+            Cells[index].PlantMine();
         }
 
-        public bool IsMinePlanted(string key)
+        public bool IsMinePlanted(int index)
         {
-            return Cells[key].IsMine;
+            return Cells[index].IsMine;
         }
     }
 }
