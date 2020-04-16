@@ -10,11 +10,9 @@ namespace Minesweeper
         public int NumOfNearbyMine;
         public CellState CellState { get; set; } = CellState.Unrevealed;
 
-        public Cell(bool isMine, Coordinate coordinate, int numOfNearbyMine)
+        public Cell(Coordinate coordinate)
         {
-            IsMine = isMine;
             Coordinate = coordinate;
-            NumOfNearbyMine = numOfNearbyMine;
         }
     }
 }

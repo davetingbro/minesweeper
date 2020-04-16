@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Minesweeper
 {
     /// <summary>
@@ -5,7 +7,7 @@ namespace Minesweeper
     /// </summary>
     public class GameBoard
     {
-        public Cell[] Cells { get; set; }
+        public readonly List<Cell> Cells;
         public int NumOfMines;
         public int Width;
         public int Height;
@@ -15,6 +17,7 @@ namespace Minesweeper
             NumOfMines = numOfMines;
             Width = width;
             Height = height;
+            Cells = new List<Cell>();
         }
     }
 }

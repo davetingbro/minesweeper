@@ -9,7 +9,7 @@ namespace Minesweeper.Interfaces
         bool IsGameFinished { get; }
         bool IsPlayerWin { get; }
 
-        void Initialize(int numOfMine);
+        void Initialize();
         void RevealCell(Coordinate coordinate);
     }
 }

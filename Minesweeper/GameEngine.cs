@@ -10,10 +10,22 @@ namespace Minesweeper
         public GameBoard GameBoard { get; }
         public bool IsGameFinished { get; }
         public bool IsPlayerWin { get; }
-        
-        public void Initialize(int numOfMine)
+
+        public GameEngine(GameBoard gameBoard)
         {
-            throw new System.NotImplementedException();
+            GameBoard = gameBoard;
+        }
+
+        public void Initialize()
+        {
+            for (var x = 0; x < GameBoard.Width; x++)
+            {
+                for (var y = 0; y < GameBoard.Height; y++)
+                {
+                    var coordinate = new Coordinate(x, y);
+                    GameBoard.Cells.Add(new Cell(coordinate));
+                }
+            }
         }
 
         public void RevealCell(Coordinate coordinate)
