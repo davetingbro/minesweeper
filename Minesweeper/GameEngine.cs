@@ -1,4 +1,3 @@
-using System;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper
@@ -19,36 +18,8 @@ namespace Minesweeper
 
         public void Initialize()
         {
-            LoadCells();
-            PlantMines();
-        }
-
-        private void LoadCells()
-        {
-            for (var x = 1; x <= GameBoard.Width; x++)
-            {
-                for (var y = 1; y <= GameBoard.Height; y++)
-                {
-                    var key = $"{x}{y}";
-                    var coordinate = new Coordinate(x, y);
-                    GameBoard.Cells.Add(key, new Cell(coordinate));
-                }
-            }
-        }
-
-        private void PlantMines()
-        {
-            var random = new Random();
-            var numOfMine = GameBoard.NumOfMines;
-            while (numOfMine > 0)
-            {
-                var x = random.Next(1, GameBoard.Width + 1);
-                var y = random.Next(1, GameBoard.Height + 1);
-                var key = $"{x}{y}";
-                if (GameBoard.Cells[key].IsMine) continue;
-                GameBoard.Cells[key].IsMine = true;
-                numOfMine--;
-            }
+            GameBoard.LoadCells();
+            GameBoard.PlantMines();
         }
 
         public void RevealCell(Coordinate coordinate)

@@ -14,5 +14,10 @@ namespace Minesweeper
         {
             Coordinate = coordinate;
         }
+
+        public void PlantMine()
+        {
+            IsMine = true;
+        }
     }
 }
