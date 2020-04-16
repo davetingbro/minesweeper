@@ -12,9 +12,7 @@ namespace Minesweeper.UnitTests
             
             gameBoard.LoadCells();
             
-            var expected = gameBoard.Width * gameBoard.Height;
-            
-            Assert.Equal(expected, gameBoard.Cells.Count);
+            Assert.Equal(25, gameBoard.Cells.Count);
         }
 
         [Fact]
@@ -26,8 +24,7 @@ namespace Minesweeper.UnitTests
             gameBoard.PlantMines();
             
             var result = gameBoard.Cells.Values.Count(c => c.IsMine);
-            var expected = gameBoard.NumOfMines;
-            Assert.Equal(expected, result);
+            Assert.Equal(5, result);
         }
     }
 }
