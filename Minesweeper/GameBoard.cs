@@ -36,17 +36,23 @@ namespace Minesweeper
         
         public void PlantMines()
         {
-            var random = new Random();
             var numOfMinePlanted = 0;
             while (numOfMinePlanted < _numOfMines)
             {
-                var x = random.Next(1, _width + 1);
-                var y = random.Next(1, _height + 1);
-                var key = $"{x}{y}";
+                var key = GetRandomCellKey();
                 if (Cells[key].IsMine) continue;
                 Cells[key].PlantMine();
                 numOfMinePlanted++;
             }
+        }
+
+        private string GetRandomCellKey()
+        {
+            var random = new Random();
+            var x = random.Next(1, _width + 1);
+            var y = random.Next(1, _height + 1);
+            
+            return $"{x}{y}";
         }
     }
 }
