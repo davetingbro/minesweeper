@@ -8,9 +8,9 @@ namespace Minesweeper
     public class GameBoard
     {
         public readonly Dictionary<string, Cell> Cells;
-        public int NumOfMines;
-        public int Width;
-        public int Height;
+        public readonly int NumOfMines;
+        public readonly int Width;
+        public readonly int Height;
 
         public GameBoard(int numOfMines, int width, int height)
         {
