@@ -56,12 +56,13 @@ namespace Minesweeper
         {
             int x = cell.X, y = cell.Y;
 
+            var currentCell = Cells.Where(c => c.X == x && c.Y == y);
             var neighbours = Cells
                     .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 
-                                   && c.Y >= (y - 1) && c.Y <= (y + 1));
-            var currentCell = Cells.Where(c => c.X == x && c.Y == y);
+                                   && c.Y >= (y - 1) && c.Y <= (y + 1))
+                    .Except(currentCell);
 
-            return neighbours.Except(currentCell).Count(n => n.IsMine);
+            return neighbours.Count(n => n.IsMine);
         }
     }
 }
