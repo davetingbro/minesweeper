@@ -9,7 +9,7 @@ namespace Minesweeper.UnitTests
     public class ConsoleUiTests
     {
         [Fact]
-        public void GetDimension_ValidInput_ReturnsGameBoardWithCorrectWidthHeight()
+        public void ShouldReturnGameBoardWithCorrectWidthAndHeight_WhenGetDimension()
         {
             MockConsoleReadLine("5 5 5");
             var consoleUiUnderTest = new ConsoleUi();
@@ -30,7 +30,7 @@ namespace Minesweeper.UnitTests
         [InlineData("55", typeof(ArgumentOutOfRangeException))]
         [InlineData("5 6 7 2", typeof(ArgumentOutOfRangeException))]
         [InlineData("", typeof(NullReferenceException))]
-        public void GetDimension_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
+        public void ShouldThrowErrors_WhenReadInvalidInput(string input, Type expectedException)
         {
             MockConsoleReadLine(input);
             
@@ -41,7 +41,7 @@ namespace Minesweeper.UnitTests
 
         [Theory]
         [MemberData(nameof(GetUserActionValidInputData))]
-        public void GetUserAction_ValidInput_ReturnsCorrectActionObject(string input, Action expectedAction)
+        public void ShouldCreateCorrectActionObject_WhenGetUserAction(string input, Action expectedAction)
         {
             MockConsoleReadLine(input);
             var consoleUiUnderTest = new ConsoleUi();
@@ -68,7 +68,7 @@ namespace Minesweeper.UnitTests
         [InlineData("r 2", typeof(ArgumentOutOfRangeException))]
         [InlineData("r 9 10 1", typeof(ArgumentOutOfRangeException))]
         [InlineData("v 9 10", typeof(ArgumentException))]
-        public void GetUserAction_InvalidInput_TypeOfExceptionThrownMatchesExpected(string input, Type expectedException)
+        public void ShouldThrowException_WhenReadInvalidActionInput(string input, Type expectedException)
         {
             MockConsoleReadLine(input);
             

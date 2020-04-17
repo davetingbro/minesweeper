@@ -8,7 +8,7 @@ namespace Minesweeper.UnitTests
     public class GameBoardTests
     {
         [Fact]
-        public void LoadCells_WhenCalled_CellArrayHoldsSameNumberOfCellsAsAreaOfGameBoard()
+        public void ShouldCreateSameNumberOfCellsAsAreaOfGameBoard_WhenLoadCells()
         {
             var gameBoard = new GameBoard(5, 5, 5);
             
@@ -18,7 +18,7 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
-        public void PlantMine_WhenCalled_CanSetCellIsMineToTrue()
+        public void ShouldSetCellIsMineToTrue_WhenPlantMine()
         {
             var gameBoard = new GameBoard(5, 5, 5);
             gameBoard.LoadCells();
