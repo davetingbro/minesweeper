@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Minesweeper
 {
@@ -22,9 +23,9 @@ namespace Minesweeper
 
         public void LoadCells()
         {
-            for (var x = 1; x <= Width; x++)
+            for (var y = 1; y <= Height; y++)
             {
-                for (var y = 1; y <= Height; y++)
+                for (var x = 1; x <= Width; x++)
                 {
                     var coordinate = new Coordinate(x, y);
                     Cells.Add(new Cell(coordinate));
@@ -40,6 +41,27 @@ namespace Minesweeper
         public bool IsMinePlanted(int index)
         {
             return Cells[index].IsMine;
+        }
+
+        public void SetAllCellAdjacentMineCount()
+        {
+            foreach (var cell in Cells)
+            {
+                var cellAdjacentMineCount = GetAdjacentMineCount(cell);
+                cell.AdjacentMineCount = cellAdjacentMineCount;
+            }
+        }
+
+        private int GetAdjacentMineCount(Cell cell)
+        {
+            int x = cell.X, y = cell.Y;
+
+            var neighbours = Cells
+                    .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 
+                                   && c.Y >= (y - 1) && c.Y <= (y + 1));
+            var currentCell = Cells.Where(c => c.X == x && c.Y == y);
+
+            return neighbours.Except(currentCell).Count(n => n.IsMine);
         }
     }
 }
