@@ -21,10 +21,10 @@ namespace Minesweeper.UnitTests
             var gameBoard = new GameBoard(5, 5, 5);
             gameBoard.LoadCells();
 
-            const string key = "22";
-            gameBoard.PlantMine(key);
+            const int index = 22;
+            gameBoard.PlantMine(index);
             
-            Assert.True(gameBoard.Cells[key].IsMine);
+            Assert.True(gameBoard.Cells[index].IsMine);
         }
     }
 }
