@@ -17,20 +17,20 @@ namespace Minesweeper
             GameBoard = gameBoard;
         }
 
-        public void Initialize()
+        public void Initialize(int numOfMines)
         {
             GameBoard.LoadCells();
         }
 
-        private void PlantMines()
+        private void PlantMines(int numOfMine)
         {
-            var numOfMineToPlant = GameBoard.NumOfMines;
-            while (numOfMineToPlant > 0)
+            var numOfMinePlanted = 0;
+            while (numOfMinePlanted < numOfMine)
             {
                 var index = GetRandomIndex();
                 if (GameBoard.IsMinePlanted(index)) continue;
                 GameBoard.PlantMine(index);
-                numOfMineToPlant--;
+                numOfMinePlanted++;
             }
         }
         
