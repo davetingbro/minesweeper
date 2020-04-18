@@ -6,6 +6,7 @@ namespace Minesweeper.Interfaces
     public interface IGameUi
     {
         GameBoard GetDimension();
+        int GetNumOfMines();
         Action GetUserAction();
         void PrintBoard(GameBoard gameBoard);
         void PrintResult(bool isWon);

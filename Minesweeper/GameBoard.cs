@@ -13,6 +13,12 @@ namespace Minesweeper
         public int Width { get; }
         public int Height { get; }
 
+        public GameBoard(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
+
         public GameBoard(int numOfMines, int width, int height)
         {
             NumOfMines = numOfMines;
