@@ -9,19 +9,11 @@ namespace Minesweeper
     public class GameBoard
     {
         public readonly List<Cell> Cells;
-        public int NumOfMines { get; }
         public int Width { get; }
         public int Height { get; }
 
         public GameBoard(int width, int height)
         {
-            Width = width;
-            Height = height;
-        }
-
-        public GameBoard(int numOfMines, int width, int height)
-        {
-            NumOfMines = numOfMines;
             Width = width;
             Height = height;
             Cells = new List<Cell>();

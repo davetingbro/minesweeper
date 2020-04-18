@@ -10,7 +10,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldCreateSameNumberOfCellsAsAreaOfGameBoard_WhenLoadCells()
         {
-            var gameBoard = new GameBoard(5, 5, 5);
+            var gameBoard = new GameBoard(5, 5);
             
             gameBoard.LoadCells();
             
@@ -20,7 +20,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldSetCellIsMineToTrue_WhenPlantMine()
         {
-            var gameBoard = new GameBoard(5, 5, 5);
+            var gameBoard = new GameBoard(5, 5);
             gameBoard.LoadCells();
 
             const int index = 22;
@@ -32,7 +32,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldSetCellAdjacentMineCount()
         {
-            var gameBoard = new GameBoard(3, 5, 5);
+            var gameBoard = new GameBoard(5, 5);
             gameBoard.LoadCells();
             gameBoard.PlantMine(6);
             gameBoard.PlantMine(16);
