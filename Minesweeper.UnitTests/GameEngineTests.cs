@@ -17,5 +17,18 @@ namespace Minesweeper.UnitTests
             mockGameBoard.Verify(gb => gb.PlantMine(It.IsAny<int>()), 
                 Times.Exactly(numOfMines));
         }
+
+        [Fact]
+        public void ShouldCallGameBoardSetAllCellAdjacentMineCountMethod_WhenInitialize()
+        {
+            var mockGameBoard = new Mock<GameBoard>(5, 5);
+            var gameEngine = new GameEngine(mockGameBoard.Object);
+            const int numOfMines = 5;
+            
+            gameEngine.Initialize(numOfMines);
+            
+            mockGameBoard.Verify(gb => gb.SetAllCellAdjacentMineCount(), 
+                Times.Once);
+        }
     }
 }
