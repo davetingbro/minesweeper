@@ -19,7 +19,7 @@ namespace Minesweeper
 
         public void Initialize(int numOfMines)
         {
-            GameBoard.LoadCells();
+            throw new NotImplementedException();
         }
 
         private void PlantMines(int numOfMine)
