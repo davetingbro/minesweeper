@@ -19,7 +19,7 @@ namespace Minesweeper
 
         public void Initialize(int numOfMines)
         {
-            throw new NotImplementedException();
+            PlantMines(numOfMines);
         }
 
         private void PlantMines(int numOfMine)

@@ -31,7 +31,7 @@ namespace Minesweeper
             }
         }
 
-        public void PlantMine(int index)
+        public virtual void PlantMine(int index)
         {
             Cells[index].PlantMine();
         }
