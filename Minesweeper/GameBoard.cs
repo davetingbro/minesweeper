@@ -8,7 +8,7 @@ namespace Minesweeper
     /// </summary>
     public class GameBoard
     {
-        public readonly List<Cell> Cells;
+        public readonly List<Cell> Cells = new List<Cell>();
         public int Width { get; }
         public int Height { get; }
 
@@ -16,10 +16,10 @@ namespace Minesweeper
         {
             Width = width;
             Height = height;
-            Cells = new List<Cell>();
+            LoadCells();
         }
 
-        public void LoadCells()
+        private void LoadCells()
         {
             for (var y = 1; y <= Height; y++)
             {
