@@ -41,7 +41,7 @@ namespace Minesweeper
             return Cells[index].IsMine;
         }
 
-        public void SetAllCellAdjacentMineCount()
+        public virtual void SetAllCellAdjacentMineCount()
         {
             foreach (var cell in Cells)
             {

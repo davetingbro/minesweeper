@@ -20,6 +20,7 @@ namespace Minesweeper
         public void Initialize(int numOfMines)
         {
             PlantMines(numOfMines);
+            GameBoard.SetAllCellAdjacentMineCount();
         }
 
         private void PlantMines(int numOfMine)
