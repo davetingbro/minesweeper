@@ -44,9 +44,21 @@ namespace Minesweeper
 
         public void PlayUserAction(Action action)
         {
+            var actionType = action.ActionType;
             var coordinate = action.Coordinate;
             var cell = GameBoard.GetCell(coordinate);
-            cell.Reveal();
+
+            switch (actionType)
+            {
+                case ActionType.Flag:
+                    cell.Flag();
+                    break;
+                case ActionType.Reveal:
+                    cell.Reveal();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
