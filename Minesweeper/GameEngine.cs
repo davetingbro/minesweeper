@@ -34,7 +34,7 @@ namespace Minesweeper
                 numOfMinePlanted++;
             }
         }
-        
+
         private int GetRandomIndex()
         {
             var random = new Random();
@@ -42,9 +42,9 @@ namespace Minesweeper
             return random.Next(GameBoard.Cells.Count);
         }
 
-        public void RevealCell(Coordinate coordinate)
+        public void PlayUserAction(Action action)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -10,6 +10,6 @@ namespace Minesweeper.Interfaces
         bool IsPlayerWin { get; }
 
         void Initialize(int numOfMines);
-        void RevealCell(Coordinate coordinate);
+        void PlayUserAction(Action action);
     }
 }
