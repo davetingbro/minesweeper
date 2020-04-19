@@ -39,6 +39,15 @@ namespace Minesweeper.UnitTests
             Assert.Equal(expected, result);
         }
 
+        [Fact]
+        public void ShouldThrowInvalidMoveException_WhenFlaggingRevealedCell()
+        {
+            var cell = GetCellUnderTest();
+            cell.Reveal();
+
+            Assert.Throws<InvalidMoveException>(cell.Flag);
+        }
+
         private static Cell GetCellUnderTest()
         {
             var fakeCoordinate = new Mock<Coordinate>(1, 1);
