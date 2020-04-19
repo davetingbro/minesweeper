@@ -24,7 +24,7 @@ namespace Minesweeper
 
         public void Reveal()
         {
-            throw new System.NotImplementedException();
+            CellState = CellState.Revealed;
         }
     }
 }

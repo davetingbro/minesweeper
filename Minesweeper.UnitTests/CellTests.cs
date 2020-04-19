@@ -14,7 +14,7 @@ namespace Minesweeper.UnitTests
             cell.Reveal();
 
             var result = cell.CellState;
-            var expected = CellState.Revealed;
+            const CellState expected = CellState.Revealed;
             Assert.Equal(expected, result);
         }
     }
