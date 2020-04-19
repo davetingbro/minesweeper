@@ -30,5 +30,22 @@ namespace Minesweeper.UnitTests
             mockGameBoard.Verify(gb => gb.SetAllCellAdjacentMineCount(), 
                 Times.Once);
         }
+
+        [Theory]
+        [InlineData(ActionType.Reveal, CellState.Revealed)]
+        public void ShouldSetCellStateCorrectlyByActionType(ActionType actionType, CellState expected)
+        {
+            var gameBoard = new GameBoard(8, 8);
+            var gameEngine = new GameEngine(gameBoard);
+            var playCoordinate = new Coordinate(1, 1);
+            var action = new Action(actionType, playCoordinate);
+            
+            gameEngine.PlayUserAction(action);
+
+            var revealedCell = gameEngine.GameBoard.GetCell(playCoordinate);
+            var result = revealedCell.CellState;
+            
+            Assert.Equal(expected, result);
+        }
     }
 }
