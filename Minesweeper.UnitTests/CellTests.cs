@@ -6,6 +6,17 @@ namespace Minesweeper.UnitTests
     public class CellTests
     {
         [Fact]
+        public void ShouldSetIsMineToTrue_WhenPlantMineIsCalled()
+        {
+            var fakeCoordinate = new Mock<Coordinate>(1, 1);
+            var cell = new Cell(fakeCoordinate.Object);
+            
+            cell.PlantMine();
+            
+            Assert.True(cell.IsMine);
+        }
+        
+        [Fact]
         public void ShouldSetCellStateToRevealed_WhenRevealIsCalled()
         {
             var fakeCoordinate = new Mock<Coordinate>(1, 1);
