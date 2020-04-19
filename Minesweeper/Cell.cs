@@ -1,3 +1,6 @@
+using System;
+using Minesweeper.Exceptions;
+
 namespace Minesweeper
 {
     /// <summary>
@@ -7,7 +10,7 @@ namespace Minesweeper
     {
         public readonly int X;
         public readonly int Y;
-        public CellState CellState { get; set; } = CellState.Unrevealed;
+        public CellState CellState { get; private set; } = CellState.Unrevealed;
         public int AdjacentMineCount { get; set; }
         public bool IsMine { get; private set; }
 
@@ -29,6 +32,8 @@ namespace Minesweeper
 
         public void Flag()
         {
+            if (CellState == CellState.Revealed)
+                throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
             CellState = CellState.Flagged;
         }
     }
