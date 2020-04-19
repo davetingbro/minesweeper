@@ -26,5 +26,10 @@ namespace Minesweeper
         {
             CellState = CellState.Revealed;
         }
+
+        public void Flag()
+        {
+            CellState = CellState.Flagged;
+        }
     }
 }
