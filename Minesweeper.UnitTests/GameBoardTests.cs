@@ -61,8 +61,10 @@ namespace Minesweeper.UnitTests
 
             var cell = gameBoard.GetCell(coordinate);
             var expectedCell = new Cell(coordinate);
-            
-            Assert.Equal(expectedCell, cell);
+
+            var result = JsonConvert.SerializeObject(cell);
+            var expected = JsonConvert.SerializeObject(expectedCell);
+            Assert.Equal(expected, result);
         }
     }
 }

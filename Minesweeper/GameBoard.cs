@@ -65,7 +65,7 @@ namespace Minesweeper
 
         public Cell GetCell(Coordinate coordinate)
         {
-            throw new System.NotImplementedException();
+            return Cells.Find(c => c.X == coordinate.X && c.Y == coordinate.Y);
         }
     }
 }
