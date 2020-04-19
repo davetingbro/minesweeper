@@ -51,5 +51,18 @@ namespace Minesweeper.UnitTests
             
             Assert.Equal(expectedJson, resultJson);
         }
+
+        [Theory]
+        [InlineData(4, 7)]
+        public void ShouldReturnCorrectCellGivenCoordinate(int x, int y)
+        {
+            var gameBoard = new GameBoard(8, 8);
+            var coordinate = new Coordinate(x, y);
+
+            var cell = gameBoard.GetCell(coordinate);
+            var expectedCell = new Cell(coordinate);
+            
+            Assert.Equal(expectedCell, cell);
+        }
     }
 }

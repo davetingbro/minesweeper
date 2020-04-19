@@ -62,5 +62,10 @@ namespace Minesweeper
 
             return neighbours.Count(n => n.IsMine);
         }
+
+        public Cell GetCell(Coordinate coordinate)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
