@@ -44,7 +44,9 @@ namespace Minesweeper
 
         public void PlayUserAction(Action action)
         {
-            throw new NotImplementedException();
+            var coordinate = action.Coordinate;
+            var cell = GameBoard.GetCell(coordinate);
+            cell.Reveal();
         }
     }
 }
