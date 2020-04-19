@@ -21,5 +21,10 @@ namespace Minesweeper
         {
             IsMine = true;
         }
+
+        public void Reveal()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
