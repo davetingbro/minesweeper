@@ -33,6 +33,7 @@ namespace Minesweeper.UnitTests
 
         [Theory]
         [InlineData(ActionType.Reveal, CellState.Revealed)]
+        [InlineData(ActionType.Flag, CellState.Flagged)]
         public void ShouldSetCellStateCorrectlyByActionType(ActionType actionType, CellState expected)
         {
             var gameBoard = new GameBoard(8, 8);
