@@ -1,4 +1,3 @@
-using System;
 using Minesweeper.Exceptions;
 
 namespace Minesweeper
