@@ -19,11 +19,6 @@ namespace Minesweeper
             _numOfMine = numOfMine;
         }
 
-        public GameEngine(GameBoard gameBoard)
-        {
-            GameBoard = gameBoard;
-        }
-
         public void Initialize()
         {
             PlantMines();

@@ -37,7 +37,7 @@ namespace Minesweeper.UnitTests
         [InlineData(ActionType.Flag, CellState.Flagged)]
         public void ShouldSetCellStateCorrectlyByActionType(ActionType actionType, CellState expected)
         {
-            var gameEngine = new GameEngine(new GameBoard(8, 8));
+            var gameEngine = new GameEngine(new GameBoard(8, 8), 0);
             var playCoordinate = new Coordinate(1, 1);
             var action = new Action(actionType, playCoordinate);
             
