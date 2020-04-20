@@ -112,7 +112,9 @@ namespace Minesweeper
 
         public void PrintBoard(GameBoard gameBoard)
         {
-            throw new System.NotImplementedException();
+            var cells = gameBoard.Cells
+                .Select((c,i) => (i + 1) % gameBoard.Width == 0 ? $" {c}\n" : $" {c}");
+            Console.Write(string.Join("", cells));
         }
 
         public void PrintResult(bool isWon)

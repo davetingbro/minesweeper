@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Moq;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -84,5 +85,32 @@ namespace Minesweeper.UnitTests
             Console.SetIn(sr);
         }
 
+        [Fact]
+        public void GameBoardPrintedShouldMatchExpected_WhenPrintBoard()
+        {
+            var gameBoard = new GameBoard(5, 5);
+            var consoleUi = new ConsoleUi();
+            var writer = MockConsoleWriter();
+            
+            consoleUi.PrintBoard(gameBoard);
+            
+            var result = writer.GetStringBuilder().ToString();
+            const string expected = " - - - - -\n" +
+                                    " - - - - -\n" +
+                                    " - - - - -\n" +
+                                    " - - - - -\n" +
+                                    " - - - - -\n";
+            
+            Assert.Equal(expected, result);
+            writer.Close();
+            Console.Clear();
+        }
+
+        private static StringWriter MockConsoleWriter()
+        {
+            var writer = new StringWriter();
+            Console.SetOut(writer);
+            return writer;
+        }
     }
 }
