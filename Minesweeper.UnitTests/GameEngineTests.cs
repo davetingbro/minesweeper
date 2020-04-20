@@ -51,15 +51,17 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldSetIsGameFinishedToTrue_WhenRevealAMine()
         {
-            var mineCoordinate = new Coordinate(2, 3);
             var gameBoard = new GameBoard(8, 8);
+            var mineCoordinate = new Coordinate(2, 3);
             gameBoard.GetCell(mineCoordinate).PlantMine();
-            var gameEngine = new GameEngine(gameBoard);
             
+            var gameEngine = new GameEngine(gameBoard);
             var action = new Action(ActionType.Reveal, mineCoordinate);
+            
             gameEngine.PlayUserAction(action);
             
             Assert.True(gameEngine.IsGameFinished);
         }
+        
     }
 }
