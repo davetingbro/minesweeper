@@ -72,7 +72,7 @@ namespace Minesweeper.UnitTests
             gameBoard.GetCell(mineCoordinate1).PlantMine();
             gameBoard.GetCell(mineCoordinate2).PlantMine();
             
-            var gameEngine = new GameEngine(gameBoard);
+            var gameEngine = new GameEngine(gameBoard, 2);
             var action1 = new Action(ActionType.Flag, mineCoordinate1);
             var action2 = new Action(ActionType.Flag, mineCoordinate2);
             

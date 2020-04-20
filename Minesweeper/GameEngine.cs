@@ -11,7 +11,7 @@ namespace Minesweeper
         private int _numOfMine;
         public GameBoard GameBoard { get; }
         public bool IsGameFinished { get; private set; }
-        public bool IsPlayerWin { get; }
+        public bool IsPlayerWin { get; private set; }
 
         public GameEngine(GameBoard gameBoard, int numOfMine)
         {
@@ -58,7 +58,7 @@ namespace Minesweeper
             switch (actionType)
             {
                 case ActionType.Flag:
-                    cell.Flag();
+                    FlagCell(coordinate);
                     break;
                 case ActionType.Reveal:
                     RevealCell(coordinate);
@@ -68,12 +68,23 @@ namespace Minesweeper
             }
         }
 
+        private void FlagCell(Coordinate coordinate)
+        {
+            var cell = GameBoard.GetCell(coordinate);
+            cell.Flag();
+            if (cell.IsMine)
+                _numOfMine--;
+            if (_numOfMine > 0) return;
+            IsGameFinished = true;
+            IsPlayerWin = true;
+        }
+
         private void RevealCell(Coordinate coordinate)
         {
             var cell = GameBoard.GetCell(coordinate);
+            cell.Reveal();
             if (cell.IsMine)
                 IsGameFinished = true;
-            cell.Reveal();
         }
     }
 }
