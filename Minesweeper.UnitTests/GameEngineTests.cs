@@ -36,15 +36,14 @@ namespace Minesweeper.UnitTests
         [InlineData(ActionType.Flag, CellState.Flagged)]
         public void ShouldSetCellStateCorrectlyByActionType(ActionType actionType, CellState expected)
         {
-            var gameBoard = new GameBoard(8, 8);
-            var gameEngine = new GameEngine(gameBoard);
+            var gameEngine = new GameEngine(new GameBoard(8, 8));
             var playCoordinate = new Coordinate(1, 1);
             var action = new Action(actionType, playCoordinate);
             
             gameEngine.PlayUserAction(action);
 
-            var revealedCell = gameEngine.GameBoard.GetCell(playCoordinate);
-            var result = revealedCell.CellState;
+            var affectedCell = gameEngine.GameBoard.GetCell(playCoordinate);
+            var result = affectedCell.CellState;
             
             Assert.Equal(expected, result);
         }
