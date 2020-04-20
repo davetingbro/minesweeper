@@ -9,7 +9,7 @@ namespace Minesweeper
     public class GameEngine : IGameEngine
     {
         public GameBoard GameBoard { get; }
-        public bool IsGameFinished { get; }
+        public bool IsGameFinished { get; private set; }
         public bool IsPlayerWin { get; }
 
         public GameEngine(GameBoard gameBoard)
@@ -54,11 +54,19 @@ namespace Minesweeper
                     cell.Flag();
                     break;
                 case ActionType.Reveal:
-                    cell.Reveal();
+                    RevealCell(coordinate);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void RevealCell(Coordinate coordinate)
+        {
+            var cell = GameBoard.GetCell(coordinate);
+            if (cell.IsMine)
+                IsGameFinished = true;
+            cell.Reveal();
         }
     }
 }
