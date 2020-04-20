@@ -53,7 +53,6 @@ namespace Minesweeper
         {
             var actionType = action.ActionType;
             var coordinate = action.Coordinate;
-            var cell = GameBoard.GetCell(coordinate);
 
             switch (actionType)
             {
@@ -72,7 +71,12 @@ namespace Minesweeper
         {
             var cell = GameBoard.GetCell(coordinate);
             cell.Flag();
-            if (cell.IsMine)
+            UpdateGameState(cell.IsMine);
+        }
+
+        private void UpdateGameState(bool isMine)
+        {
+            if (isMine)
                 _numOfMine--;
             if (_numOfMine > 0) return;
             IsGameFinished = true;

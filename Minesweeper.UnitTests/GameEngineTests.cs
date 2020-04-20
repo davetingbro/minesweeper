@@ -1,3 +1,4 @@
+using System.Linq;
 using Moq;
 using Xunit;
 
@@ -51,11 +52,10 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldSetIsGameFinishedToTrue_WhenRevealAMine()
         {
-            var gameBoard = new GameBoard(8, 8);
             var mineCoordinate = new Coordinate(2, 3);
-            gameBoard.GetCell(mineCoordinate).PlantMine();
+            var gameBoard = SetupGameBoardWithMines(mineCoordinate);
             
-            var gameEngine = new GameEngine(gameBoard);
+            var gameEngine = new GameEngine(gameBoard, 1);
             var action = new Action(ActionType.Reveal, mineCoordinate);
             
             gameEngine.PlayUserAction(action);
@@ -66,21 +66,36 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldSetIsGameFinishedAndIsPlayerWinToTrue_WhenAllMinesAreFlagged()
         {
-            var gameBoard = new GameBoard(8, 8);
             var mineCoordinate1 = new Coordinate(2, 3);
             var mineCoordinate2 = new Coordinate(5, 7);
-            gameBoard.GetCell(mineCoordinate1).PlantMine();
-            gameBoard.GetCell(mineCoordinate2).PlantMine();
+            var gameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2);
             
             var gameEngine = new GameEngine(gameBoard, 2);
-            var action1 = new Action(ActionType.Flag, mineCoordinate1);
-            var action2 = new Action(ActionType.Flag, mineCoordinate2);
-            
-            gameEngine.PlayUserAction(action1);
-            gameEngine.PlayUserAction(action2);
+            var actions = SetupActions(ActionType.Flag, mineCoordinate1, mineCoordinate2);
+
+            foreach (var action in actions)
+            {
+                gameEngine.PlayUserAction(action);
+            }
             
             Assert.True(gameEngine.IsGameFinished);
             Assert.True(gameEngine.IsPlayerWin);
+        }
+
+        private static GameBoard SetupGameBoardWithMines(params Coordinate[] coordinates)
+        {
+            var gameBoard = new GameBoard(8, 8);
+            foreach (var coordinate in coordinates)
+            {
+                gameBoard.GetCell(coordinate).PlantMine();
+            }
+
+            return gameBoard;
+        }
+
+        private static Action[] SetupActions(ActionType actionType, params Coordinate[] coordinates)
+        {
+            return coordinates.Select(c => new Action(actionType, c)).ToArray();
         }
     }
 }
