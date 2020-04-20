@@ -62,6 +62,25 @@ namespace Minesweeper.UnitTests
             
             Assert.True(gameEngine.IsGameFinished);
         }
-        
+
+        [Fact]
+        public void ShouldSetIsGameFinishedAndIsPlayerWinToTrue_WhenAllMinesAreFlagged()
+        {
+            var gameBoard = new GameBoard(8, 8);
+            var mineCoordinate1 = new Coordinate(2, 3);
+            var mineCoordinate2 = new Coordinate(5, 7);
+            gameBoard.GetCell(mineCoordinate1).PlantMine();
+            gameBoard.GetCell(mineCoordinate2).PlantMine();
+            
+            var gameEngine = new GameEngine(gameBoard);
+            var action1 = new Action(ActionType.Flag, mineCoordinate1);
+            var action2 = new Action(ActionType.Flag, mineCoordinate2);
+            
+            gameEngine.PlayUserAction(action1);
+            gameEngine.PlayUserAction(action2);
+            
+            Assert.True(gameEngine.IsGameFinished);
+            Assert.True(gameEngine.IsPlayerWin);
+        }
     }
 }
