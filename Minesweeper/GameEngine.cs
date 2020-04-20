@@ -8,25 +8,32 @@ namespace Minesweeper
     /// </summary>
     public class GameEngine : IGameEngine
     {
+        private int _numOfMine;
         public GameBoard GameBoard { get; }
         public bool IsGameFinished { get; private set; }
         public bool IsPlayerWin { get; }
+
+        public GameEngine(GameBoard gameBoard, int numOfMine)
+        {
+            GameBoard = gameBoard;
+            _numOfMine = numOfMine;
+        }
 
         public GameEngine(GameBoard gameBoard)
         {
             GameBoard = gameBoard;
         }
 
-        public void Initialize(int numOfMines)
+        public void Initialize()
         {
-            PlantMines(numOfMines);
+            PlantMines();
             GameBoard.SetAllCellAdjacentMineCount();
         }
 
-        private void PlantMines(int numOfMine)
+        private void PlantMines()
         {
             var numOfMinePlanted = 0;
-            while (numOfMinePlanted < numOfMine)
+            while (numOfMinePlanted < _numOfMine)
             {
                 var index = GetRandomIndex();
                 if (GameBoard.IsMinePlanted(index)) continue;

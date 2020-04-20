@@ -9,10 +9,10 @@ namespace Minesweeper.UnitTests
         public void NumOfPlantMineCallsShouldEqualNumOfMines_WhenInitialize()
         {
             var mockGameBoard = new Mock<GameBoard>(5, 5);
-            var gameEngine = new GameEngine(mockGameBoard.Object);
             const int numOfMines = 5;
-            
-            gameEngine.Initialize(numOfMines);
+            var gameEngine = new GameEngine(mockGameBoard.Object, numOfMines);
+
+            gameEngine.Initialize();
             
             mockGameBoard.Verify(gb => gb.PlantMine(It.IsAny<int>()), 
                 Times.Exactly(numOfMines));
@@ -22,10 +22,10 @@ namespace Minesweeper.UnitTests
         public void ShouldCallGameBoardSetAllCellAdjacentMineCountMethod_WhenInitialize()
         {
             var mockGameBoard = new Mock<GameBoard>(5, 5);
-            var gameEngine = new GameEngine(mockGameBoard.Object);
             const int numOfMines = 5;
-            
-            gameEngine.Initialize(numOfMines);
+            var gameEngine = new GameEngine(mockGameBoard.Object, numOfMines);
+
+            gameEngine.Initialize();
             
             mockGameBoard.Verify(gb => gb.SetAllCellAdjacentMineCount(), 
                 Times.Once);
