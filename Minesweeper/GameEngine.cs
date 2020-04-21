@@ -25,6 +25,11 @@ namespace Minesweeper
             GameBoard.SetAllCellAdjacentMineCount();
         }
 
+        public void PlayUserAction(GameAction action)
+        {
+            throw new NotImplementedException();
+        }
+
         private void PlantMines()
         {
             var numOfMinePlanted = 0;
