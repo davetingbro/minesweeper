@@ -20,7 +20,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldInitializeGameCorrectly()
         {
-            _game.Play();
+            _game.Run();
                         
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
             _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);

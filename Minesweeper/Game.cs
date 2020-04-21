@@ -17,7 +17,7 @@ namespace Minesweeper
             _gameUi = gameUi;
         }
 
-        public void Play()
+        public void Run()
         {
             InitializeGame();
         }
