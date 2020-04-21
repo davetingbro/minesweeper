@@ -126,7 +126,7 @@ namespace Minesweeper
 
         public void PrintResult(bool isWon)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(isWon ? "You win!" : "You lose!");
         }
     }
 }

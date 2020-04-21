@@ -89,13 +89,28 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldCallRenderMethod_WhenDisplayGameBoard()
         {
-            var stubGameBoard = new Mock<GameBoard>(5, 5);;
+            var stubGameBoard = new Mock<GameBoard>(5, 5);
             var mockRenderer = new Mock<IGameBoardRenderer>();
             var consoleUi = new ConsoleUi(mockRenderer.Object);
             
             consoleUi.DisplayGameBoard(stubGameBoard.Object);
             
             mockRenderer.Verify(r => r.Render(stubGameBoard.Object), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(true, "You win!\n")]
+        [InlineData(false, "You lose!\n")]
+        public void ShouldPrintCorrectResult(bool isWon, string expected)
+        {
+            var consoleUi = new ConsoleUi();
+            var consoleWriter = new StringWriter();
+            Console.SetOut(consoleWriter);
+            
+            consoleUi.PrintResult(isWon);
+
+            var result = consoleWriter.GetStringBuilder().ToString();
+            Assert.Equal(expected, result);
         }
     }
 }
