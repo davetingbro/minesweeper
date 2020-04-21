@@ -21,23 +21,9 @@ namespace Minesweeper
             CellState = CellState.Unrevealed;
         }
 
-        public Cell(CellState cellState, int adjacentMineCount, bool isMine)
-        {
-            CellState = cellState;
-            AdjacentMineCount = adjacentMineCount;
-            IsMine = isMine;
-        }
-
         public void PlantMine()
         {
             IsMine = true;
-        }
-
-        public void Flag()
-        {
-            if (CellState == CellState.Revealed)
-                throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
-            CellState = CellState.Flagged;
         }
     }
 }

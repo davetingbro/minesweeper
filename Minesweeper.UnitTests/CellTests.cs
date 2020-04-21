@@ -33,20 +33,11 @@ namespace Minesweeper.UnitTests
         {
             var cell = GetCellUnderTest();
 
-            cell.Flag();
+            cell.CellState = CellState.Flagged;
 
             var result = cell.CellState;
             const CellState expected = CellState.Flagged;
             Assert.Equal(expected, result);
-        }
-
-        [Fact]
-        public void ShouldThrowInvalidMoveException_WhenFlaggingRevealedCell()
-        {
-            var cell = GetCellUnderTest();
-            cell.CellState = CellState.Revealed;
-
-            Assert.Throws<InvalidMoveException>(cell.Flag);
         }
 
         private static Cell GetCellUnderTest()
