@@ -30,6 +30,7 @@ namespace Minesweeper
         {
             var nextBoardState = action.GetNextBoardState(GameBoard);
             GameBoard.BoardState = nextBoardState;
+            UpdateGameState(action.Coordinate);
         }
 
         private void PlantMines()
@@ -50,16 +51,11 @@ namespace Minesweeper
             
             return random.Next(GameBoard.BoardState.Count);
         }
-        
-        // Todo: delete this method 
-        public void PlayUserAction(Action action)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void UpdateGameState(bool isMine)
+        private void UpdateGameState(Coordinate coordinate)
         {
-            if (isMine)
+            var cell = GameBoard.GetCell(coordinate);
+            if (cell.IsMine)
                 _numOfMine--;
             if (_numOfMine > 0) return;
             IsGameFinished = true;

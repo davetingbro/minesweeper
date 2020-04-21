@@ -44,24 +44,6 @@ namespace Minesweeper.UnitTests
             
             mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
         }
-        
-        // TODO: Delete this unit test
-        [Theory]
-        [InlineData(ActionType.Reveal, CellState.Revealed)]
-        [InlineData(ActionType.Flag, CellState.Flagged)]
-        public void ShouldSetCellStateCorrectlyByActionType(ActionType actionType, CellState expected)
-        {
-            var gameEngine = new GameEngine(new GameBoard(8, 8), 0);
-            var playCoordinate = new Coordinate(1, 1);
-            var action = new Action(actionType, playCoordinate);
-            
-            gameEngine.PlayUserAction(action);
-
-            var affectedCell = gameEngine.GameBoard.GetCell(playCoordinate);
-            var result = affectedCell.CellState;
-            
-            Assert.Equal(expected, result);
-        }
 
         [Fact]
         public void ShouldSetIsGameFinishedToTrue_WhenRevealAMine()
@@ -70,7 +52,7 @@ namespace Minesweeper.UnitTests
             var gameBoard = SetupGameBoardWithMines(mineCoordinate);
             
             var gameEngine = new GameEngine(gameBoard, 1);
-            var action = new Action(ActionType.Reveal, mineCoordinate);
+            var action = new RevealAction(mineCoordinate);
             
             gameEngine.PlayUserAction(action);
             
@@ -85,7 +67,7 @@ namespace Minesweeper.UnitTests
             var gameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2);
             
             var gameEngine = new GameEngine(gameBoard, 2);
-            var actions = SetupActions(ActionType.Flag, mineCoordinate1, mineCoordinate2);
+            var actions = new []{new FlagAction(mineCoordinate1), new FlagAction(mineCoordinate2) };
 
             foreach (var action in actions)
             {
@@ -105,11 +87,6 @@ namespace Minesweeper.UnitTests
             }
 
             return gameBoard;
-        }
-
-        private static Action[] SetupActions(ActionType actionType, params Coordinate[] coordinates)
-        {
-            return coordinates.Select(c => new Action(actionType, c)).ToArray();
         }
     }
 }

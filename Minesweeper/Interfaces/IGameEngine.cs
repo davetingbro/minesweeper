@@ -13,6 +13,5 @@ namespace Minesweeper.Interfaces
 
         void Initialize();
         void PlayUserAction(GameAction action);
-        void PlayUserAction(Action action);
     }
 }
