@@ -1,4 +1,5 @@
 using System;
+using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper
@@ -27,7 +28,8 @@ namespace Minesweeper
 
         public void PlayUserAction(GameAction action)
         {
-            throw new NotImplementedException();
+            var nextBoardState = action.GetNextBoardState(GameBoard);
+            GameBoard.BoardState = nextBoardState;
         }
 
         private void PlantMines()
@@ -48,30 +50,11 @@ namespace Minesweeper
             
             return random.Next(GameBoard.BoardState.Count);
         }
-
+        
+        // Todo: delete this method 
         public void PlayUserAction(Action action)
         {
-            var actionType = action.ActionType;
-            var coordinate = action.Coordinate;
-
-            switch (actionType)
-            {
-                case ActionType.Flag:
-                    FlagCell(coordinate);
-                    break;
-                case ActionType.Reveal:
-                    RevealCell(coordinate);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void FlagCell(Coordinate coordinate)
-        {
-            var cell = GameBoard.GetCell(coordinate);
-            cell.Flag();
-            UpdateGameState(cell.IsMine);
+            throw new NotImplementedException();
         }
 
         private void UpdateGameState(bool isMine)
@@ -81,14 +64,6 @@ namespace Minesweeper
             if (_numOfMine > 0) return;
             IsGameFinished = true;
             IsPlayerWin = true;
-        }
-
-        private void RevealCell(Coordinate coordinate)
-        {
-            var cell = GameBoard.GetCell(coordinate);
-            cell.Reveal();
-            if (cell.IsMine)
-                IsGameFinished = true;
         }
     }
 }
