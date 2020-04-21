@@ -3,11 +3,11 @@ using Minesweeper.Exceptions;
 
 namespace Minesweeper.GameActions
 {
-    public class ActionFlag : GameAction
+    public class FlagAction : GameAction
     {
         public sealed override Coordinate Coordinate { get; set; }
 
-        public ActionFlag(Coordinate coordinate)
+        public FlagAction(Coordinate coordinate)
         {
             Coordinate = coordinate;
         }

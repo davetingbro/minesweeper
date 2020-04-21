@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Minesweeper.GameActions
 {
-    public class ActionReveal : GameAction
+    public class RevealAction : GameAction
     {
         public override Coordinate Coordinate { get; set; }
         
