@@ -19,8 +19,13 @@ namespace Minesweeper
 
         public void Play()
         {
-            _gameUi.GetDimension();
-            _gameUi.GetNumOfMines();
+            InitializeGame();
+        }
+
+        private void InitializeGame()
+        {
+            var gameBoard = _gameUi.GetDimension();
+            var numOfMines = _gameUi.GetNumOfMines();
         }
     }
 }
