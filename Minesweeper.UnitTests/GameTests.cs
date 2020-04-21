@@ -7,8 +7,8 @@ namespace Minesweeper.UnitTests
     public class GameTests
     {
         private readonly Game _game;
-        private Mock<IGameEngine> _mockGameEngine;
-        private Mock<IGameUi> _mockGameUi;
+        private readonly Mock<IGameEngine> _mockGameEngine;
+        private readonly Mock<IGameUi> _mockGameUi;
         
         public GameTests()
         {
@@ -24,7 +24,7 @@ namespace Minesweeper.UnitTests
                         
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
             _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
-
+            _mockGameEngine.Verify(ge => ge.Initialize(), Times.Once);
         }
     }
 }
