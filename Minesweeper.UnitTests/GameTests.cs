@@ -23,5 +23,14 @@ namespace Minesweeper.UnitTests
             _game.Play();
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
         }
+
+        [Fact]
+        public void ShouldCallGetNumOfMines()
+        {
+            _game.Play();
+            _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
+        }
+
+        
     }
 }

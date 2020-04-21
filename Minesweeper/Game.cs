@@ -20,7 +20,7 @@ namespace Minesweeper
         public void Play()
         {
             _gameUi.GetDimension();
-            
+            _gameUi.GetNumOfMines();
         }
     }
 }
