@@ -1,4 +1,5 @@
 using System.Linq;
+using Minesweeper.GameActions;
 using Moq;
 using Xunit;
 
@@ -32,6 +33,19 @@ namespace Minesweeper.UnitTests
                 Times.Once);
         }
 
+        [Fact]
+        public void ShouldCallGameActionGetNextBoardStateMethod_WhenPlayUserAction()
+        {
+            var stubGameBoard = new Mock<GameBoard>(5, 5);
+            var mockGameAction = new Mock<GameAction>();
+            var gameEngine = new GameEngine(stubGameBoard.Object, 0);
+            
+            gameEngine.PlayUserAction(mockGameAction.Object);
+            
+            mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
+        }
+        
+        // TODO: Delete this unit test
         [Theory]
         [InlineData(ActionType.Reveal, CellState.Revealed)]
         [InlineData(ActionType.Flag, CellState.Flagged)]
