@@ -1,3 +1,5 @@
+using Minesweeper.GameActions;
+
 namespace Minesweeper.Interfaces
 {
     /// <summary>
@@ -7,7 +9,7 @@ namespace Minesweeper.Interfaces
     {
         GameBoard GetDimension();
         int GetNumOfMines();
-        Action GetUserAction();
+        GameAction GetUserAction();
         void DisplayGameBoard(GameBoard gameBoard);
         void PrintResult(bool isWon);
     }

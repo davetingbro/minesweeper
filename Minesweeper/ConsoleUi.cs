@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper
@@ -73,7 +74,7 @@ namespace Minesweeper
             return new GameBoard(values[0], values[1]);
         }
 
-        public Action GetUserAction()
+        public GameAction GetUserAction()
         {
             try
             {
@@ -102,21 +103,23 @@ namespace Minesweeper
             }
         }
 
-        private static Action ParseToAction(string[] input)
+        private static GameAction ParseToAction(string[] input)
         {
             if (input.Length != 3)
                 throw new ArgumentOutOfRangeException();
             
-            var actionInput = input[0].ToLower();
-            if (actionInput != "r" && actionInput != "f")
-                throw new ArgumentException();
-            var actionType = actionInput == "r" ? ActionType.Reveal : ActionType.Flag;
-            
             int x = int.Parse(input[1]), y = int.Parse(input[2]);
             if (x < 0 || y < 0)
                 throw new FormatException();
+            var coordinate = new Coordinate(x, y);
 
-            return new Action(actionType, new Coordinate(x, y));
+            var actionInput = input[0].ToLower();
+            if (actionInput != "r" && actionInput != "f")
+                throw new ArgumentException();
+            var action = actionInput == "r" ? (GameAction) new RevealAction(coordinate) : new FlagAction(coordinate);
+
+
+            return action;
         }
 
         public void DisplayGameBoard(GameBoard gameBoard)

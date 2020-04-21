@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 using Moq;
 using Newtonsoft.Json;
@@ -43,23 +44,20 @@ namespace Minesweeper.UnitTests
 
         [Theory]
         [MemberData(nameof(GetUserActionValidInputData))]
-        public void ShouldCreateCorrectActionObject_WhenGetUserAction(string input, Action expectedAction)
+        public void ShouldCreateCorrectActionObject_WhenGetUserAction(string input, Type expected)
         {
             MockConsoleReadLine(input);
             var consoleUiUnderTest = new ConsoleUi();
             
             var action = consoleUiUnderTest.GetUserAction();
-
-            var result = JsonConvert.SerializeObject(action);
-            var expected = JsonConvert.SerializeObject(expectedAction);
             
-            Assert.Equal(expected, result);
+            Assert.IsType(expected, action);
         }
         
         public static IEnumerable<object[]> GetUserActionValidInputData => new List<object[]>
         {
-            new object[] {"r 0 1", new Action(ActionType.Reveal, new Coordinate(0, 1))},
-            new object[] {"f 2 4", new Action(ActionType.Flag, new Coordinate(2, 4))},
+            new object[] {"r 0 1", typeof(RevealAction)},
+            new object[] {"f 2 4", typeof(FlagAction)},
         };
 
         [Theory]
