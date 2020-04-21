@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minesweeper.Exceptions;
 
 namespace Minesweeper.GameActions
 {
@@ -13,7 +14,11 @@ namespace Minesweeper.GameActions
 
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {
-            throw new System.NotImplementedException();
+            var cell = gameBoard.GetCell(Coordinate);
+            if (cell.CellState == CellState.Revealed)
+                throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
+            cell.CellState = CellState.Flagged;
+            return gameBoard.BoardState;
         }
     }
 }

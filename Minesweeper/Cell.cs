@@ -10,7 +10,7 @@ namespace Minesweeper
     {
         public readonly int X;
         public readonly int Y;
-        public CellState CellState { get; private set; }
+        public CellState CellState { get; set; }
         public int AdjacentMineCount { get; set; }
         public bool IsMine { get; private set; }
 
