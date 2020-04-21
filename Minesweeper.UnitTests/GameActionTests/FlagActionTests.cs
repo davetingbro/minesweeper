@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Minesweeper.UnitTests.GameActionTests
 {
-    public class ActionFlagTests
+    public class FlagActionTests
     {
         [Fact]
         public void ShouldSetSelectedCellStateToFlagged()
