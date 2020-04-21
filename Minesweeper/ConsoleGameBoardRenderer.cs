@@ -7,7 +7,7 @@ namespace Minesweeper
     /// <summary>
     /// Implementation of GameBoard rendering logic
     /// </summary>
-    public class GameBoardRenderer : IGameBoardRenderer
+    public class ConsoleGameBoardRenderer : IGameBoardRenderer
     {
         public void Render(GameBoard gameBoard)
         {

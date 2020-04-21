@@ -4,14 +4,14 @@ using Xunit;
 
 namespace Minesweeper.UnitTests
 {
-    public class GameBoardRendererTests
+    public class ConsoleGameBoardRendererTests
     {
         [Fact]
         public void ShouldRenderGameBoardAsExpected()
         {
             var gameBoard = CreateTestGameBoard();
             
-            var renderer = new GameBoardRenderer();
+            var renderer = new ConsoleGameBoardRenderer();
             var consoleWriter = new StringWriter();
             Console.SetOut(consoleWriter);
             
