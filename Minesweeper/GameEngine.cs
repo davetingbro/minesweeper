@@ -41,7 +41,7 @@ namespace Minesweeper
         {
             var random = new Random();
             
-            return random.Next(GameBoard.Cells.Count);
+            return random.Next(GameBoard.BoardState.Count);
         }
 
         public void PlayUserAction(Action action)

@@ -12,7 +12,7 @@ namespace Minesweeper.UnitTests
         {
             var gameBoard = new GameBoard(5, 5);
             
-            Assert.Equal(25, gameBoard.Cells.Count);
+            Assert.Equal(25, gameBoard.BoardState.Count);
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace Minesweeper.UnitTests
             const int index = 22;
             gameBoard.PlantMine(index);
             
-            Assert.True(gameBoard.Cells[index].IsMine);
+            Assert.True(gameBoard.BoardState[index].IsMine);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Minesweeper.UnitTests
 
             gameBoard.SetAllCellAdjacentMineCount();
 
-            var result = gameBoard.Cells.Select(c => c.AdjacentMineCount).ToList();
+            var result = gameBoard.BoardState.Select(c => c.AdjacentMineCount).ToList();
             var expected = new List<int>
             {
                 1, 1, 1, 0, 0,

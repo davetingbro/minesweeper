@@ -17,7 +17,7 @@ namespace Minesweeper
 
         private string ParseGameBoardToString(GameBoard gameBoard)
         {
-            var cellStrings = gameBoard.Cells
+            var cellStrings = gameBoard.BoardState
                 .Select((c, i) =>
                 {
                     var isEndOfLine = (i + 1) % gameBoard.Width == 0;

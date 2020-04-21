@@ -32,9 +32,9 @@ namespace Minesweeper.UnitTests
             gameBoard.PlantMine(6);
             gameBoard.PlantMine(9);
             gameBoard.SetAllCellAdjacentMineCount();
-            gameBoard.Cells[5].Reveal();
-            gameBoard.Cells[9].Flag();
-            gameBoard.Cells[6].Reveal();
+            gameBoard.BoardState[5].Reveal();
+            gameBoard.BoardState[9].Flag();
+            gameBoard.BoardState[6].Reveal();
 
             return gameBoard;
         }

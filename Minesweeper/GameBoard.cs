@@ -8,7 +8,7 @@ namespace Minesweeper
     /// </summary>
     public class GameBoard
     {
-        public readonly List<Cell> Cells = new List<Cell>();
+        public List<Cell> BoardState { get; set; } = new List<Cell>();
         public int Width { get; }
         public int Height { get; }
 
@@ -26,24 +26,24 @@ namespace Minesweeper
                 for (var x = 1; x <= Width; x++)
                 {
                     var coordinate = new Coordinate(x, y);
-                    Cells.Add(new Cell(coordinate));
+                    BoardState.Add(new Cell(coordinate));
                 }
             }
         }
 
         public virtual void PlantMine(int index)
         {
-            Cells[index].PlantMine();
+            BoardState[index].PlantMine();
         }
 
         public bool IsMinePlanted(int index)
         {
-            return Cells[index].IsMine;
+            return BoardState[index].IsMine;
         }
 
         public virtual void SetAllCellAdjacentMineCount()
         {
-            foreach (var cell in Cells)
+            foreach (var cell in BoardState)
             {
                 var cellAdjacentMineCount = GetAdjacentMineCount(cell);
                 cell.AdjacentMineCount = cellAdjacentMineCount;
@@ -54,8 +54,8 @@ namespace Minesweeper
         {
             int x = cell.X, y = cell.Y;
 
-            var currentCell = Cells.Where(c => c.X == x && c.Y == y);
-            var neighbours = Cells
+            var currentCell = BoardState.Where(c => c.X == x && c.Y == y);
+            var neighbours = BoardState
                     .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 
                                    && c.Y >= (y - 1) && c.Y <= (y + 1))
                     .Except(currentCell);
@@ -65,7 +65,7 @@ namespace Minesweeper
 
         public Cell GetCell(Coordinate coordinate)
         {
-            return Cells.Find(c => c.X == coordinate.X && c.Y == coordinate.Y);
+            return BoardState.Find(c => c.X == coordinate.X && c.Y == coordinate.Y);
         }
     }
 }
