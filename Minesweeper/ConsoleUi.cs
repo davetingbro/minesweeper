@@ -9,6 +9,15 @@ namespace Minesweeper
     /// </summary>
     public class ConsoleUi : IGameUi
     {
+        private readonly IGameBoardRenderer _gameBoardRenderer;
+
+        public ConsoleUi() { }
+
+        public ConsoleUi(IGameBoardRenderer gameBoardRenderer)
+        {
+            _gameBoardRenderer = gameBoardRenderer;
+        }
+
         public GameBoard GetDimension()
         {
             try
@@ -110,11 +119,9 @@ namespace Minesweeper
             return new Action(actionType, new Coordinate(x, y));
         }
 
-        public void PrintBoard(GameBoard gameBoard)
+        public void DisplayGameBoard(GameBoard gameBoard)
         {
-            var cells = gameBoard.Cells
-                .Select((c,i) => (i + 1) % gameBoard.Width == 0 ? $" {c}\n" : $" {c}");
-            Console.Write(string.Join("", cells));
+            _gameBoardRenderer.Render(gameBoard);
         }
 
         public void PrintResult(bool isWon)

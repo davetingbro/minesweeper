@@ -8,7 +8,7 @@ namespace Minesweeper.Interfaces
         GameBoard GetDimension();
         int GetNumOfMines();
         Action GetUserAction();
-        void PrintBoard(GameBoard gameBoard);
+        void DisplayGameBoard(GameBoard gameBoard);
         void PrintResult(bool isWon);
     }
 }

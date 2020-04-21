@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Minesweeper.Interfaces;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
@@ -83,6 +84,18 @@ namespace Minesweeper.UnitTests
             var sr = new StringReader(input);
             Console.Clear();
             Console.SetIn(sr);
+        }
+
+        [Fact]
+        public void ShouldCallRenderMethod_WhenDisplayGameBoard()
+        {
+            var stubGameBoard = new Mock<GameBoard>(5, 5);;
+            var mockRenderer = new Mock<IGameBoardRenderer>();
+            var consoleUi = new ConsoleUi(mockRenderer.Object);
+            
+            consoleUi.DisplayGameBoard(stubGameBoard.Object);
+            
+            mockRenderer.Verify(r => r.Render(stubGameBoard.Object), Times.Once);
         }
     }
 }
