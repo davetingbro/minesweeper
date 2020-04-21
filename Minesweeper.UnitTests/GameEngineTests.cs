@@ -1,4 +1,3 @@
-using System.Linq;
 using Minesweeper.GameActions;
 using Moq;
 using Xunit;
@@ -37,12 +36,22 @@ namespace Minesweeper.UnitTests
         public void ShouldCallGameActionGetNextBoardStateMethod_WhenPlayUserAction()
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
-            var mockGameAction = new Mock<GameAction>();
+            var mockGameAction = MockGameAction(stubGameBoard);
             var gameEngine = new GameEngine(stubGameBoard.Object, 0);
-            
+
             gameEngine.PlayUserAction(mockGameAction.Object);
             
             mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
+        }
+
+        private static Mock<GameAction> MockGameAction(Mock<GameBoard> stubGameBoard)
+        {
+            var mockGameAction = new Mock<GameAction>();
+            mockGameAction.SetupGet(action => action.Coordinate).Returns(new Coordinate(1, 1));
+            mockGameAction
+                .Setup(action => action.GetNextBoardState(stubGameBoard.Object))
+                .Returns(new GameBoard(5, 5).BoardState);
+            return mockGameAction;
         }
 
         [Fact]
