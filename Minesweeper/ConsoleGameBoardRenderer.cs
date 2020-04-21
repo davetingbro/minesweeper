@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Minesweeper.Enums;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper

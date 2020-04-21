@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minesweeper.Enums;
 
 namespace Minesweeper.GameActions
 {

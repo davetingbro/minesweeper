@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Minesweeper.Enums;
 using Xunit;
 
 namespace Minesweeper.UnitTests

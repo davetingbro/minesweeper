@@ -1,3 +1,4 @@
+using Minesweeper.Enums;
 using Minesweeper.Exceptions;
 using Xunit;
 using Moq;

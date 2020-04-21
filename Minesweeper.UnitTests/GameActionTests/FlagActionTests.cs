@@ -1,3 +1,4 @@
+using Minesweeper.Enums;
 using Minesweeper.Exceptions;
 using Minesweeper.GameActions;
 using Xunit;

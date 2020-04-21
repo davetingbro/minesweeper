@@ -1,4 +1,5 @@
 using System;
+using Minesweeper.Enums;
 using Minesweeper.Exceptions;
 
 namespace Minesweeper
