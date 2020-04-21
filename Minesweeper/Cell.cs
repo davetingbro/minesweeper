@@ -44,23 +44,5 @@ namespace Minesweeper
                 throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
             CellState = CellState.Flagged;
         }
-
-        public override string ToString()
-        {
-            var output = CellState switch
-            {
-                CellState.Revealed => GetCellContent(),
-                CellState.Unrevealed => "-",
-                CellState.Flagged => "F",
-                _ => throw new ArgumentOutOfRangeException()
-            };
-
-            return output;
-        }
-
-        private string GetCellContent()
-        {
-            return IsMine ? "*" : AdjacentMineCount.ToString();
-        }
     }
 }

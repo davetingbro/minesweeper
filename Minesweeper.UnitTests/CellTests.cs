@@ -54,20 +54,5 @@ namespace Minesweeper.UnitTests
             var fakeCoordinate = new Mock<Coordinate>(1, 1);
             return new Cell(fakeCoordinate.Object);
         }
-
-        [Theory]
-        [InlineData(CellState.Unrevealed, 0, false, "-")]
-        [InlineData(CellState.Flagged, 0, true, "F")]
-        [InlineData(CellState.Revealed, 2, false, "2")]
-        [InlineData(CellState.Revealed, 0, true, "*")]
-        public void ShouldConvertCellToStringThatMatchesExpected(CellState cellState, int adjacentMineCount, bool isMine, 
-            string expected)
-        {
-            var cell = new Cell(cellState, adjacentMineCount, isMine);
-
-            var result = cell.ToString();
-            
-            Assert.Equal(expected, result);
-        }
     }
 }
