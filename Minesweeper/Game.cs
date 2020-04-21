@@ -1,4 +1,3 @@
-using System;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper
@@ -20,6 +19,7 @@ namespace Minesweeper
         public void Run()
         {
             InitializeGame();
+            PlayGame();
         }
 
         private void InitializeGame()
@@ -27,6 +27,17 @@ namespace Minesweeper
             _gameEngine.GameBoard = _gameUi.GetDimension();
             _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
             _gameEngine.Initialize();
+        }
+
+        private void PlayGame()
+        {
+            while (!_gameEngine.IsGameFinished)
+            {
+                var action = _gameUi.GetUserAction();
+                _gameEngine.PlayUserAction(action);
+            }
+            
+            _gameUi.PrintResult(_gameEngine.IsPlayerWin);
         }
     }
 }
