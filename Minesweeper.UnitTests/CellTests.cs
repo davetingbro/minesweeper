@@ -21,7 +21,7 @@ namespace Minesweeper.UnitTests
         {
             var cell = GetCellUnderTest();
 
-            cell.Reveal();
+            cell.CellState = CellState.Revealed;
 
             var result = cell.CellState;
             const CellState expected = CellState.Revealed;
@@ -44,7 +44,7 @@ namespace Minesweeper.UnitTests
         public void ShouldThrowInvalidMoveException_WhenFlaggingRevealedCell()
         {
             var cell = GetCellUnderTest();
-            cell.Reveal();
+            cell.CellState = CellState.Revealed;
 
             Assert.Throws<InvalidMoveException>(cell.Flag);
         }

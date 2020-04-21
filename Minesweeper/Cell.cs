@@ -33,11 +33,6 @@ namespace Minesweeper
             IsMine = true;
         }
 
-        public void Reveal()
-        {
-            CellState = CellState.Revealed;
-        }
-
         public void Flag()
         {
             if (CellState == CellState.Revealed)
