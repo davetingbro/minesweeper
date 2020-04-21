@@ -9,15 +9,15 @@ namespace Minesweeper
     /// </summary>
     public class GameEngine : IGameEngine
     {
-        private int _numOfMine;
-        public GameBoard GameBoard { get; }
+        public GameBoard GameBoard { get; set; }
+        public int NumOfMines { get; set; }
         public bool IsGameFinished { get; private set; }
         public bool IsPlayerWin { get; private set; }
 
-        public GameEngine(GameBoard gameBoard, int numOfMine)
+        public GameEngine(GameBoard gameBoard, int numOfMines)
         {
             GameBoard = gameBoard;
-            _numOfMine = numOfMine;
+            NumOfMines = numOfMines;
         }
 
         public void Initialize()
@@ -36,7 +36,7 @@ namespace Minesweeper
         private void PlantMines()
         {
             var numOfMinePlanted = 0;
-            while (numOfMinePlanted < _numOfMine)
+            while (numOfMinePlanted < NumOfMines)
             {
                 var index = GetRandomIndex();
                 if (GameBoard.IsMinePlanted(index)) continue;
@@ -56,8 +56,8 @@ namespace Minesweeper
         {
             var cell = GameBoard.GetCell(coordinate);
             if (cell.IsMine)
-                _numOfMine--;
-            if (_numOfMine > 0) return;
+                NumOfMines--;
+            if (NumOfMines > 0) return;
             IsGameFinished = true;
             IsPlayerWin = true;
         }

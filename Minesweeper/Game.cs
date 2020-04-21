@@ -24,8 +24,9 @@ namespace Minesweeper
 
         private void InitializeGame()
         {
-            var gameBoard = _gameUi.GetDimension();
-            var numOfMines = _gameUi.GetNumOfMines();
+            _gameEngine.GameBoard = _gameUi.GetDimension();
+            _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
+            _gameEngine.Initialize();
         }
     }
 }

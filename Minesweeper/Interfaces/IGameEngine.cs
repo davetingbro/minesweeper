@@ -7,7 +7,8 @@ namespace Minesweeper.Interfaces
     /// </summary>
     public interface IGameEngine
     {
-        GameBoard GameBoard { get; }
+        GameBoard GameBoard { get; set; }
+        int NumOfMines { get; set; }
         bool IsGameFinished { get; }
         bool IsPlayerWin { get; }
 
