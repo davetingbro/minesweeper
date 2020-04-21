@@ -1,3 +1,4 @@
+using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 using Moq;
 using Xunit;
@@ -26,5 +27,25 @@ namespace Minesweeper.UnitTests
             _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
             _mockGameEngine.Verify(ge => ge.Initialize(), Times.Once);
         }
+
+        [Fact]
+        public void ShouldContinueToPlayGameUntilIsGameFinishedIsTrue()
+        {
+            _mockGameEngine
+                .SetupSequence(ge => ge.IsGameFinished)
+                .Returns(false)
+                .Returns(false)
+                .Returns(true);
+
+            _game.Run();
+            
+            _mockGameUi.Verify(ui => ui.GetUserAction(), Times.Exactly(2));
+            _mockGameEngine.Verify(ge => ge.PlayUserAction(It.IsAny<GameAction>()),
+                Times.Exactly(2));
+            _mockGameUi.Verify(ui => ui.PrintResult(It.IsAny<bool>()),
+                Times.Once);
+        }
+        
+        // TODO: test DisplayGameBoard method call
     }
 }
