@@ -9,7 +9,8 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldRenderGameBoardAsExpected()
         {
-            var gameBoard = new GameBoard(5, 5);
+            var gameBoard = CreateTestGameBoard();
+            
             var renderer = new GameBoardRenderer();
             var consoleWriter = new StringWriter();
             Console.SetOut(consoleWriter);
@@ -17,14 +18,25 @@ namespace Minesweeper.UnitTests
             renderer.Render(gameBoard);
 
             var result = consoleWriter.GetStringBuilder().ToString();
-            const string expected = " - - - - -\n" +
-                                    " - - - - -\n" +
-                                    " - - - - -\n" +
-                                    " - - - - -\n" +
-                                    " - - - - -\n";
+            const string expected = " - - - -\n" +
+                                    " - 2 * -\n" +
+                                    " - F - -\n" +
+                                    " - - - -\n";
             
             Assert.Equal(expected, result);
+        }
 
+        private static GameBoard CreateTestGameBoard()
+        {
+            var gameBoard = new GameBoard(4, 4);
+            gameBoard.PlantMine(6);
+            gameBoard.PlantMine(9);
+            gameBoard.SetAllCellAdjacentMineCount();
+            gameBoard.Cells[5].Reveal();
+            gameBoard.Cells[9].Flag();
+            gameBoard.Cells[6].Reveal();
+
+            return gameBoard;
         }
     }
 }
