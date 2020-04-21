@@ -19,7 +19,8 @@ namespace Minesweeper
 
         public void Play()
         {
-            throw new NotImplementedException();
+            _gameUi.GetDimension();
+            
         }
     }
 }
