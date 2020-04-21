@@ -8,8 +8,8 @@ namespace Minesweeper
     /// </summary>
     public class Game
     {
-        private IGameEngine _gameEngine;
-        private IGameUi _gameUi;
+        private readonly IGameEngine _gameEngine;
+        private readonly IGameUi _gameUi;
 
         public Game(IGameEngine gameEngine, IGameUi gameUi)
         {
