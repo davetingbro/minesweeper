@@ -36,7 +36,7 @@ namespace Minesweeper.UnitTests
         public void ShouldCallGameActionGetNextBoardStateMethod_WhenPlayUserAction()
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
-            var mockGameAction = MockGameAction(stubGameBoard);
+            var mockGameAction = MockGameAction(stubGameBoard.Object);
             var gameEngine = new GameEngine(stubGameBoard.Object, 0);
 
             gameEngine.PlayUserAction(mockGameAction.Object);
@@ -44,12 +44,12 @@ namespace Minesweeper.UnitTests
             mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
         }
 
-        private static Mock<GameAction> MockGameAction(Mock<GameBoard> stubGameBoard)
+        private static Mock<GameAction> MockGameAction(GameBoard gameBoard)
         {
-            var mockGameAction = new Mock<GameAction>();
-            mockGameAction.SetupGet(action => action.Coordinate).Returns(new Coordinate(1, 1));
+            var stubCoordinate = new Mock<Coordinate>(1, 1);
+            var mockGameAction = new Mock<GameAction>(stubCoordinate.Object);
             mockGameAction
-                .Setup(action => action.GetNextBoardState(stubGameBoard.Object))
+                .Setup(action => action.GetNextBoardState(gameBoard))
                 .Returns(new GameBoard(5, 5).BoardState);
             return mockGameAction;
         }

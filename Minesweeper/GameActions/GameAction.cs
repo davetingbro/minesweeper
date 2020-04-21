@@ -4,7 +4,13 @@ namespace Minesweeper.GameActions
 {
     public abstract class GameAction
     {
-        public abstract Coordinate Coordinate { get; set; }
+        public readonly Coordinate Coordinate;
+
+        protected GameAction(Coordinate coordinate)
+        {
+            Coordinate = coordinate;
+        }
+
         public abstract List<Cell> GetNextBoardState(GameBoard gameBoard);
     }
 }

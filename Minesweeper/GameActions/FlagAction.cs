@@ -5,12 +5,7 @@ namespace Minesweeper.GameActions
 {
     public class FlagAction : GameAction
     {
-        public sealed override Coordinate Coordinate { get; set; }
-
-        public FlagAction(Coordinate coordinate)
-        {
-            Coordinate = coordinate;
-        }
+        public FlagAction(Coordinate coordinate) : base(coordinate) {}
 
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {

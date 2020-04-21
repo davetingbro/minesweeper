@@ -4,12 +4,7 @@ namespace Minesweeper.GameActions
 {
     public class RevealAction : GameAction
     {
-        public sealed override Coordinate Coordinate { get; set; }
-
-        public RevealAction(Coordinate coordinate)
-        {
-            Coordinate = coordinate;
-        }
+        public RevealAction(Coordinate coordinate) : base(coordinate) {}
 
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {
