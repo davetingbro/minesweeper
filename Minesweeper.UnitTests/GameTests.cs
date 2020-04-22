@@ -21,6 +21,8 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldInitializeGameCorrectly()
         {
+            _mockGameEngine.SetupGet(ge => ge.IsGameFinished).Returns(true);
+            
             _game.Run();
                         
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
