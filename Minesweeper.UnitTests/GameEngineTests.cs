@@ -10,9 +10,11 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void NumOfMinesPlantedShouldEqualNumOfMines_WhenInitialize()
         {
-            var gameBoard = new GameBoard(5, 5);
-            const int numOfMines = 5;
-            var gameEngine = new GameEngine(gameBoard, numOfMines);
+            var gameEngine = new GameEngine
+            {
+                GameBoard = new GameBoard(5, 5),
+                NumOfMines = 5
+            };
 
             gameEngine.Initialize();
 
@@ -24,8 +26,11 @@ namespace Minesweeper.UnitTests
         public void ShouldCallGameBoardSetAllCellAdjacentMineCountMethod_WhenInitialize()
         {
             var mockGameBoard = new Mock<GameBoard>(5, 5);
-            const int numOfMines = 5;
-            var gameEngine = new GameEngine(mockGameBoard.Object, numOfMines);
+            var gameEngine = new GameEngine
+            {
+                GameBoard = mockGameBoard.Object,
+                NumOfMines = 5
+            };
 
             gameEngine.Initialize();
             
@@ -38,7 +43,11 @@ namespace Minesweeper.UnitTests
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
             var mockGameAction = MockGameAction(stubGameBoard.Object);
-            var gameEngine = new GameEngine(stubGameBoard.Object, 0);
+            var gameEngine = new GameEngine
+            {
+                GameBoard = stubGameBoard.Object,
+                NumOfMines = 0
+            };
 
             gameEngine.PlayUserAction(mockGameAction.Object);
             
@@ -59,9 +68,11 @@ namespace Minesweeper.UnitTests
         public void ShouldSetIsGameFinishedToTrue_WhenRevealAMine()
         {
             var mineCoordinate = new Coordinate(2, 3);
-            var gameBoard = SetupGameBoardWithMines(mineCoordinate);
-            
-            var gameEngine = new GameEngine(gameBoard, 1);
+            var gameEngine = new GameEngine
+            {
+                GameBoard = SetupGameBoardWithMines(mineCoordinate),
+                NumOfMines = 1
+            };
             var action = new RevealAction(mineCoordinate);
             
             gameEngine.PlayUserAction(action);
@@ -74,9 +85,11 @@ namespace Minesweeper.UnitTests
         {
             var mineCoordinate1 = new Coordinate(2, 3);
             var mineCoordinate2 = new Coordinate(5, 7);
-            var gameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2);
-            
-            var gameEngine = new GameEngine(gameBoard, 2);
+            var gameEngine = new GameEngine
+            {
+                GameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2),
+                NumOfMines = 2
+            };
             var actions = new []{new FlagAction(mineCoordinate1), new FlagAction(mineCoordinate2) };
 
             foreach (var action in actions)

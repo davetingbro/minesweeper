@@ -14,12 +14,6 @@ namespace Minesweeper
         public bool IsGameFinished { get; private set; }
         public bool IsPlayerWin { get; private set; }
 
-        public GameEngine(GameBoard gameBoard, int numOfMines)
-        {
-            GameBoard = gameBoard;
-            NumOfMines = numOfMines;
-        }
-
         public void Initialize()
         {
             PlantMines();
