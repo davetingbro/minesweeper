@@ -2,7 +2,7 @@ using System;
 
 namespace Minesweeper.Exceptions
 {
-    public class InvalidMoveException : Exception
+    public class InvalidMoveException : GameException
     {
         public InvalidMoveException()
         {
