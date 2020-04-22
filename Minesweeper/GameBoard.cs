@@ -31,16 +31,6 @@ namespace Minesweeper
             }
         }
 
-        public virtual void PlantMine(int index)
-        {
-            BoardState[index].PlantMine();
-        }
-
-        public bool IsMinePlanted(int index)
-        {
-            return BoardState[index].IsMine;
-        }
-
         public virtual void SetAllCellAdjacentMineCount()
         {
             foreach (var cell in BoardState)

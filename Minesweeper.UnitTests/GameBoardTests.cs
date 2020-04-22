@@ -16,23 +16,12 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
-        public void ShouldSetCellIsMineToTrue_WhenPlantMine()
-        {
-            var gameBoard = new GameBoard(5, 5);
-
-            const int index = 22;
-            gameBoard.PlantMine(index);
-            
-            Assert.True(gameBoard.BoardState[index].IsMine);
-        }
-
-        [Fact]
         public void ShouldSetCellAdjacentMineCount()
         {
             var gameBoard = new GameBoard(5, 5);
-            gameBoard.PlantMine(6);
-            gameBoard.PlantMine(16);
-            gameBoard.PlantMine(18);
+            gameBoard.BoardState[6].PlantMine();
+            gameBoard.BoardState[16].PlantMine();
+            gameBoard.BoardState[18].PlantMine();
 
             gameBoard.SetAllCellAdjacentMineCount();
 

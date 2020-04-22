@@ -30,8 +30,8 @@ namespace Minesweeper.UnitTests
         private static GameBoard CreateTestGameBoard()
         {
             var gameBoard = new GameBoard(4, 4);
-            gameBoard.PlantMine(6);
-            gameBoard.PlantMine(9);
+            gameBoard.BoardState[6].PlantMine();
+            gameBoard.BoardState[9].PlantMine();
             gameBoard.SetAllCellAdjacentMineCount();
             gameBoard.BoardState[5].CellState = CellState.Revealed;
             gameBoard.BoardState[9].CellState = CellState.Flagged;

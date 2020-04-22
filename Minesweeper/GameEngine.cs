@@ -39,8 +39,10 @@ namespace Minesweeper
             while (numOfMinePlanted < NumOfMines)
             {
                 var index = GetRandomIndex();
-                if (GameBoard.IsMinePlanted(index)) continue;
-                GameBoard.PlantMine(index);
+                var cell = GameBoard.BoardState[index];
+                var isMinePlanted = cell.IsMine;
+                if (isMinePlanted) continue;
+                cell.PlantMine();
                 numOfMinePlanted++;
             }
         }

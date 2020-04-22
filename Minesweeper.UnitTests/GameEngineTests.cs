@@ -1,3 +1,4 @@
+using System.Linq;
 using Minesweeper.GameActions;
 using Moq;
 using Xunit;
@@ -7,16 +8,16 @@ namespace Minesweeper.UnitTests
     public class GameEngineTests
     {
         [Fact]
-        public void NumOfPlantMineCallsShouldEqualNumOfMines_WhenInitialize()
+        public void NumOfMinesPlantedShouldEqualNumOfMines_WhenInitialize()
         {
-            var mockGameBoard = new Mock<GameBoard>(5, 5);
+            var gameBoard = new GameBoard(5, 5);
             const int numOfMines = 5;
-            var gameEngine = new GameEngine(mockGameBoard.Object, numOfMines);
+            var gameEngine = new GameEngine(gameBoard, numOfMines);
 
             gameEngine.Initialize();
-            
-            mockGameBoard.Verify(gb => gb.PlantMine(It.IsAny<int>()), 
-                Times.Exactly(numOfMines));
+
+            var numOfMinePlanted = gameEngine.GameBoard.BoardState.Count(c => c.IsMine);
+            Assert.Equal(5, numOfMinePlanted);
         }
 
         [Fact]
