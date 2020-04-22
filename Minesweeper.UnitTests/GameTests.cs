@@ -45,7 +45,19 @@ namespace Minesweeper.UnitTests
             _mockGameUi.Verify(ui => ui.PrintResult(It.IsAny<bool>()),
                 Times.Once);
         }
-        
-        // TODO: test DisplayGameBoard method call
+
+        [Fact]
+        public void ShouldDisplayGameBoardDuringGameRun()
+        {
+            _mockGameEngine
+                .SetupSequence(ge => ge.IsGameFinished)
+                .Returns(false)
+                .Returns(false)
+                .Returns(true);
+
+            _game.Run();
+            
+            _mockGameUi.Verify(ui => ui.DisplayGameBoard(It.IsAny<GameBoard>()), Times.Exactly(4));
+        }
     }
 }
