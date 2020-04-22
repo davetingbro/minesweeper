@@ -1,4 +1,5 @@
 using System;
+using Minesweeper.Enums;
 using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 
@@ -51,11 +52,11 @@ namespace Minesweeper
         private void UpdateGameState(Coordinate coordinate)
         {
             var cell = GameBoard.GetCell(coordinate);
-            if (cell.IsMine)
-                NumOfMines--;
-            if (NumOfMines > 0) return;
-            IsGameFinished = true;
-            IsPlayerWin = true;
+            
+            if (!cell.IsMine) return;
+            NumOfMines--;
+            IsPlayerWin = cell.CellState == CellState.Flagged && NumOfMines == 0;
+            IsGameFinished = cell.CellState == CellState.Revealed || IsPlayerWin;
         }
     }
 }

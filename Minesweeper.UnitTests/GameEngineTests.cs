@@ -78,6 +78,7 @@ namespace Minesweeper.UnitTests
             gameEngine.PlayUserAction(action);
             
             Assert.True(gameEngine.IsGameFinished);
+            Assert.False(gameEngine.IsPlayerWin);
         }
 
         [Fact]
