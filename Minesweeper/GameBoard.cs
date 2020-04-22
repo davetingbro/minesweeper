@@ -35,12 +35,12 @@ namespace Minesweeper
         {
             foreach (var cell in BoardState)
             {
-                var cellAdjacentMineCount = GetAdjacentMineCount(cell);
-                cell.AdjacentMineCount = cellAdjacentMineCount;
+                var neighbours = GetCellNeighbours(cell);
+                cell.AdjacentMineCount = neighbours.Count(c => c.IsMine);
             }
         }
 
-        private int GetAdjacentMineCount(Cell cell)
+        public List<Cell> GetCellNeighbours(Cell cell)
         {
             int x = cell.X, y = cell.Y;
 
@@ -48,9 +48,10 @@ namespace Minesweeper
             var neighbours = BoardState
                     .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 
                                    && c.Y >= (y - 1) && c.Y <= (y + 1))
-                    .Except(currentCell);
+                    .Except(currentCell)
+                    .ToList();
 
-            return neighbours.Count(n => n.IsMine);
+            return neighbours;
         }
 
         public Cell GetCell(Coordinate coordinate)
