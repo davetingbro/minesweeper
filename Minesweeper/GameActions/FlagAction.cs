@@ -13,7 +13,7 @@ namespace Minesweeper.GameActions
             var cell = gameBoard.GetCell(Coordinate);
             if (cell.CellState == CellState.Revealed)
                 throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
-            cell.CellState = CellState.Flagged;
+            cell.CellState = cell.CellState == CellState.Flagged ? CellState.Unrevealed : CellState.Flagged;
             return gameBoard.BoardState;
         }
     }
