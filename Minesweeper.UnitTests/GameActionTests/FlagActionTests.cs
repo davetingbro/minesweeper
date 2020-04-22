@@ -7,30 +7,47 @@ namespace Minesweeper.UnitTests.GameActionTests
 {
     public class FlagActionTests
     {
+        private readonly GameBoard _gameBoard;
+        public FlagActionTests()
+        {
+            _gameBoard = new GameBoard(5, 5);
+        }
+        
         [Fact]
         public void ShouldSetSelectedCellStateToFlagged()
         {
-            var gameBoard = new GameBoard(5, 5);
-            var playCoordinate = new Coordinate(1, 1);
-            var flagAction = new FlagAction(playCoordinate);
+            var flagCoordinate = new Coordinate(1, 1);
+            var flagAction = new FlagAction(flagCoordinate);
 
-            var boardState = flagAction.GetNextBoardState(gameBoard);
-            gameBoard.BoardState = boardState;
+            var boardState = flagAction.GetNextBoardState(_gameBoard);
+            _gameBoard.BoardState = boardState;
 
-            var selectedCellState = gameBoard.GetCell(playCoordinate).CellState;
-            Assert.Equal(CellState.Flagged, selectedCellState);
+            var result = _gameBoard.GetCell(flagCoordinate).CellState;
+            Assert.Equal(CellState.Flagged, result);
+        }
+
+        [Fact]
+        public void ShouldSetCellStateToUnrevealedIfAlreadyFlagged()
+        {
+            var flagCoordinate = new Coordinate(1, 1);
+            _gameBoard.GetCell(flagCoordinate).CellState = CellState.Flagged;
+            var flagAction = new FlagAction(flagCoordinate);
+
+            _gameBoard.BoardState = flagAction.GetNextBoardState(_gameBoard);
+
+            var result = _gameBoard.GetCell(flagCoordinate).CellState;
+            Assert.Equal(CellState.Unrevealed, result);
         }
 
         [Fact]
         public void ShouldThrowInvalidMoveExceptionIfCellIsAlreadyRevealed()
         {
-            var gameBoard = new GameBoard(5, 5);
-            var playCoordinate = new Coordinate(1, 1);
-            gameBoard.GetCell(playCoordinate).CellState = CellState.Revealed;
+            var revealedCoordinate = new Coordinate(1, 1);
+            _gameBoard.GetCell(revealedCoordinate).CellState = CellState.Revealed;
             
-            var flagAction = new FlagAction(playCoordinate);
+            var flagAction = new FlagAction(revealedCoordinate);
 
-            Assert.Throws<InvalidMoveException>(() => flagAction.GetNextBoardState(gameBoard));
+            Assert.Throws<InvalidMoveException>(() => flagAction.GetNextBoardState(_gameBoard));
         }
     }
 }
