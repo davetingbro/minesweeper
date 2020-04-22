@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minesweeper.Enums;
 
 namespace Minesweeper.GameActions
 {
@@ -10,7 +11,9 @@ namespace Minesweeper.GameActions
 
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {
-            throw new System.NotImplementedException();
+            var cell = gameBoard.GetCell(Coordinate);
+            cell.CellState = CellState.Unrevealed;
+            return gameBoard.BoardState;
         }
     }
 }
