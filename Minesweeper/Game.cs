@@ -19,6 +19,7 @@ namespace Minesweeper
         public void Run()
         {
             InitializeGame();
+            DisplayGameBoard();
             PlayGame();
         }
 
@@ -35,9 +36,16 @@ namespace Minesweeper
             {
                 var action = _gameUi.GetUserAction();
                 _gameEngine.PlayUserAction(action);
+                DisplayGameBoard();
             }
             
+            DisplayGameBoard();
             _gameUi.PrintResult(_gameEngine.IsPlayerWin);
+        }
+
+        private void DisplayGameBoard()
+        {
+            _gameUi.DisplayGameBoard(_gameEngine.GameBoard);
         }
     }
 }
