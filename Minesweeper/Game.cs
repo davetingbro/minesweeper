@@ -39,7 +39,6 @@ namespace Minesweeper
                 DisplayGameBoard();
             }
             
-            DisplayGameBoard();
             _gameUi.PrintResult(_gameEngine.IsPlayerWin);
         }
 

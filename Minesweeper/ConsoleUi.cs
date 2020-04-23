@@ -22,6 +22,7 @@ namespace Minesweeper
 
         public GameBoard GetDimension()
         {
+            Console.Write("Please enter the width and height (e.g. 5 5): ");
             try
             {
                 var input = Console.ReadLine();
@@ -54,6 +55,7 @@ namespace Minesweeper
 
         public int GetNumOfMines()
         {
+            Console.Write("Please enter the number of mines: ");
             try
             {
                 var input = Console.ReadLine();
@@ -75,6 +77,7 @@ namespace Minesweeper
 
         public GameAction GetUserAction()
         {
+            Console.Write("Command ('r'/'f') and coordinate (e.g. 2 3): ");
             try
             {
                 var input = Console.ReadLine()?.Split();
