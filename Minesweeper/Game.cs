@@ -1,6 +1,5 @@
 using System;
 using Minesweeper.Exceptions;
-using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper
@@ -28,6 +27,12 @@ namespace Minesweeper
 
         private void InitializeGame()
         {
+            SetGameState();
+            _gameEngine.Initialize();
+        }
+
+        private void SetGameState()
+        {
             while (_gameEngine.GameBoard == null || _gameEngine.NumOfMines == 0)
             {
                 try
@@ -35,41 +40,32 @@ namespace Minesweeper
                     _gameEngine.GameBoard ??= _gameUi.GetDimension();
                     _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
                 }
-                catch (InvalidInputException e)
+                catch (GameException e)
                 {
                     Console.WriteLine(e.Message);
                 }
             }
-            _gameEngine.Initialize();
         }
 
         private void PlayGame()
         {
             while (!_gameEngine.IsGameFinished)
             {
-                var action = GetUserAction();
-                if (action == null) continue;
+                try
+                {
+                    var action = _gameUi.GetUserAction();
+                    _gameEngine.PlayUserAction(action);
+                }
+                catch (GameException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;
+                }
                 
-                _gameEngine.PlayUserAction(action);
                 _gameUi.DisplayGameBoard(_gameEngine.GameBoard);
             }
             
             _gameUi.PrintResult(_gameEngine.IsPlayerWin);
-        }
-
-        private GameAction GetUserAction()
-        {
-            GameAction action = null;
-            try
-            {
-                action = _gameUi.GetUserAction();
-            }
-            catch (GameException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-            return action;
         }
     }
 }
