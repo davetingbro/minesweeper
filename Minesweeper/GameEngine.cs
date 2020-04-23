@@ -21,7 +21,7 @@ namespace Minesweeper
             GameBoard.SetAllCellAdjacentMineCount();
         }
 
-        public void PlayUserAction(PlayerCommand action)
+        public void PlayPlayerCommand(PlayerCommand action)
         {
             var nextBoardState = action.GetNextBoardState(GameBoard);
             GameBoard.BoardState = nextBoardState;

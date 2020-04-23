@@ -13,6 +13,6 @@ namespace Minesweeper.Interfaces
         bool IsPlayerWin { get; }
 
         void Initialize();
-        void PlayUserAction(PlayerCommand action);
+        void PlayPlayerCommand(PlayerCommand action);
     }
 }

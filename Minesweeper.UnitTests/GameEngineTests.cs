@@ -49,7 +49,7 @@ namespace Minesweeper.UnitTests
                 NumOfMines = 0
             };
 
-            gameEngine.PlayUserAction(mockGameAction.Object);
+            gameEngine.PlayPlayerCommand(mockGameAction.Object);
             
             mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
         }
@@ -75,7 +75,7 @@ namespace Minesweeper.UnitTests
             };
             var action = new RevealCommand(mineCoordinate);
             
-            gameEngine.PlayUserAction(action);
+            gameEngine.PlayPlayerCommand(action);
             
             Assert.True(gameEngine.IsGameFinished);
             Assert.False(gameEngine.IsPlayerWin);
@@ -95,7 +95,7 @@ namespace Minesweeper.UnitTests
 
             foreach (var action in actions)
             {
-                gameEngine.PlayUserAction(action);
+                gameEngine.PlayPlayerCommand(action);
             }
             
             Assert.True(gameEngine.IsGameFinished);
