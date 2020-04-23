@@ -12,5 +12,7 @@ namespace Minesweeper.PlayerCommands
         }
 
         public abstract List<Cell> GetNextBoardState(GameBoard gameBoard);
+
+        public abstract void Execute(List<Cell> boardState);
     }
 }

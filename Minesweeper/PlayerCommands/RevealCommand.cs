@@ -15,6 +15,11 @@ namespace Minesweeper.PlayerCommands
             return newBoardState;
         }
 
+        public override void Execute(List<Cell> boardState)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private static List<Cell> Reveal(Cell cell, GameBoard gameBoard)
         {
             cell.CellState = CellState.Revealed;

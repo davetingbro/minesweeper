@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Minesweeper.PlayerCommands;
+using Moq;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -54,6 +56,17 @@ namespace Minesweeper.UnitTests
             var result = JsonConvert.SerializeObject(cell);
             var expected = JsonConvert.SerializeObject(expectedCell);
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ShouldCallPlayerCommandExecuteMethod_WhenExecuteCommand()
+        {
+            var gameBoard = new GameBoard(5, 5);
+            var mockCommand = new Mock<PlayerCommand>(new Coordinate(1, 1));
+
+            gameBoard.ExecuteCommand(mockCommand.Object);
+            
+            mockCommand.Verify(c => c.Execute(gameBoard.BoardState), Times.Once);
         }
     }
 }

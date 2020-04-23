@@ -16,5 +16,10 @@ namespace Minesweeper.PlayerCommands
             cell.CellState = cell.CellState == CellState.Flagged ? CellState.Unrevealed : CellState.Flagged;
             return gameBoard.BoardState;
         }
+
+        public override void Execute(List<Cell> boardState)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

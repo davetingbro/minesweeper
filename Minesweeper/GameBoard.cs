@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Minesweeper.PlayerCommands;
 
 namespace Minesweeper
 {
@@ -52,6 +53,11 @@ namespace Minesweeper
                     .ToList();
 
             return neighbours;
+        }
+
+        public void ExecuteCommand(PlayerCommand mockCommandObject)
+        {
+            throw new System.NotImplementedException();
         }
 
         public Cell GetCell(Coordinate coordinate)
