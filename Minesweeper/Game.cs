@@ -1,3 +1,6 @@
+using System;
+using Minesweeper.Exceptions;
+using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 
 namespace Minesweeper
@@ -25,8 +28,18 @@ namespace Minesweeper
 
         private void InitializeGame()
         {
-            _gameEngine.GameBoard = _gameUi.GetDimension();
-            _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
+            while (_gameEngine.GameBoard == null || _gameEngine.NumOfMines == 0)
+            {
+                try
+                {
+                    _gameEngine.GameBoard ??= _gameUi.GetDimension();
+                    _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
+                }
+                catch (InvalidInputException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
             _gameEngine.Initialize();
         }
 
@@ -34,12 +47,29 @@ namespace Minesweeper
         {
             while (!_gameEngine.IsGameFinished)
             {
-                var action = _gameUi.GetUserAction();
+                var action = GetUserAction();
+                if (action == null) continue;
+                
                 _gameEngine.PlayUserAction(action);
                 _gameUi.DisplayGameBoard(_gameEngine.GameBoard);
             }
             
             _gameUi.PrintResult(_gameEngine.IsPlayerWin);
+        }
+
+        private GameAction GetUserAction()
+        {
+            GameAction action = null;
+            try
+            {
+                action = _gameUi.GetUserAction();
+            }
+            catch (GameException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return action;
         }
     }
 }

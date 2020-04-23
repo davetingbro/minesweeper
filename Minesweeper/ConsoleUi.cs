@@ -28,20 +28,13 @@ namespace Minesweeper
                 var input = Console.ReadLine();
                 return ParseToGameBoard(input);
             }
-            catch (InvalidInputException e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
             catch (FormatException)
             {
-                Console.WriteLine("Invalid Input: must be two positive integers (e.g. 5 5)");
-                throw;
+                throw new InvalidInputException("Invalid Input: must be two positive integers (e.g. 5 5)");
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Invalid Input: input cannot be empty (e.g. 5 5)");
-                throw;
+                throw new InvalidInputException("Invalid Input: input cannot be empty (e.g. 5 5)");
             }
         }
 
@@ -65,13 +58,11 @@ namespace Minesweeper
             }
             catch (FormatException)
             {
-                Console.WriteLine("Invalid Input: must be positive integers (e.g. 5)");
-                throw;
+                throw new InvalidInputException("Invalid Input: must be positive integers (e.g. 5)");
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Invalid Input: input cannot be empty (e.g. 5)");
-                throw;
+                throw new InvalidInputException("Invalid Input: input cannot be empty (e.g. 5)");
             }
         }
 
@@ -85,18 +76,11 @@ namespace Minesweeper
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Invalid Input: input cannot be empty (e.g. r 2 2)");
-                throw;
+                throw new InvalidInputException("Invalid Input: input cannot be empty (e.g. r 2 2)");
             }
             catch (FormatException)
             {
-                Console.WriteLine("Invalid Input: Coordinate value must be positive integers (e.g. r 2 2)");
-                throw;
-            }
-            catch (InvalidInputException e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
+                throw new InvalidInputException("Invalid Input: Coordinate value must be positive integers (e.g. r 2 2)");
             }
         }
 
@@ -115,7 +99,6 @@ namespace Minesweeper
                 throw new InvalidInputException("Invalid Input: incorrect command input " +
                                                 "(i.e. 'r' - reveal, 'f' - flag/unflag");
             var action = actionInput == "r" ? (GameAction) new RevealAction(coordinate) : new FlagAction(coordinate);
-
 
             return action;
         }
