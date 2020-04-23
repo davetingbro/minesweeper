@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Minesweeper.Exceptions;
 using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 
@@ -26,21 +27,29 @@ namespace Minesweeper
                 var input = Console.ReadLine();
                 return ParseToGameBoard(input);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (InvalidInputException e)
             {
-                Console.WriteLine("Error: Input must contain two positive integers (e.g. 5 5)");
+                Console.WriteLine(e.Message);
                 throw;
             }
             catch (FormatException)
             {
-                Console.WriteLine("Error: Input must be positive whole numbers (e.g. 5 5)");
+                Console.WriteLine("Invalid Input: must be two positive integers (e.g. 5 5)");
                 throw;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Error: Input cannot be empty (e.g. 5 5)");
+                Console.WriteLine("Invalid Input: input cannot be empty (e.g. 5 5)");
                 throw;
             }
+        }
+
+        private static GameBoard ParseToGameBoard(string input)
+        {
+            var values = input.Split().Select(int.Parse).ToList();
+            if (values.Count != 2 || values.Any(d => d < 0))
+                throw new InvalidInputException("Invalid Input: must be two positive integers (e.g. 5 5)");
+            return new GameBoard(values[0], values[1]);
         }
 
         public int GetNumOfMines()
@@ -54,24 +63,14 @@ namespace Minesweeper
             }
             catch (FormatException)
             {
-                Console.WriteLine("Error: Input must be positive whole number (e.g. 5)");
+                Console.WriteLine("Invalid Input: must be positive integers (e.g. 5)");
                 throw;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Error: Input cannot be empty (e.g. 5)");
+                Console.WriteLine("Invalid Input: input cannot be empty (e.g. 5)");
                 throw;
             }
-        }
-
-        private static GameBoard ParseToGameBoard(string input)
-        {
-            var values = input.Split().Select(int.Parse).ToList();
-            if (values.Count != 2)
-                throw new ArgumentOutOfRangeException();
-            if (values.Any(d => d < 0))
-                throw new FormatException();
-            return new GameBoard(values[0], values[1]);
         }
 
         public GameAction GetUserAction()
@@ -83,22 +82,17 @@ namespace Minesweeper
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Error: Input cannot be empty (e.g. r 2 2)");
+                Console.WriteLine("Invalid Input: input cannot be empty (e.g. r 2 2)");
                 throw;
             }
             catch (FormatException)
             {
-                Console.WriteLine("Error: Coordinate value must be positive whole numbers (e.g. r 2 2)");
+                Console.WriteLine("Invalid Input: Coordinate value must be positive integers (e.g. r 2 2)");
                 throw;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (InvalidInputException e)
             {
-                Console.WriteLine("Error: Input must contain 3 values (e.g. r 2 2)");
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("Error: Incorrect action input (i.e. 'r' - reveal, 'f' - flag");
+                Console.WriteLine(e.Message);
                 throw;
             }
         }
@@ -106,16 +100,17 @@ namespace Minesweeper
         private static GameAction ParseToAction(string[] input)
         {
             if (input.Length != 3)
-                throw new ArgumentOutOfRangeException();
+                throw new InvalidInputException("Invalid Inputs: must contain 3 values (e.g. r 2 2)");
             
             int x = int.Parse(input[1]), y = int.Parse(input[2]);
             if (x < 0 || y < 0)
-                throw new FormatException();
+                throw new InvalidInputException("Invalid Input: coordinate values must be positive integers (e.g. r 2 2)");
             var coordinate = new Coordinate(x, y);
 
             var actionInput = input[0].ToLower();
             if (actionInput != "r" && actionInput != "f")
-                throw new ArgumentException();
+                throw new InvalidInputException("Invalid Input: incorrect command input " +
+                                                "(i.e. 'r' - reveal, 'f' - flag/unflag");
             var action = actionInput == "r" ? (GameAction) new RevealAction(coordinate) : new FlagAction(coordinate);
 
 

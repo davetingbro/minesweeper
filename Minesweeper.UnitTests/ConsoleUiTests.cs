@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Minesweeper.Exceptions;
 using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
 using Moq;
@@ -29,17 +30,17 @@ namespace Minesweeper.UnitTests
         [Theory]
         [InlineData("5 a", typeof(FormatException))]
         [InlineData("7 9.5", typeof(FormatException))]
-        [InlineData("-5 6", typeof(FormatException))]
-        [InlineData("55", typeof(ArgumentOutOfRangeException))]
-        [InlineData("5 6 7", typeof(ArgumentOutOfRangeException))]
         [InlineData("", typeof(NullReferenceException))]
-        public void ShouldThrowErrors_WhenReadInvalidInput(string input, Type expectedException)
+        [InlineData("-5 6", typeof(InvalidInputException))]
+        [InlineData("55", typeof(InvalidInputException))]
+        [InlineData("5 6 7", typeof(InvalidInputException))]
+        public void ShouldThrowErrors_WhenReadInvalidInput(string input, Type expectedType)
         {
             MockConsoleReadLine(input);
             
             var consoleUi = new ConsoleUi();
 
-            Assert.Throws(expectedException, consoleUi.GetDimension);
+            Assert.Throws(expectedType, consoleUi.GetDimension);
         }
 
         [Theory]
@@ -64,10 +65,10 @@ namespace Minesweeper.UnitTests
         [InlineData("", typeof(NullReferenceException))]
         [InlineData("r 5 a", typeof(FormatException))]
         [InlineData("f 9.5 10", typeof(FormatException))]
-        [InlineData("r -5 6", typeof(FormatException))]
-        [InlineData("r 2", typeof(ArgumentOutOfRangeException))]
-        [InlineData("r 9 10 1", typeof(ArgumentOutOfRangeException))]
-        [InlineData("v 9 10", typeof(ArgumentException))]
+        [InlineData("r -5 6", typeof(InvalidInputException))]
+        [InlineData("r 2", typeof(InvalidInputException))]
+        [InlineData("r 9 10 1", typeof(InvalidInputException))]
+        [InlineData("v 9 10", typeof(InvalidInputException))]
         public void ShouldThrowException_WhenReadInvalidActionInput(string input, Type expectedException)
         {
             MockConsoleReadLine(input);
