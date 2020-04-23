@@ -3,12 +3,12 @@ using Minesweeper.Exceptions;
 using Minesweeper.PlayerCommands;
 using Xunit;
 
-namespace Minesweeper.UnitTests.GameActionTests
+namespace Minesweeper.UnitTests.PlayerCommandTests
 {
-    public class FlagActionTests
+    public class FlagCommandTests
     {
         private readonly GameBoard _gameBoard;
-        public FlagActionTests()
+        public FlagCommandTests()
         {
             _gameBoard = new GameBoard(5, 5);
         }

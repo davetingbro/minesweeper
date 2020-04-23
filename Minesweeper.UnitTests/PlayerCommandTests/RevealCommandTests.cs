@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
 using Minesweeper.PlayerCommands;
-using Newtonsoft.Json;
 using Xunit;
 
-namespace Minesweeper.UnitTests.GameActionTests
+namespace Minesweeper.UnitTests.PlayerCommandTests
 {
-    public class RevealActionTests
+    public class RevealCommandTests
     {
         [Fact]
         public void ShouldSetSelectedCellStateToRevealed()
