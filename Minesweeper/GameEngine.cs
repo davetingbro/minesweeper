@@ -33,20 +33,13 @@ namespace Minesweeper
             var numOfMinePlanted = 0;
             while (numOfMinePlanted < NumOfMines)
             {
-                var index = GetRandomIndex();
+                var index = new Random().Next(GameBoard.BoardState.Count);
                 var cell = GameBoard.BoardState[index];
                 var isMinePlanted = cell.IsMine;
                 if (isMinePlanted) continue;
                 cell.PlantMine();
                 numOfMinePlanted++;
             }
-        }
-
-        private int GetRandomIndex()
-        {
-            var random = new Random();
-            
-            return random.Next(GameBoard.BoardState.Count);
         }
 
         private void UpdateGameState(Coordinate coordinate)
