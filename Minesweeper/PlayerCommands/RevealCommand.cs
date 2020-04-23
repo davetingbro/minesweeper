@@ -11,16 +11,18 @@ namespace Minesweeper.PlayerCommands
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {
             var cell = gameBoard.GetCell(Coordinate);
-            var newBoardState = Reveal(cell, gameBoard);
+            var newBoardState = Reveal(gameBoard, cell);
             return newBoardState;
         }
 
-        public override void Execute(List<Cell> boardState)
+        public override void Execute(GameBoard gameBoard)
         {
-            throw new System.NotImplementedException();
+            var cell = gameBoard.GetCell(Coordinate);
+            var newBoardState = Reveal(gameBoard, cell);
+            gameBoard.BoardState = newBoardState;
         }
 
-        private static List<Cell> Reveal(Cell cell, GameBoard gameBoard)
+        private static List<Cell> Reveal(GameBoard gameBoard, Cell cell)
         {
             cell.CellState = CellState.Revealed;
             var boardState = gameBoard.BoardState;
@@ -32,7 +34,7 @@ namespace Minesweeper.PlayerCommands
             
             foreach (var neighbour in nonMineNeighbours)
             {
-                boardState = Reveal(neighbour, gameBoard);
+                boardState = Reveal(gameBoard, neighbour);
             }
 
             return boardState;

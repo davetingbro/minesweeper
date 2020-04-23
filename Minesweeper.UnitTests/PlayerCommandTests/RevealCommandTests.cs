@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
 using Minesweeper.PlayerCommands;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Minesweeper.UnitTests.PlayerCommandTests
@@ -9,14 +10,13 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
     public class RevealCommandTests
     {
         [Fact]
-        public void ShouldSetSelectedCellStateToRevealed()
+        public void ShouldSetSelectedCellStateToRevealed_WhenExecuted()
         {
             var gameBoard = new GameBoard(5, 5);
             var playCoordinate = new Coordinate(1, 1);
-            var revealAction = new RevealCommand(playCoordinate);
-
-            var nextBoardState = revealAction.GetNextBoardState(gameBoard);
-            gameBoard.BoardState = nextBoardState;
+            var revealCommand = new RevealCommand(playCoordinate);
+            
+            revealCommand.Execute(gameBoard);
 
             var result = gameBoard.GetCell(playCoordinate).CellState;
             Assert.Equal(CellState.Revealed, result);
@@ -29,9 +29,11 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
             var gameBoard = SetupGameBoardWithMine(mineCoordinate);
 
             var playCoordinate = new Coordinate(1, 1);
-            var revealAction = new RevealCommand(playCoordinate);
+            var revealCommand = new RevealCommand(playCoordinate);
 
-            var boardState = revealAction.GetNextBoardState(gameBoard).Select(c => c.CellState).ToList();
+            revealCommand.Execute(gameBoard);
+
+            var result = gameBoard.BoardState.Select(c => c.CellState);
             var expectedBoardState = new List<CellState>
             {
                 CellState.Revealed, CellState.Revealed, CellState.Revealed, CellState.Revealed,
@@ -40,7 +42,7 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
                 CellState.Unrevealed, CellState.Unrevealed, CellState.Revealed, CellState.Revealed,
             };
 
-            Assert.True(boardState.SequenceEqual(expectedBoardState));
+            Assert.Equal(expectedBoardState, result);
         }
 
         private static GameBoard SetupGameBoardWithMine(Coordinate mineCoordinate)

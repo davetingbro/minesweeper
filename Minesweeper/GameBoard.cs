@@ -57,7 +57,7 @@ namespace Minesweeper
 
         public void ExecuteCommand(PlayerCommand command)
         {
-            command.Execute(BoardState);
+            command.Execute(this);
         }
 
         public Cell GetCell(Coordinate coordinate)

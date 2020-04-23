@@ -66,7 +66,7 @@ namespace Minesweeper.UnitTests
 
             gameBoard.ExecuteCommand(mockCommand.Object);
             
-            mockCommand.Verify(c => c.Execute(gameBoard.BoardState), Times.Once);
+            mockCommand.Verify(c => c.Execute(gameBoard), Times.Once);
         }
     }
 }
