@@ -55,9 +55,9 @@ namespace Minesweeper
             return neighbours;
         }
 
-        public void ExecuteCommand(PlayerCommand mockCommandObject)
+        public void ExecuteCommand(PlayerCommand command)
         {
-            throw new System.NotImplementedException();
+            command.Execute(BoardState);
         }
 
         public Cell GetCell(Coordinate coordinate)
