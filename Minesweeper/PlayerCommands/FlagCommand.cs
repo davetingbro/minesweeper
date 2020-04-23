@@ -17,9 +17,12 @@ namespace Minesweeper.PlayerCommands
             return gameBoard.BoardState;
         }
 
-        public override void Execute(List<Cell> boardState)
+        public override void Execute(GameBoard gameBoard)
         {
-            throw new System.NotImplementedException();
+            var cell = gameBoard.GetCell(Coordinate);
+            if (cell.CellState == CellState.Revealed)
+                throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
+            cell.CellState = cell.CellState == CellState.Flagged ? CellState.Unrevealed : CellState.Flagged;
         }
     }
 }

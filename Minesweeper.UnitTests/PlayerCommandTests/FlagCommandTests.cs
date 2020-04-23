@@ -17,10 +17,9 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
         public void ShouldSetSelectedCellStateToFlagged()
         {
             var flagCoordinate = new Coordinate(1, 1);
-            var flagAction = new FlagCommand(flagCoordinate);
-
-            var boardState = flagAction.GetNextBoardState(_gameBoard);
-            _gameBoard.BoardState = boardState;
+            var flagCommand = new FlagCommand(flagCoordinate);
+            
+            flagCommand.Execute(_gameBoard);
 
             var result = _gameBoard.GetCell(flagCoordinate).CellState;
             Assert.Equal(CellState.Flagged, result);
@@ -31,9 +30,9 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
         {
             var flagCoordinate = new Coordinate(1, 1);
             _gameBoard.GetCell(flagCoordinate).CellState = CellState.Flagged;
-            var flagAction = new FlagCommand(flagCoordinate);
+            var flagCommand = new FlagCommand(flagCoordinate);
 
-            _gameBoard.BoardState = flagAction.GetNextBoardState(_gameBoard);
+            flagCommand.Execute(_gameBoard);
 
             var result = _gameBoard.GetCell(flagCoordinate).CellState;
             Assert.Equal(CellState.Unrevealed, result);
@@ -45,9 +44,9 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
             var revealedCoordinate = new Coordinate(1, 1);
             _gameBoard.GetCell(revealedCoordinate).CellState = CellState.Revealed;
             
-            var flagAction = new FlagCommand(revealedCoordinate);
+            var flagCommand = new FlagCommand(revealedCoordinate);
 
-            Assert.Throws<InvalidMoveException>(() => flagAction.GetNextBoardState(_gameBoard));
+            Assert.Throws<InvalidMoveException>(() => flagCommand.Execute(_gameBoard));
         }
     }
 }
