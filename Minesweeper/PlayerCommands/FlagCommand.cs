@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Minesweeper.Enums;
 using Minesweeper.Exceptions;
 
-namespace Minesweeper.GameActions
+namespace Minesweeper.PlayerCommands
 {
-    public class FlagAction : GameAction
+    public class FlagCommand : PlayerCommand
     {
-        public FlagAction(Coordinate coordinate) : base(coordinate) {}
+        public FlagCommand(Coordinate coordinate) : base(coordinate) {}
 
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {

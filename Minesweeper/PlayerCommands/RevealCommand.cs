@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
 
-namespace Minesweeper.GameActions
+namespace Minesweeper.PlayerCommands
 {
-    public class RevealAction : GameAction
+    public class RevealCommand : PlayerCommand
     {
-        public RevealAction(Coordinate coordinate) : base(coordinate) {}
+        public RevealCommand(Coordinate coordinate) : base(coordinate) {}
 
         public override List<Cell> GetNextBoardState(GameBoard gameBoard)
         {

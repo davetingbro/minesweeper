@@ -1,4 +1,4 @@
-using Minesweeper.GameActions;
+using Minesweeper.PlayerCommands;
 
 namespace Minesweeper.Interfaces
 {
@@ -13,6 +13,6 @@ namespace Minesweeper.Interfaces
         bool IsPlayerWin { get; }
 
         void Initialize();
-        void PlayUserAction(GameAction action);
+        void PlayUserAction(PlayerCommand action);
     }
 }

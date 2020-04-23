@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using Minesweeper.Exceptions;
-using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
+using Minesweeper.PlayerCommands;
 
 namespace Minesweeper
 {
@@ -66,7 +66,7 @@ namespace Minesweeper
             }
         }
 
-        public GameAction GetUserAction()
+        public PlayerCommand GetUserAction()
         {
             Console.Write("Command ('r'/'f') and coordinate (e.g. 2 3): ");
             try
@@ -84,7 +84,7 @@ namespace Minesweeper
             }
         }
 
-        private static GameAction ParseToAction(string[] input)
+        private static PlayerCommand ParseToAction(string[] input)
         {
             if (input.Length != 3)
                 throw new InvalidInputException("Invalid Inputs: must contain 3 values (e.g. r 2 2)");
@@ -98,7 +98,7 @@ namespace Minesweeper
             if (actionInput != "r" && actionInput != "f")
                 throw new InvalidInputException("Invalid Input: incorrect command input " +
                                                 "(i.e. 'r' - reveal, 'f' - flag/unflag");
-            var action = actionInput == "r" ? (GameAction) new RevealAction(coordinate) : new FlagAction(coordinate);
+            var action = actionInput == "r" ? (PlayerCommand) new RevealCommand(coordinate) : new FlagCommand(coordinate);
 
             return action;
         }

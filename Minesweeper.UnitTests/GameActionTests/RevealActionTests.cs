@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
-using Minesweeper.GameActions;
+using Minesweeper.PlayerCommands;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -14,7 +14,7 @@ namespace Minesweeper.UnitTests.GameActionTests
         {
             var gameBoard = new GameBoard(5, 5);
             var playCoordinate = new Coordinate(1, 1);
-            var revealAction = new RevealAction(playCoordinate);
+            var revealAction = new RevealCommand(playCoordinate);
 
             var nextBoardState = revealAction.GetNextBoardState(gameBoard);
             gameBoard.BoardState = nextBoardState;
@@ -30,7 +30,7 @@ namespace Minesweeper.UnitTests.GameActionTests
             var gameBoard = SetupGameBoardWithMine(mineCoordinate);
 
             var playCoordinate = new Coordinate(1, 1);
-            var revealAction = new RevealAction(playCoordinate);
+            var revealAction = new RevealCommand(playCoordinate);
 
             var boardState = revealAction.GetNextBoardState(gameBoard).Select(c => c.CellState).ToList();
             var expectedBoardState = new List<CellState>

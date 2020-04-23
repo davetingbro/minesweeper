@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Minesweeper.Exceptions;
-using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
+using Minesweeper.PlayerCommands;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
@@ -57,8 +57,8 @@ namespace Minesweeper.UnitTests
         
         public static IEnumerable<object[]> GetUserActionValidInputData => new List<object[]>
         {
-            new object[] {"r 0 1", typeof(RevealAction)},
-            new object[] {"f 2 4", typeof(FlagAction)},
+            new object[] {"r 0 1", typeof(RevealCommand)},
+            new object[] {"f 2 4", typeof(FlagCommand)},
         };
 
         [Theory]

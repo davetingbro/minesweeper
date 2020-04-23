@@ -1,7 +1,7 @@
 using System;
 using Minesweeper.Enums;
-using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
+using Minesweeper.PlayerCommands;
 
 namespace Minesweeper
 {
@@ -21,7 +21,7 @@ namespace Minesweeper
             GameBoard.SetAllCellAdjacentMineCount();
         }
 
-        public void PlayUserAction(GameAction action)
+        public void PlayUserAction(PlayerCommand action)
         {
             var nextBoardState = action.GetNextBoardState(GameBoard);
             GameBoard.BoardState = nextBoardState;

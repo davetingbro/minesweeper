@@ -1,6 +1,6 @@
 using Minesweeper.Enums;
 using Minesweeper.Exceptions;
-using Minesweeper.GameActions;
+using Minesweeper.PlayerCommands;
 using Xunit;
 
 namespace Minesweeper.UnitTests.GameActionTests
@@ -17,7 +17,7 @@ namespace Minesweeper.UnitTests.GameActionTests
         public void ShouldSetSelectedCellStateToFlagged()
         {
             var flagCoordinate = new Coordinate(1, 1);
-            var flagAction = new FlagAction(flagCoordinate);
+            var flagAction = new FlagCommand(flagCoordinate);
 
             var boardState = flagAction.GetNextBoardState(_gameBoard);
             _gameBoard.BoardState = boardState;
@@ -31,7 +31,7 @@ namespace Minesweeper.UnitTests.GameActionTests
         {
             var flagCoordinate = new Coordinate(1, 1);
             _gameBoard.GetCell(flagCoordinate).CellState = CellState.Flagged;
-            var flagAction = new FlagAction(flagCoordinate);
+            var flagAction = new FlagCommand(flagCoordinate);
 
             _gameBoard.BoardState = flagAction.GetNextBoardState(_gameBoard);
 
@@ -45,7 +45,7 @@ namespace Minesweeper.UnitTests.GameActionTests
             var revealedCoordinate = new Coordinate(1, 1);
             _gameBoard.GetCell(revealedCoordinate).CellState = CellState.Revealed;
             
-            var flagAction = new FlagAction(revealedCoordinate);
+            var flagAction = new FlagCommand(revealedCoordinate);
 
             Assert.Throws<InvalidMoveException>(() => flagAction.GetNextBoardState(_gameBoard));
         }

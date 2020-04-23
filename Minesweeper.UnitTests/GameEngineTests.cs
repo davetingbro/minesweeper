@@ -1,5 +1,5 @@
 using System.Linq;
-using Minesweeper.GameActions;
+using Minesweeper.PlayerCommands;
 using Moq;
 using Xunit;
 
@@ -54,10 +54,10 @@ namespace Minesweeper.UnitTests
             mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
         }
 
-        private static Mock<GameAction> MockGameAction(GameBoard gameBoard)
+        private static Mock<PlayerCommand> MockGameAction(GameBoard gameBoard)
         {
             var stubCoordinate = new Mock<Coordinate>(1, 1);
-            var mockGameAction = new Mock<GameAction>(stubCoordinate.Object);
+            var mockGameAction = new Mock<PlayerCommand>(stubCoordinate.Object);
             mockGameAction
                 .Setup(action => action.GetNextBoardState(gameBoard))
                 .Returns(new GameBoard(5, 5).BoardState);
@@ -73,7 +73,7 @@ namespace Minesweeper.UnitTests
                 GameBoard = SetupGameBoardWithMines(mineCoordinate),
                 NumOfMines = 1
             };
-            var action = new RevealAction(mineCoordinate);
+            var action = new RevealCommand(mineCoordinate);
             
             gameEngine.PlayUserAction(action);
             
@@ -91,7 +91,7 @@ namespace Minesweeper.UnitTests
                 GameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2),
                 NumOfMines = 2
             };
-            var actions = new []{new FlagAction(mineCoordinate1), new FlagAction(mineCoordinate2) };
+            var actions = new []{new FlagCommand(mineCoordinate1), new FlagCommand(mineCoordinate2) };
 
             foreach (var action in actions)
             {

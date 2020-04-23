@@ -1,5 +1,5 @@
-using Minesweeper.GameActions;
 using Minesweeper.Interfaces;
+using Minesweeper.PlayerCommands;
 using Moq;
 using Xunit;
 
@@ -42,7 +42,7 @@ namespace Minesweeper.UnitTests
             _game.Run();
             
             _mockGameUi.Verify(ui => ui.GetUserAction(), Times.Exactly(2));
-            _mockGameEngine.Verify(ge => ge.PlayUserAction(It.IsAny<GameAction>()),
+            _mockGameEngine.Verify(ge => ge.PlayUserAction(It.IsAny<PlayerCommand>()),
                 Times.Exactly(2));
             _mockGameUi.Verify(ui => ui.PrintResult(It.IsAny<bool>()),
                 Times.Once);

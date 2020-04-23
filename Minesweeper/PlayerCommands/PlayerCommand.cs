@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace Minesweeper.GameActions
+namespace Minesweeper.PlayerCommands
 {
-    public abstract class GameAction
+    public abstract class PlayerCommand
     {
         public readonly Coordinate Coordinate;
 
-        protected GameAction(Coordinate coordinate)
+        protected PlayerCommand(Coordinate coordinate)
         {
             Coordinate = coordinate;
         }
