@@ -1,3 +1,5 @@
+using System;
+using System.Linq.Expressions;
 using Minesweeper.Interfaces;
 using Minesweeper.PlayerCommands;
 using Moq;
@@ -21,8 +23,9 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldInitializeGameCorrectly()
         {
+            SetupMockGameEngine();
             _mockGameEngine.SetupGet(ge => ge.IsGameFinished).Returns(true);
-            
+
             _game.Run();
                         
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
@@ -33,6 +36,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldContinueToPlayGameUntilIsGameFinishedIsTrue()
         {
+            SetupMockGameEngine();
             _mockGameEngine
                 .SetupSequence(ge => ge.IsGameFinished)
                 .Returns(false)
@@ -51,6 +55,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldDisplayGameBoardDuringGameRun()
         {
+            SetupMockGameEngine();
             _mockGameEngine
                 .SetupSequence(ge => ge.IsGameFinished)
                 .Returns(false)
@@ -59,7 +64,17 @@ namespace Minesweeper.UnitTests
 
             _game.Run();
             
-            _mockGameUi.Verify(ui => ui.DisplayGameBoard(It.IsAny<GameBoard>()), Times.Exactly(4));
+            _mockGameUi.Verify(ui => ui.DisplayGameBoard(It.IsAny<GameBoard>()), Times.Exactly(3));
+        }
+
+        private void SetupMockGameEngine()
+        {
+            _mockGameEngine.SetupSequence(ge => ge.GameBoard)
+                .Returns(value: null)
+                .Returns(value: null)
+                .Returns(new GameBoard(5, 5));
+            _mockGameEngine.Setup(ge => ge.NumOfMines)
+                .Returns(5);
         }
     }
 }
