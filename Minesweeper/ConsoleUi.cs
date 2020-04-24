@@ -94,13 +94,8 @@ namespace Minesweeper
                 throw new InvalidInputException("Invalid Input: coordinate values must be positive integers (e.g. r 2 2)");
             var coordinate = new Coordinate(x, y);
 
-            var actionInput = input[0].ToLower();
-            if (actionInput != "r" && actionInput != "f")
-                throw new InvalidInputException("Invalid Input: incorrect command input " +
-                                                "(i.e. 'r' - reveal, 'f' - flag/unflag");
-            var action = actionInput == "r" ? (PlayerCommand) new RevealCommand(coordinate) : new FlagCommand(coordinate);
-
-            return action;
+            var commandOption = input[0].ToLower();
+            return CommandFactory.GetCommand(commandOption, coordinate);
         }
 
         public void DisplayGameBoard(GameBoard gameBoard)
