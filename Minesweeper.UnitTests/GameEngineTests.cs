@@ -39,7 +39,7 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
-        public void ShouldCallPlayerCommandExecute_WhenPlayUserAction()
+        public void ShouldCallPlayerCommandExecute_WhenExecutePlayerCommand()
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
             var mockPlayerCommand = new Mock<PlayerCommand>(new Coordinate(1, 1));
@@ -49,7 +49,7 @@ namespace Minesweeper.UnitTests
                 NumOfMines = 0
             };
 
-            gameEngine.PlayPlayerCommand(mockPlayerCommand.Object);
+            gameEngine.ExecutePlayerCommand(mockPlayerCommand.Object);
             
             mockPlayerCommand.Verify(action => action.Execute(stubGameBoard.Object), Times.Once);
         }
@@ -65,7 +65,7 @@ namespace Minesweeper.UnitTests
             };
             var command = new RevealCommand(mineCoordinate);
             
-            gameEngine.PlayPlayerCommand(command);
+            gameEngine.ExecutePlayerCommand(command);
             
             Assert.True(gameEngine.IsGameFinished);
             Assert.False(gameEngine.IsPlayerWin);
@@ -85,7 +85,7 @@ namespace Minesweeper.UnitTests
 
             foreach (var action in flagCommands)
             {
-                gameEngine.PlayPlayerCommand(action);
+                gameEngine.ExecutePlayerCommand(action);
             }
             
             Assert.True(gameEngine.IsGameFinished);

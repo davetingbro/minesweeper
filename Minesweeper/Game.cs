@@ -54,7 +54,7 @@ namespace Minesweeper
                 try
                 {
                     var action = _gameUi.GetUserAction();
-                    _gameEngine.PlayPlayerCommand(action);
+                    _gameEngine.ExecutePlayerCommand(action);
                 }
                 catch (GameException e)
                 {
