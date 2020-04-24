@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Minesweeper.PlayerCommands;
-using Moq;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -15,32 +13,6 @@ namespace Minesweeper.UnitTests
             var gameBoard = new GameBoard(5, 5);
             
             Assert.Equal(25, gameBoard.BoardState.Count);
-        }
-
-        [Fact]
-        public void ShouldSetCellAdjacentMineCount()
-        {
-            var gameBoard = new GameBoard(5, 5);
-            gameBoard.BoardState[6].PlantMine();
-            gameBoard.BoardState[16].PlantMine();
-            gameBoard.BoardState[18].PlantMine();
-
-            gameBoard.SetAllCellAdjacentMineCount();
-
-            var result = gameBoard.BoardState.Select(c => c.AdjacentMineCount).ToList();
-            var expected = new List<int>
-            {
-                1, 1, 1, 0, 0,
-                1, 0, 1, 0, 0,
-                2, 2, 3, 1, 1,
-                1, 0, 2, 0, 1,
-                1, 1, 2, 1, 1,
-            };
-
-            var resultJson = JsonConvert.SerializeObject(result);
-            var expectedJson = JsonConvert.SerializeObject(expected);
-            
-            Assert.Equal(expectedJson, resultJson);
         }
 
         [Theory]

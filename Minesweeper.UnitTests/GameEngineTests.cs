@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.PlayerCommands;
 using Moq;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Minesweeper.UnitTests
@@ -23,19 +25,30 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
-        public void ShouldCallGameBoardSetAllCellAdjacentMineCountMethod_WhenInitialize()
+        public void ShouldSetCellAdjacentMineCount_WhenInitialized()
         {
-            var mockGameBoard = new Mock<GameBoard>(5, 5);
+            var gameBoard = new GameBoard(5, 5);
+            gameBoard.BoardState[6].PlantMine();
+            gameBoard.BoardState[16].PlantMine();
+            gameBoard.BoardState[18].PlantMine();
             var gameEngine = new GameEngine
             {
-                GameBoard = mockGameBoard.Object,
-                NumOfMines = 5
+                GameBoard = gameBoard,
             };
 
             gameEngine.Initialize();
-            
-            mockGameBoard.Verify(gb => gb.SetAllCellAdjacentMineCount(), 
-                Times.Once);
+
+            var result = gameEngine.GameBoard.BoardState.Select(c => c.AdjacentMineCount).ToList();
+            var expected = new List<int>
+            {
+                1, 1, 1, 0, 0,
+                1, 0, 1, 0, 0,
+                2, 2, 3, 1, 1,
+                1, 0, 2, 0, 1,
+                1, 1, 2, 1, 1,
+            };
+
+            Assert.Equal(expected, result);
         }
 
         [Fact]

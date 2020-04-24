@@ -38,8 +38,14 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
         [Fact]
         public void ShouldMatchExpectedBoardState()
         {
-            var mineCoordinate = new Coordinate(2, 3);
-            var gameBoard = SetupGameBoardWithMine(mineCoordinate);
+            var mineCountMap = new List<int>
+            {
+                0, 0, 0, 0,
+                1, 1, 1, 0,
+                1, 0, 1, 0,
+                1, 1 ,1, 0
+            };
+            var gameBoard = SetupGameBoardWithMineCounts(mineCountMap);
 
             var playCoordinate = new Coordinate(1, 1);
             var revealCommand = new RevealCommand(playCoordinate);
@@ -58,11 +64,13 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
             Assert.Equal(expectedBoardState, result);
         }
 
-        private static GameBoard SetupGameBoardWithMine(Coordinate mineCoordinate)
+        private static GameBoard SetupGameBoardWithMineCounts(List<int> mineCountMap)
         {
             var gameBoard = new GameBoard(4, 4);
-            gameBoard.GetCell(mineCoordinate).PlantMine();
-            gameBoard.SetAllCellAdjacentMineCount();
+            for (var i = 0; i < mineCountMap.Count; i++)
+            {
+                gameBoard.BoardState[i].AdjacentMineCount = mineCountMap[i];
+            }
             return gameBoard;
         }
     }

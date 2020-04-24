@@ -31,8 +31,7 @@ namespace Minesweeper.UnitTests
         {
             var gameBoard = new GameBoard(4, 4);
             gameBoard.BoardState[6].PlantMine();
-            gameBoard.BoardState[9].PlantMine();
-            gameBoard.SetAllCellAdjacentMineCount();
+            gameBoard.BoardState[5].AdjacentMineCount = 2;
             gameBoard.BoardState[5].CellState = CellState.Revealed;
             gameBoard.BoardState[9].CellState = CellState.Flagged;
             gameBoard.BoardState[6].CellState = CellState.Revealed;

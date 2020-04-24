@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Minesweeper.Enums;
 using Minesweeper.Interfaces;
 using Minesweeper.PlayerCommands;
@@ -18,7 +19,7 @@ namespace Minesweeper
         public void Initialize()
         {
             PlantMines();
-            GameBoard.SetAllCellAdjacentMineCount();
+            SetAllCellAdjacentMineCount();
         }
 
         public void ExecutePlayerCommand(PlayerCommand command)
@@ -34,10 +35,18 @@ namespace Minesweeper
             {
                 var index = new Random().Next(GameBoard.BoardState.Count);
                 var cell = GameBoard.BoardState[index];
-                var isMinePlanted = cell.IsMine;
-                if (isMinePlanted) continue;
+                if (cell.IsMine) continue;
                 cell.PlantMine();
                 numOfMinePlanted++;
+            }
+        }
+        
+        private void SetAllCellAdjacentMineCount()
+        {
+            foreach (var cell in GameBoard.BoardState)
+            {
+                var neighbours = GameBoard.GetCellNeighbours(cell);
+                cell.AdjacentMineCount = neighbours.Count(c => c.IsMine);
             }
         }
 
