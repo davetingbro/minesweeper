@@ -32,15 +32,6 @@ namespace Minesweeper
             }
         }
 
-        public virtual void SetAllCellAdjacentMineCount()
-        {
-            foreach (var cell in BoardState)
-            {
-                var neighbours = GetCellNeighbours(cell);
-                cell.AdjacentMineCount = neighbours.Count(c => c.IsMine);
-            }
-        }
-
         public List<Cell> GetCellNeighbours(Cell cell)
         {
             int x = cell.X, y = cell.Y;
