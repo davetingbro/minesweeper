@@ -23,7 +23,7 @@ namespace Minesweeper
 
         public void ExecutePlayerCommand(PlayerCommand command)
         {
-            GameBoard.ExecuteCommand(command);
+            command.Execute(GameBoard);
             UpdateGameState(command.Coordinate);
         }
 

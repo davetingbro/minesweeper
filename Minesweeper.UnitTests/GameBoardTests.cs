@@ -57,16 +57,5 @@ namespace Minesweeper.UnitTests
             var expected = JsonConvert.SerializeObject(expectedCell);
             Assert.Equal(expected, result);
         }
-
-        [Fact]
-        public void ShouldCallPlayerCommandExecuteMethod_WhenExecuteCommand()
-        {
-            var gameBoard = new GameBoard(5, 5);
-            var mockCommand = new Mock<PlayerCommand>(new Coordinate(1, 1));
-
-            gameBoard.ExecuteCommand(mockCommand.Object);
-            
-            mockCommand.Verify(c => c.Execute(gameBoard), Times.Once);
-        }
     }
 }

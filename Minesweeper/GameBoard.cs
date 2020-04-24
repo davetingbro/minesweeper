@@ -55,11 +55,6 @@ namespace Minesweeper
             return neighbours;
         }
 
-        public void ExecuteCommand(PlayerCommand command)
-        {
-            command.Execute(this);
-        }
-
         public Cell GetCell(Coordinate coordinate)
         {
             return BoardState.Find(c => c.X == coordinate.X && c.Y == coordinate.Y);
