@@ -28,24 +28,25 @@ namespace Minesweeper.UnitTests
         }
         
         [Theory]
-        [InlineData("5 a", typeof(FormatException))]
-        [InlineData("7 9.5", typeof(FormatException))]
-        [InlineData("", typeof(NullReferenceException))]
-        [InlineData("-5 6", typeof(InvalidInputException))]
-        [InlineData("55", typeof(InvalidInputException))]
-        [InlineData("5 6 7", typeof(InvalidInputException))]
-        public void ShouldThrowErrors_WhenReadInvalidInput(string input, Type expectedType)
+        [InlineData("5 a")]
+        [InlineData("7 9.5")]
+        [InlineData("")]
+        [InlineData("-5 6")]
+        [InlineData("55")]
+        [InlineData("5 6 7")]
+        public void ShouldThrowErrors_WhenReadInvalidInput(string input)
         {
             MockConsoleReadLine(input);
             
             var consoleUi = new ConsoleUi();
 
-            Assert.Throws(expectedType, consoleUi.GetDimension);
+            Assert.Throws<InvalidInputException>(consoleUi.GetDimension);
         }
 
         [Theory]
-        [MemberData(nameof(GetUserActionValidInputData))]
-        public void ShouldCreateCorrectActionObject_WhenGetUserAction(string input, Type expected)
+        [InlineData("r 0 1", typeof(RevealCommand))]
+        [InlineData("f 2 4", typeof(FlagCommand))]
+        public void ShouldCreateCorrectCommandObject_WhenGivenValidCommandOption(string input, Type expected)
         {
             MockConsoleReadLine(input);
             var consoleUiUnderTest = new ConsoleUi();
@@ -54,28 +55,22 @@ namespace Minesweeper.UnitTests
             
             Assert.IsType(expected, action);
         }
-        
-        public static IEnumerable<object[]> GetUserActionValidInputData => new List<object[]>
-        {
-            new object[] {"r 0 1", typeof(RevealCommand)},
-            new object[] {"f 2 4", typeof(FlagCommand)},
-        };
 
         [Theory]
-        [InlineData("", typeof(NullReferenceException))]
-        [InlineData("r 5 a", typeof(FormatException))]
-        [InlineData("f 9.5 10", typeof(FormatException))]
-        [InlineData("r -5 6", typeof(InvalidInputException))]
-        [InlineData("r 2", typeof(InvalidInputException))]
-        [InlineData("r 9 10 1", typeof(InvalidInputException))]
-        [InlineData("v 9 10", typeof(InvalidInputException))]
-        public void ShouldThrowException_WhenReadInvalidActionInput(string input, Type expectedException)
+        [InlineData("")]
+        [InlineData("r 5 a")]
+        [InlineData("f 9.5 10")]
+        [InlineData("r -5 6")]
+        [InlineData("r 2")]
+        [InlineData("r 9 10 1")]
+        [InlineData("v 9 10")]
+        public void ShouldThrowException_WhenReadInvalidCommandOption(string input)
         {
             MockConsoleReadLine(input);
             
             var consoleUiUnderTest = new ConsoleUi();
             
-            Assert.Throws(expectedException, consoleUiUnderTest.GetPlayerCommand);
+            Assert.Throws<InvalidInputException>(consoleUiUnderTest.GetPlayerCommand);
         }
 
         private static void MockConsoleReadLine(string input)
