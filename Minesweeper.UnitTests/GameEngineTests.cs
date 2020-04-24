@@ -39,29 +39,19 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
-        public void ShouldCallGameActionGetNextBoardStateMethod_WhenPlayUserAction()
+        public void ShouldCallPlayerCommandExecute_WhenPlayUserAction()
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
-            var mockGameAction = MockGameAction(stubGameBoard.Object);
+            var mockPlayerCommand = new Mock<PlayerCommand>(new Coordinate(1, 1));
             var gameEngine = new GameEngine
             {
                 GameBoard = stubGameBoard.Object,
                 NumOfMines = 0
             };
 
-            gameEngine.PlayPlayerCommand(mockGameAction.Object);
+            gameEngine.PlayPlayerCommand(mockPlayerCommand.Object);
             
-            mockGameAction.Verify(action => action.GetNextBoardState(stubGameBoard.Object), Times.Once);
-        }
-
-        private static Mock<PlayerCommand> MockGameAction(GameBoard gameBoard)
-        {
-            var stubCoordinate = new Mock<Coordinate>(1, 1);
-            var mockGameAction = new Mock<PlayerCommand>(stubCoordinate.Object);
-            mockGameAction
-                .Setup(action => action.GetNextBoardState(gameBoard))
-                .Returns(new GameBoard(5, 5).BoardState);
-            return mockGameAction;
+            mockPlayerCommand.Verify(action => action.Execute(stubGameBoard.Object), Times.Once);
         }
 
         [Fact]
@@ -73,9 +63,9 @@ namespace Minesweeper.UnitTests
                 GameBoard = SetupGameBoardWithMines(mineCoordinate),
                 NumOfMines = 1
             };
-            var action = new RevealCommand(mineCoordinate);
+            var command = new RevealCommand(mineCoordinate);
             
-            gameEngine.PlayPlayerCommand(action);
+            gameEngine.PlayPlayerCommand(command);
             
             Assert.True(gameEngine.IsGameFinished);
             Assert.False(gameEngine.IsPlayerWin);
@@ -91,9 +81,9 @@ namespace Minesweeper.UnitTests
                 GameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2),
                 NumOfMines = 2
             };
-            var actions = new []{new FlagCommand(mineCoordinate1), new FlagCommand(mineCoordinate2) };
+            var flagCommands = new []{new FlagCommand(mineCoordinate1), new FlagCommand(mineCoordinate2) };
 
-            foreach (var action in actions)
+            foreach (var action in flagCommands)
             {
                 gameEngine.PlayPlayerCommand(action);
             }

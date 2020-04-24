@@ -21,11 +21,10 @@ namespace Minesweeper
             GameBoard.SetAllCellAdjacentMineCount();
         }
 
-        public void PlayPlayerCommand(PlayerCommand action)
+        public void PlayPlayerCommand(PlayerCommand command)
         {
-            var nextBoardState = action.GetNextBoardState(GameBoard);
-            GameBoard.BoardState = nextBoardState;
-            UpdateGameState(action.Coordinate);
+            GameBoard.ExecuteCommand(command);
+            UpdateGameState(command.Coordinate);
         }
 
         private void PlantMines()
