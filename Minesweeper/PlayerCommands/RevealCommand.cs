@@ -8,13 +8,6 @@ namespace Minesweeper.PlayerCommands
     {
         public RevealCommand(Coordinate coordinate) : base(coordinate) {}
 
-        public override List<Cell> GetNextBoardState(GameBoard gameBoard)
-        {
-            var cell = gameBoard.GetCell(Coordinate);
-            var newBoardState = Reveal(gameBoard, cell);
-            return newBoardState;
-        }
-
         public override void Execute(GameBoard gameBoard)
         {
             var cell = gameBoard.GetCell(Coordinate);

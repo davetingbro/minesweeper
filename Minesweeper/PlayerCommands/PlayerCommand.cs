@@ -11,8 +11,6 @@ namespace Minesweeper.PlayerCommands
             Coordinate = coordinate;
         }
 
-        public abstract List<Cell> GetNextBoardState(GameBoard gameBoard);
-
         public abstract void Execute(GameBoard gameBoard);
     }
 }
