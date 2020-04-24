@@ -9,7 +9,7 @@ namespace Minesweeper.Interfaces
     {
         GameBoard GetDimension();
         int GetNumOfMines();
-        PlayerCommand GetUserAction();
+        PlayerCommand GetPlayerCommand();
         void DisplayGameBoard(GameBoard gameBoard);
         void PrintResult(bool isWon);
     }

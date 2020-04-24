@@ -66,13 +66,13 @@ namespace Minesweeper
             }
         }
 
-        public PlayerCommand GetUserAction()
+        public PlayerCommand GetPlayerCommand()
         {
             Console.Write("Command ('r'/'f') and coordinate (e.g. 2 3): ");
             try
             {
                 var input = Console.ReadLine()?.Split();
-                return ParseToAction(input);
+                return ParseToPlayerCommand(input);
             }
             catch (NullReferenceException)
             {
@@ -84,7 +84,7 @@ namespace Minesweeper
             }
         }
 
-        private static PlayerCommand ParseToAction(string[] input)
+        private static PlayerCommand ParseToPlayerCommand(string[] input)
         {
             if (input.Length != 3)
                 throw new InvalidInputException("Invalid Inputs: must contain 3 values (e.g. r 2 2)");

@@ -50,7 +50,7 @@ namespace Minesweeper.UnitTests
             MockConsoleReadLine(input);
             var consoleUiUnderTest = new ConsoleUi();
             
-            var action = consoleUiUnderTest.GetUserAction();
+            var action = consoleUiUnderTest.GetPlayerCommand();
             
             Assert.IsType(expected, action);
         }
@@ -75,7 +75,7 @@ namespace Minesweeper.UnitTests
             
             var consoleUiUnderTest = new ConsoleUi();
             
-            Assert.Throws(expectedException, consoleUiUnderTest.GetUserAction);
+            Assert.Throws(expectedException, consoleUiUnderTest.GetPlayerCommand);
         }
 
         private static void MockConsoleReadLine(string input)
