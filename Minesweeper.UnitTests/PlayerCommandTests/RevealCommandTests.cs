@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
+using Minesweeper.Exceptions;
 using Minesweeper.PlayerCommands;
 using Newtonsoft.Json;
 using Xunit;
@@ -20,6 +21,18 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
 
             var result = gameBoard.GetCell(playCoordinate).CellState;
             Assert.Equal(CellState.Revealed, result);
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidMoveException_WhenExecuteOnRevealedCell()
+        {
+            var gameBoard = new GameBoard(5, 5);
+            var revealCoordinate = new Coordinate(1, 1);
+            gameBoard.GetCell(revealCoordinate).CellState = CellState.Revealed;
+            
+            var revealCommand = new RevealCommand(revealCoordinate);
+
+            Assert.Throws<InvalidMoveException>(() => revealCommand.Execute(gameBoard));
         }
 
         [Fact]

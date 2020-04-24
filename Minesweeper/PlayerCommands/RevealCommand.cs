@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
+using Minesweeper.Exceptions;
 
 namespace Minesweeper.PlayerCommands
 {
@@ -11,6 +12,8 @@ namespace Minesweeper.PlayerCommands
         public override void Execute(GameBoard gameBoard)
         {
             var cell = gameBoard.GetCell(Coordinate);
+            if (cell.CellState == CellState.Revealed)
+                throw new InvalidMoveException("Invalid move: Cell already revealed.");
             var newBoardState = Reveal(gameBoard, cell);
             gameBoard.BoardState = newBoardState;
         }
