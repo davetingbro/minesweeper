@@ -39,6 +39,21 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
         }
 
         [Fact]
+        public void ShouldThrowInvalidMoveException_IfTyringToFlagMoreFlagsThanMines()
+        {
+            // Plant 2 mines
+            _gameBoard.GetCell(new Coordinate(4, 4)).PlantMine();
+            _gameBoard.GetCell(new Coordinate(5, 5)).PlantMine();
+            // Flag 2 cells
+            _gameBoard.GetCell(new Coordinate(2, 2)).CellState = CellState.Flagged;
+            _gameBoard.GetCell(new Coordinate(1, 1)).CellState = CellState.Flagged;
+            
+            var flagCommand = new FlagCommand(new Coordinate(4, 4)); // Flagging third cell
+
+            Assert.Throws<InvalidMoveException>(() => flagCommand.Execute(_gameBoard));
+        }
+
+        [Fact]
         public void ShouldThrowInvalidMoveExceptionIfCellIsAlreadyRevealed()
         {
             var revealedCoordinate = new Coordinate(1, 1);
