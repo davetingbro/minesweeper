@@ -17,6 +17,7 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
         public void ShouldSetSelectedCellStateToFlagged()
         {
             var flagCoordinate = new Coordinate(1, 1);
+            _gameBoard.GetCell(flagCoordinate).PlantMine();
             var flagCommand = new FlagCommand(flagCoordinate);
             
             flagCommand.Execute(_gameBoard);
