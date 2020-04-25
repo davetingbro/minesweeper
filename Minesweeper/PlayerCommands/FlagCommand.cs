@@ -11,11 +11,11 @@ namespace Minesweeper.PlayerCommands
         public override void Execute(GameBoard gameBoard)
         {
             var cell = gameBoard.GetCell(Coordinate);
-            ValidateMove(gameBoard, cell);
+            Validate(gameBoard, cell);
             cell.CellState = cell.CellState == CellState.Flagged ? CellState.Unrevealed : CellState.Flagged;
         }
 
-        private static void ValidateMove(GameBoard gameBoard, Cell cell)
+        private static void Validate(GameBoard gameBoard, Cell cell)
         {
             var mineCount = gameBoard.BoardState.Count(c => c.IsMine);
             var flagCount = gameBoard.BoardState.Count(c => c.CellState == CellState.Flagged);

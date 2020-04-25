@@ -12,10 +12,8 @@ namespace Minesweeper.PlayerCommands
         public override void Execute(GameBoard gameBoard)
         {
             var cell = gameBoard.GetCell(Coordinate);
-            if (cell.CellState == CellState.Revealed)
-                throw new InvalidMoveException("Invalid move: Cell already revealed.");
-            var newBoardState = Reveal(gameBoard, cell);
-            gameBoard.BoardState = newBoardState;
+            Validate(cell);
+            gameBoard.BoardState = Reveal(gameBoard, cell);
         }
 
         private static List<Cell> Reveal(GameBoard gameBoard, Cell cell)
@@ -34,6 +32,12 @@ namespace Minesweeper.PlayerCommands
             }
 
             return boardState;
+        }
+
+        private static void Validate(Cell cell)
+        {
+            if (cell.CellState == CellState.Revealed)
+                throw new InvalidMoveException("Invalid move: Cell already revealed.");
         }
     }
 }
