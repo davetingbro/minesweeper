@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Minesweeper.UnitTests
 {
+    [Collection("ConsoleUiTestCollection")]
     public class ConsoleGameBoardRendererTests
     {
         [Fact]

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Minesweeper.Exceptions;
 using Minesweeper.Interfaces;
@@ -10,6 +9,7 @@ using Xunit;
 
 namespace Minesweeper.UnitTests
 {
+    [Collection("ConsoleUiTestCollection")]
     public class ConsoleUiTests
     {
         [Fact]
