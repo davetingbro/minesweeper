@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Minesweeper.Enums;
 using Minesweeper.PlayerCommands;
 using Moq;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Minesweeper.UnitTests
@@ -10,7 +10,7 @@ namespace Minesweeper.UnitTests
     public class GameEngineTests
     {
         [Fact]
-        public void NumOfMinesPlantedShouldEqualNumOfMines_WhenInitialize()
+        public void NumOfMinesPlantedShouldEqualNumOfMinesSet_WhenInitialized()
         {
             var gameEngine = new GameEngine
             {
@@ -31,6 +31,13 @@ namespace Minesweeper.UnitTests
             gameBoard.BoardState[6].PlantMine();
             gameBoard.BoardState[16].PlantMine();
             gameBoard.BoardState[18].PlantMine();
+            // Mine locations:
+            //     - - - - -
+            //     - * - - -
+            //     - - - - -
+            //     - * - * -
+            //     - - - - -
+            
             var gameEngine = new GameEngine
             {
                 GameBoard = gameBoard,
@@ -71,14 +78,15 @@ namespace Minesweeper.UnitTests
         public void ShouldSetIsGameFinishedToTrue_WhenRevealAMine()
         {
             var mineCoordinate = new Coordinate(2, 3);
-            var gameEngine = new GameEngine
-            {
-                GameBoard = SetupGameBoardWithMines(mineCoordinate),
-                NumOfMines = 1
-            };
-            var command = new RevealCommand(mineCoordinate);
+            var gameBoard = SetupGameBoardWithMines(mineCoordinate);
+            var gameEngine = new GameEngine { GameBoard = gameBoard, NumOfMines = 1 };
             
-            gameEngine.ExecutePlayerCommand(command);
+            var mockRevealCommand = new Mock<PlayerCommand>(mineCoordinate);
+            mockRevealCommand
+                .Setup(c => c.Execute(gameBoard))
+                .Callback((() => gameBoard.GetCell(mineCoordinate).CellState = CellState.Revealed));
+            
+            gameEngine.ExecutePlayerCommand(mockRevealCommand.Object);
             
             Assert.True(gameEngine.IsGameFinished);
             Assert.False(gameEngine.IsPlayerWin);
@@ -87,20 +95,18 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldSetIsGameFinishedAndIsPlayerWinToTrue_WhenAllMinesAreFlagged()
         {
-            var mineCoordinate1 = new Coordinate(2, 3);
-            var mineCoordinate2 = new Coordinate(5, 7);
-            var gameEngine = new GameEngine
-            {
-                GameBoard = SetupGameBoardWithMines(mineCoordinate1, mineCoordinate2),
-                NumOfMines = 2
-            };
-            var flagCommands = new []{new FlagCommand(mineCoordinate1), new FlagCommand(mineCoordinate2) };
+            var mineCoordinates = new[] { new Coordinate(2, 3), new Coordinate(5, 7)};
+            var gameBoard = SetupGameBoardWithMines(mineCoordinates); // plant two mines on gameBoard
+            var gameEngine = new GameEngine { GameBoard = gameBoard, NumOfMines = 2 };
 
-            foreach (var action in flagCommands)
+            // two flag commands that flag both mines
+            var mockFlagCommands = SetupMockFlagCommands(mineCoordinates, gameBoard);
+
+            foreach (var command in mockFlagCommands)
             {
-                gameEngine.ExecutePlayerCommand(action);
+                gameEngine.ExecutePlayerCommand(command);
             }
-            
+
             Assert.True(gameEngine.IsGameFinished);
             Assert.True(gameEngine.IsPlayerWin);
         }
@@ -114,6 +120,19 @@ namespace Minesweeper.UnitTests
             }
 
             return gameBoard;
+        }
+
+        private static IEnumerable<PlayerCommand> SetupMockFlagCommands(Coordinate[] mineCoordinates, GameBoard gameBoard)
+        {
+            return mineCoordinates
+                .Select(coordinate =>
+                {
+                    var mockCommand = new Mock<PlayerCommand>(coordinate);
+                    mockCommand
+                        .Setup(command => command.Execute(gameBoard))
+                        .Callback((() => gameBoard.GetCell(coordinate).CellState = CellState.Flagged));
+                    return mockCommand.Object;
+                });
         }
     }
 }

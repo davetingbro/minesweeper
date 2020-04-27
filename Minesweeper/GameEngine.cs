@@ -22,12 +22,6 @@ namespace Minesweeper
             SetAllCellAdjacentMineCount();
         }
 
-        public void ExecutePlayerCommand(PlayerCommand command)
-        {
-            command.Execute(GameBoard);
-            UpdateGameState(command.Coordinate);
-        }
-
         private void PlantMines()
         {
             var numOfMinePlanted = 0;
@@ -40,7 +34,7 @@ namespace Minesweeper
                 numOfMinePlanted++;
             }
         }
-        
+
         private void SetAllCellAdjacentMineCount()
         {
             foreach (var cell in GameBoard.BoardState)
@@ -48,6 +42,12 @@ namespace Minesweeper
                 var neighbours = GameBoard.GetCellNeighbours(cell);
                 cell.AdjacentMineCount = neighbours.Count(c => c.IsMine);
             }
+        }
+
+        public void ExecutePlayerCommand(PlayerCommand command)
+        {
+            command.Execute(GameBoard);
+            UpdateGameState(command.Coordinate);
         }
 
         private void UpdateGameState(Coordinate coordinate)
