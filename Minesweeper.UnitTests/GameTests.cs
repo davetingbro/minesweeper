@@ -15,57 +15,11 @@ namespace Minesweeper.UnitTests
         {
             _mockGameEngine = new Mock<IGameEngine>();
             _mockGameUi = new Mock<IGameUi>();
+            SetupInitialMockGameEngine();
             _game = new Game(_mockGameEngine.Object, _mockGameUi.Object);
         }
-
-        [Fact]
-        public void ShouldInitializeGameCorrectly()
-        {
-            SetupMockGameEngine();
-            _mockGameEngine.SetupGet(ge => ge.IsGameFinished).Returns(true);
-
-            _game.Run();
-                        
-            _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
-            _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
-            _mockGameEngine.Verify(ge => ge.Initialize(), Times.Once);
-        }
-
-        [Fact]
-        public void ShouldContinueToPlayGameUntilIsGameFinishedIsTrue()
-        {
-            SetupMockGameEngine();
-            _mockGameEngine
-                .SetupSequence(ge => ge.IsGameFinished)
-                .Returns(false)
-                .Returns(false)
-                .Returns(true);
-
-            _game.Run();
-            
-            _mockGameUi.Verify(ui => ui.GetPlayerCommand(), Times.Exactly(2));
-            _mockGameEngine.Verify(ge => ge.ExecutePlayerCommand(It.IsAny<PlayerCommand>()),
-                Times.Exactly(2));
-            _mockGameUi.Verify(ui => ui.PrintResult(It.IsAny<bool>()),
-                Times.Once);
-        }
-
-        [Fact]
-        public void ShouldDisplayGameBoardDuringGameRun()
-        {
-            SetupMockGameEngine();
-            _mockGameEngine
-                .SetupSequence(ge => ge.IsGameFinished)
-                .Returns(false)
-                .Returns(false)
-                .Returns(true);
-
-            _game.Run();
-            
-            _mockGameUi.Verify(ui => ui.DisplayGameBoard(It.IsAny<GameBoard>()), Times.Exactly(3));
-        }
-
-        private void SetupMockGameEngine()
+        
+        private void SetupInitialMockGameEngine()
         {
             _mockGameEngine.SetupSequence(ge => ge.GameBoard)
                 .Returns(value: null)
@@ -73,6 +27,71 @@ namespace Minesweeper.UnitTests
                 .Returns(new GameBoard(5, 5));
             _mockGameEngine.Setup(ge => ge.NumOfMines)
                 .Returns(5);
+        }
+
+        [Fact]
+        public void ShouldGetDimensionAndNumOfMinesOnce_WhenRunGame()
+        {
+            SetupSequenceFinishGameInFourMoves();
+
+            _game.Run();
+                        
+            _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
+            _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
+        }
+        
+        [Fact]
+        public void ShouldCallGameEngineInitializeOnce_WhenRunGame()
+        {
+            SetupSequenceFinishGameInFourMoves();
+
+            _game.Run();
+            
+            _mockGameEngine.Verify(ge => ge.Initialize(), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldContinueToPlayGameUntilIsGameFinishedIsTrue()
+        {
+            SetupSequenceFinishGameInFourMoves();
+
+            _game.Run();
+            
+            _mockGameUi.Verify(ui => ui.GetPlayerCommand(), Times.Exactly(4));
+            _mockGameEngine.Verify(ge => ge.ExecutePlayerCommand(It.IsAny<PlayerCommand>()),
+                Times.Exactly(4));
+        }
+
+        [Fact]
+        public void ShouldDisplayGameBoardDuringGameRun()
+        {
+            SetupSequenceFinishGameInFourMoves();
+
+            _game.Run();
+            
+            _mockGameUi.Verify(ui => ui.DisplayGameBoard(It.IsAny<GameBoard>()), Times.Exactly(5));
+        }
+
+        [Fact]
+        public void ShouldPrintResultWhenGameIsFinished()
+        {
+            SetupSequenceFinishGameInFourMoves();
+
+            _game.Run();
+            
+            _mockGameUi.Verify(ui => ui.PrintResult(It.IsAny<bool>()),
+                Times.Once);
+        }
+
+        private void SetupSequenceFinishGameInFourMoves()
+        {
+            _mockGameEngine
+                .SetupSequence(ge => ge.IsGameFinished)
+                .Returns(false)
+                .Returns(false)
+                .Returns(false)
+                .Returns(false)
+                .Returns(true);
         }
     }
 }
