@@ -5,7 +5,7 @@ using Minesweeper.Interfaces;
 namespace Minesweeper
 {
     /// <summary>
-    /// Execute the game logic on UI inputs
+    /// Represent the Minesweeper game - calls on the GameEngine and GameUi public method to run the game
     /// </summary>
     public class Game
     {

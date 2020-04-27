@@ -1,11 +1,9 @@
-using System;
 using Minesweeper.Enums;
-using Minesweeper.Exceptions;
 
 namespace Minesweeper
 {
     /// <summary>
-    /// Object that stores all information of a cell on the game board
+    /// Data structure that represents the cell unit on the GameBoard
     /// </summary>
     public class Cell
     {

@@ -7,7 +7,7 @@ using Minesweeper.PlayerCommands;
 namespace Minesweeper
 {
     /// <summary>
-    /// Provides implementation of the game logic methods
+    /// Provides game logic implementation to advance game state
     /// </summary>
     public class GameEngine : IGameEngine
     {
@@ -56,7 +56,7 @@ namespace Minesweeper
             
             if (!cell.IsMine) return;
             NumOfMines--;
-            IsPlayerWin = cell.CellState == CellState.Flagged && NumOfMines == 0;
+            IsPlayerWin = NumOfMines == 0 && cell.CellState == CellState.Flagged;
             IsGameFinished = cell.CellState == CellState.Revealed || IsPlayerWin;
         }
     }

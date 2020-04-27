@@ -1,12 +1,12 @@
 namespace Minesweeper
 {
     /// <summary>
-    /// Data structure to store coordinate information
+    /// Data structure that represents the coordinate information of each GameBoard cell
     /// </summary>
     public class Coordinate
     {
-        public int X;
-        public int Y;
+        public readonly int X;
+        public readonly int Y;
 
         public Coordinate(int x, int y)
         {

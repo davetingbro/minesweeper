@@ -6,7 +6,7 @@ using Minesweeper.Interfaces;
 namespace Minesweeper
 {
     /// <summary>
-    /// Implementation of GameBoard rendering logic
+    /// Implementation of console game GameBoard rendering logic
     /// </summary>
     public class ConsoleGameBoardRenderer : IGameBoardRenderer
     {
@@ -16,7 +16,7 @@ namespace Minesweeper
             Console.Write(gameBoardString);
         }
 
-        private string ParseGameBoardToString(GameBoard gameBoard)
+        private static string ParseGameBoardToString(GameBoard gameBoard)
         {
             var cellStrings = gameBoard.BoardState
                 .Select((c, i) =>
@@ -29,7 +29,7 @@ namespace Minesweeper
             return string.Join("", cellStrings);
         }
 
-        private string ParseCellToString(Cell cell)
+        private static string ParseCellToString(Cell cell)
         {
             var output = cell.CellState switch
             {

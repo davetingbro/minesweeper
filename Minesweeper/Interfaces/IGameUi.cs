@@ -3,7 +3,7 @@ using Minesweeper.PlayerCommands;
 namespace Minesweeper.Interfaces
 {
     /// <summary>
-    /// User interaction method signatures
+    /// Defines game UI methods
     /// </summary>
     public interface IGameUi
     {

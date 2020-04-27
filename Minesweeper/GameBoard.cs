@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using Minesweeper.PlayerCommands;
 
 namespace Minesweeper
 {
     /// <summary>
-    /// Object that stores the information of the playing game board
+    /// Data structure that represents the GameBoard of the game
     /// </summary>
     public class GameBoard
     {
-        public List<Cell> BoardState { get; set; } = new List<Cell>();
+        public List<Cell> BoardState { get; set; }
         public int Width { get; }
         public int Height { get; }
 
@@ -17,6 +16,7 @@ namespace Minesweeper
         {
             Width = width;
             Height = height;
+            BoardState = new List<Cell>();
             LoadCells();
         }
 
@@ -35,7 +35,6 @@ namespace Minesweeper
         public List<Cell> GetCellNeighbours(Cell cell)
         {
             int x = cell.X, y = cell.Y;
-
             var currentCell = BoardState.Where(c => c.X == x && c.Y == y);
             var neighbours = BoardState
                     .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 

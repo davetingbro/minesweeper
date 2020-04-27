@@ -4,6 +4,9 @@ using Minesweeper.Exceptions;
 
 namespace Minesweeper.PlayerCommands
 {
+    /// <summary>
+    /// Implementation of the flagging/unflagging logic
+    /// </summary>
     public class FlagCommand : PlayerCommand
     {
         public FlagCommand(Coordinate coordinate) : base(coordinate) {}
@@ -11,11 +14,11 @@ namespace Minesweeper.PlayerCommands
         public override void Execute(GameBoard gameBoard)
         {
             var cell = gameBoard.GetCell(Coordinate);
-            Validate(gameBoard, cell);
+            ValidateMove(gameBoard, cell);
             cell.CellState = cell.CellState == CellState.Flagged ? CellState.Unrevealed : CellState.Flagged;
         }
 
-        private static void Validate(GameBoard gameBoard, Cell cell)
+        private static void ValidateMove(GameBoard gameBoard, Cell cell)
         {
             var mineCount = gameBoard.BoardState.Count(c => c.IsMine);
             var flagCount = gameBoard.BoardState.Count(c => c.CellState == CellState.Flagged);

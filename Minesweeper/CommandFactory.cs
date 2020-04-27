@@ -3,6 +3,9 @@ using Minesweeper.PlayerCommands;
 
 namespace Minesweeper
 {
+    /// <summary>
+    /// Creates PlayerCommand based on user input
+    /// </summary>
     public static class CommandFactory
     {
         public static PlayerCommand GetCommand(string commandOption, Coordinate coordinate)

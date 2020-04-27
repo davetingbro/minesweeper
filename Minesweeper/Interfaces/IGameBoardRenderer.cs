@@ -1,7 +1,7 @@
 namespace Minesweeper.Interfaces
 {
     /// <summary>
-    /// Provides the Render method signature for rendering a game board to display
+    /// Defines the method for rendering a GameBoard object to display
     /// </summary>
     public interface IGameBoardRenderer
     {

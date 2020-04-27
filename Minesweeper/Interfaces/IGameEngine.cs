@@ -3,7 +3,7 @@ using Minesweeper.PlayerCommands;
 namespace Minesweeper.Interfaces
 {
     /// <summary>
-    /// Game logic method signatures
+    /// Defines the Game state and methods that update them
     /// </summary>
     public interface IGameEngine
     {
