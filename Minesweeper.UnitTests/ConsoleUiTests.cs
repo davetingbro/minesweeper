@@ -12,19 +12,24 @@ namespace Minesweeper.UnitTests
     [Collection("ConsoleUiTestCollection")]
     public class ConsoleUiTests
     {
+        private readonly Mock<IGameBoardRenderer> _mockRenderer;
+
+        public ConsoleUiTests()
+        {
+            _mockRenderer = new Mock<IGameBoardRenderer>();
+        }
+        
         [Fact]
         public void ShouldReturnGameBoardWithCorrectWidthAndHeight_WhenGetDimension()
         {
             MockConsoleReadLine("5 5");
-            var consoleUiUnderTest = new ConsoleUi();
+            var consoleUi = new ConsoleUi(_mockRenderer.Object);
             
-            var gameBoard = consoleUiUnderTest.GetDimension();
+            var result = consoleUi.GetDimension();
             
-            var result = JsonConvert.SerializeObject(gameBoard);
-            var expectedGameBoard = new GameBoard(5, 5);
-            var expected = JsonConvert.SerializeObject(expectedGameBoard);
-            
-            Assert.Equal(expected, result);
+            var resultJson = JsonConvert.SerializeObject(result);
+            var expectedJson = JsonConvert.SerializeObject(new GameBoard(5, 5));
+            Assert.Equal(expectedJson, resultJson);
         }
         
         [Theory]
@@ -34,13 +39,36 @@ namespace Minesweeper.UnitTests
         [InlineData("-5 6")]
         [InlineData("55")]
         [InlineData("5 6 7")]
-        public void ShouldThrowErrors_WhenReadInvalidInput(string input)
+        public void ShouldThrowInvalidInputException_WhenGivenInvalidDimensionInput(string input)
         {
             MockConsoleReadLine(input);
-            
-            var consoleUi = new ConsoleUi();
+            var consoleUi = new ConsoleUi(_mockRenderer.Object);
 
             Assert.Throws<InvalidInputException>(consoleUi.GetDimension);
+        }
+
+        [Fact]
+        public void ShouldReturnNumOfMineThatMatchInput()
+        {
+            MockConsoleReadLine("5");
+            var consoleUi = new ConsoleUi(_mockRenderer.Object);
+
+            var result = consoleUi.GetNumOfMines();
+            
+            Assert.Equal(5, result);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("0")]
+        [InlineData("-5")]
+        [InlineData("a")]
+        public void ShowThrowInvalidInputException_WhenGivenInvalidNumOfMineInput(string input)
+        {
+            MockConsoleReadLine(input);
+            var consoleUi = new ConsoleUi(_mockRenderer.Object);
+
+            Assert.Throws<InvalidInputException>(() => consoleUi.GetNumOfMines());
         }
 
         [Theory]
@@ -49,7 +77,7 @@ namespace Minesweeper.UnitTests
         public void ShouldCreateCorrectCommandObject_WhenGivenValidCommandOption(string input, Type expected)
         {
             MockConsoleReadLine(input);
-            var consoleUiUnderTest = new ConsoleUi();
+            var consoleUiUnderTest = new ConsoleUi(_mockRenderer.Object);
             
             var action = consoleUiUnderTest.GetPlayerCommand();
             
@@ -64,11 +92,11 @@ namespace Minesweeper.UnitTests
         [InlineData("r 2")]
         [InlineData("r 9 10 1")]
         [InlineData("v 9 10")]
-        public void ShouldThrowException_WhenReadInvalidCommandOption(string input)
+        public void ShouldThrowInvalidInputException_WhenReadInvalidCommandOption(string input)
         {
             MockConsoleReadLine(input);
             
-            var consoleUiUnderTest = new ConsoleUi();
+            var consoleUiUnderTest = new ConsoleUi(_mockRenderer.Object);
             
             Assert.Throws<InvalidInputException>(consoleUiUnderTest.GetPlayerCommand);
         }
@@ -84,12 +112,11 @@ namespace Minesweeper.UnitTests
         public void ShouldCallRenderMethod_WhenDisplayGameBoard()
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
-            var mockRenderer = new Mock<IGameBoardRenderer>();
-            var consoleUi = new ConsoleUi(mockRenderer.Object);
+            var consoleUi = new ConsoleUi(_mockRenderer.Object);
             
             consoleUi.DisplayGameBoard(stubGameBoard.Object);
             
-            mockRenderer.Verify(r => r.Render(stubGameBoard.Object), Times.Once);
+            _mockRenderer.Verify(r => r.Render(stubGameBoard.Object), Times.Once);
         }
 
         [Theory]
@@ -97,13 +124,13 @@ namespace Minesweeper.UnitTests
         [InlineData(false, "You lose!\n")]
         public void ShouldPrintCorrectResult(bool isWon, string expected)
         {
-            var consoleUi = new ConsoleUi();
+            var consoleUi = new ConsoleUi(_mockRenderer.Object);
             var consoleWriter = new StringWriter();
             Console.SetOut(consoleWriter);
             
             consoleUi.PrintResult(isWon);
-
             var result = consoleWriter.GetStringBuilder().ToString();
+            
             Assert.Equal(expected, result);
         }
     }

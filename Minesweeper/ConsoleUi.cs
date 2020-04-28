@@ -12,9 +12,7 @@ namespace Minesweeper
     public class ConsoleUi : IGameUi
     {
         private readonly IGameBoardRenderer _gameBoardRenderer;
-
-        public ConsoleUi() { }
-
+        
         public ConsoleUi(IGameBoardRenderer gameBoardRenderer)
         {
             _gameBoardRenderer = gameBoardRenderer;
@@ -41,6 +39,10 @@ namespace Minesweeper
             {
                 throw new InvalidInputException(errorMessage);
             }
+            catch (NullReferenceException)
+            {
+                throw new InvalidInputException(errorMessage);
+            }
         }
 
         public int GetNumOfMines()
@@ -51,7 +53,8 @@ namespace Minesweeper
             try
             {
                 var input = Console.ReadLine();
-                return int.Parse(input ?? throw new InvalidInputException(errorMessage));
+                var value = int.Parse(input ?? throw new InvalidInputException(errorMessage));
+                return value > 0 ? value : throw new InvalidInputException(errorMessage);
             }
             catch (FormatException)
             {
@@ -68,17 +71,23 @@ namespace Minesweeper
 
         private static PlayerCommand ParseToPlayerCommand(string[] input)
         {
-            try {
+            try
+            {
                 ValidatePlayerCommand(input);
                 var commandOption = input[0].ToLower();
                 int x = int.Parse(input[1]), y = int.Parse(input[2]);
                 var coordinate = new Coordinate(x, y);
-                
+
                 return CommandFactory.GetCommand(commandOption, coordinate);
             }
             catch (FormatException)
             {
-                throw new InvalidInputException("Invalid Input: coordinate value must be positive integers (e.g. r 2 2)");
+                throw new InvalidInputException(
+                    "Invalid Input: coordinate value must be positive integers (e.g. r 2 2)");
+            }
+            catch (NullReferenceException)
+            {
+                throw new InvalidInputException("Invalid Input: input cannot be empty (e.g. r 2 2)");
             }
         }
 
