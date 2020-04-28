@@ -45,11 +45,12 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
             // Plant 2 mines
             _gameBoard.GetCell(new Coordinate(4, 4)).PlantMine();
             _gameBoard.GetCell(new Coordinate(5, 5)).PlantMine();
-            // Flag 2 cells
+            // Flag 2 cells that aren't mines
             _gameBoard.GetCell(new Coordinate(2, 2)).CellState = CellState.Flagged;
             _gameBoard.GetCell(new Coordinate(1, 1)).CellState = CellState.Flagged;
             
-            var flagCommand = new FlagCommand(new Coordinate(4, 4)); // Flagging third cell
+            // Flagging the third cell
+            var flagCommand = new FlagCommand(new Coordinate(4, 4)); 
 
             Assert.Throws<InvalidMoveException>(() => flagCommand.Execute(_gameBoard));
         }
