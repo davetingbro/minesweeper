@@ -13,10 +13,10 @@ namespace Minesweeper
         public int AdjacentMineCount { get; set; }
         public bool IsMine { get; private set; }
 
-        public Cell(Coordinate coordinate)
+        public Cell(int x, int y)
         {
-            X = coordinate.X;
-            Y = coordinate.Y;
+            X = x;
+            Y = y;
             CellState = CellState.Unrevealed;
         }
 
