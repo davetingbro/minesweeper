@@ -12,14 +12,13 @@ namespace Minesweeper.UnitTests
         public void ShouldRenderGameBoardAsExpected()
         {
             var gameBoard = CreateTestGameBoard();
-            
-            var renderer = new ConsoleGameBoardRenderer();
             var consoleWriter = new StringWriter();
             Console.SetOut(consoleWriter);
-            
+            var renderer = new ConsoleGameBoardRenderer();
+
             renderer.Render(gameBoard);
 
-            var result = consoleWriter.GetStringBuilder().ToString();
+            var result = consoleWriter.GetStringBuilder().ToString(); // store Console.WriteLine output in result
             const string expected = " - - - -\n" +
                                     " - 2 * -\n" +
                                     " - F - -\n" +
