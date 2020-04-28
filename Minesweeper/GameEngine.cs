@@ -46,6 +46,9 @@ namespace Minesweeper
 
         public void ExecutePlayerCommand(PlayerCommand command)
         {
+            var coordinate = command.Coordinate;
+            if (coordinate.X > GameBoard.Width || coordinate.Y > GameBoard.Height)
+                throw new InvalidMoveException("Invalid Move: Coordinate out of range.");
             command.Execute(GameBoard);
             UpdateGameState(command.Coordinate);
         }

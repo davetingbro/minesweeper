@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Minesweeper.Enums;
+using Minesweeper.Exceptions;
 using Minesweeper.PlayerCommands;
 using Moq;
 using Xunit;
@@ -63,15 +64,21 @@ namespace Minesweeper.UnitTests
         {
             var stubGameBoard = new Mock<GameBoard>(5, 5);
             var mockPlayerCommand = new Mock<PlayerCommand>(new Coordinate(1, 1));
-            var gameEngine = new GameEngine
-            {
-                GameBoard = stubGameBoard.Object,
-                NumOfMines = 0
-            };
+            var gameEngine = new GameEngine {GameBoard = stubGameBoard.Object};
 
             gameEngine.ExecutePlayerCommand(mockPlayerCommand.Object);
             
             mockPlayerCommand.Verify(action => action.Execute(stubGameBoard.Object), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidMoveException_WhenGivenCoordinateOutOfBoardRange()
+        {
+            var stubGameBoard = new Mock<GameBoard>(5, 5);
+            var mockPlayerCommand = new Mock<PlayerCommand>(new Coordinate(6, 6));
+            var gameEngine = new GameEngine {GameBoard = stubGameBoard.Object};
+
+            Assert.Throws<InvalidMoveException>(() => gameEngine.ExecutePlayerCommand(mockPlayerCommand.Object));
         }
 
         [Fact]
