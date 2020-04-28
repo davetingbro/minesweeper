@@ -13,7 +13,6 @@ namespace Minesweeper
     public class GameEngine : IGameEngine
     {
         private int _numOfMines;
-        public GameBoard GameBoard { get; set; }
         public int NumOfMines
         {
             get => _numOfMines;
@@ -22,6 +21,7 @@ namespace Minesweeper
                     ? value
                     : throw new InvalidInputException("Invalid Input: cannot have more mines than board size");
         }
+        public GameBoard GameBoard { get; set; }
         public bool IsGameFinished { get; private set; }
         public bool IsPlayerWin { get; private set; }
 
