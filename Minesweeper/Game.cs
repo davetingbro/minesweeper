@@ -38,10 +38,7 @@ namespace Minesweeper
                 try
                 {
                     _gameEngine.GameBoard ??= _gameUi.GetDimension();
-                    var boardSize = _gameEngine.GameBoard.BoardState.Count;
-                    var numOfMines = _gameUi.GetNumOfMines();
-                    _gameEngine.NumOfMines = numOfMines < boardSize ? numOfMines 
-                        : throw new InvalidInputException("Invalid Input: cannot have more mines than the board size.");
+                    _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
                 }
                 catch (GameException e)
                 {
