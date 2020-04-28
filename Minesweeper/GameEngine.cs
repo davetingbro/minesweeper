@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Minesweeper.Enums;
+using Minesweeper.Exceptions;
 using Minesweeper.Interfaces;
 using Minesweeper.PlayerCommands;
 
@@ -11,8 +12,16 @@ namespace Minesweeper
     /// </summary>
     public class GameEngine : IGameEngine
     {
+        private int _numOfMines;
         public GameBoard GameBoard { get; set; }
-        public int NumOfMines { get; set; }
+        public int NumOfMines
+        {
+            get => _numOfMines;
+            set =>
+                _numOfMines = value <= GameBoard.Width * GameBoard.Height
+                    ? value
+                    : throw new InvalidInputException("Invalid Input: cannot have more mines than board size");
+        }
         public bool IsGameFinished { get; private set; }
         public bool IsPlayerWin { get; private set; }
 
@@ -25,7 +34,7 @@ namespace Minesweeper
         private void PlantMines()
         {
             var numOfMinePlanted = 0;
-            while (numOfMinePlanted < NumOfMines)
+            while (numOfMinePlanted < _numOfMines)
             {
                 var index = new Random().Next(GameBoard.BoardState.Count);
                 var cell = GameBoard.BoardState[index];
@@ -58,8 +67,8 @@ namespace Minesweeper
             var cell = GameBoard.GetCell(coordinate);
             
             if (!cell.IsMine) return;
-            NumOfMines--;
-            IsPlayerWin = NumOfMines == 0 && cell.CellState == CellState.Flagged;
+            _numOfMines--;
+            IsPlayerWin = _numOfMines == 0 && cell.CellState == CellState.Flagged;
             IsGameFinished = cell.CellState == CellState.Revealed || IsPlayerWin;
         }
     }

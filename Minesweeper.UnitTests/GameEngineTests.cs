@@ -13,16 +13,20 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void NumOfMinesPlantedShouldEqualNumOfMinesSet_WhenInitialized()
         {
-            var gameEngine = new GameEngine
-            {
-                GameBoard = new GameBoard(5, 5),
-                NumOfMines = 5
-            };
+            var gameEngine = new GameEngine {GameBoard = new GameBoard(5, 5), NumOfMines = 5};
 
             gameEngine.Initialize();
 
             var numOfMinePlanted = gameEngine.GameBoard.BoardState.Count(c => c.IsMine);
             Assert.Equal(5, numOfMinePlanted);
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidInputException_WhenGivenNumOfMineValueIsGreaterThanBoardSize()
+        {
+            var gameEngine = new GameEngine {GameBoard = new GameBoard(5, 5)};
+
+            Assert.Throws<InvalidInputException>(() => gameEngine.NumOfMines = 26);
         }
 
         [Fact]
