@@ -26,10 +26,14 @@ namespace Minesweeper
             {
                 for (var x = 1; x <= Width; x++)
                 {
-                    var coordinate = new Coordinate(x, y);
-                    BoardState.Add(new Cell(coordinate));
+                    BoardState.Add(new Cell(x, y));
                 }
             }
+        }
+
+        public Cell GetCell(Coordinate coordinate)
+        {
+            return BoardState.Find(c => c.X == coordinate.X && c.Y == coordinate.Y);
         }
 
         public List<Cell> GetCellNeighbours(Cell cell)
@@ -37,17 +41,12 @@ namespace Minesweeper
             int x = cell.X, y = cell.Y;
             var currentCell = BoardState.Where(c => c.X == x && c.Y == y);
             var neighbours = BoardState
-                    .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 
-                                   && c.Y >= (y - 1) && c.Y <= (y + 1))
-                    .Except(currentCell)
-                    .ToList();
+                .Where(c => c.X >= (x - 1) && c.X <= (x + 1) 
+                                           && c.Y >= (y - 1) && c.Y <= (y + 1))
+                .Except(currentCell)
+                .ToList();
 
             return neighbours;
-        }
-
-        public Cell GetCell(Coordinate coordinate)
-        {
-            return BoardState.Find(c => c.X == coordinate.X && c.Y == coordinate.Y);
         }
     }
 }

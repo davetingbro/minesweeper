@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -15,6 +14,19 @@ namespace Minesweeper.UnitTests
             Assert.Equal(25, gameBoard.BoardState.Count);
         }
 
+        [Fact]
+        public void ShouldLoadCellsWithCorrectCoordinates()
+        {
+            var gameBoard = new GameBoard(5, 5);
+
+            var cell = gameBoard.BoardState[1]; 
+            var expected = new Cell(2, 1);
+
+            var resultJson = JsonConvert.SerializeObject(cell);
+            var expectedJson = JsonConvert.SerializeObject(expected);
+            Assert.Equal(expectedJson, resultJson);
+        }
+
         [Theory]
         [InlineData(4, 7)]
         public void ShouldReturnCorrectCellGivenCoordinate(int x, int y)
@@ -22,12 +34,32 @@ namespace Minesweeper.UnitTests
             var gameBoard = new GameBoard(8, 8);
             var coordinate = new Coordinate(x, y);
 
-            var cell = gameBoard.GetCell(coordinate);
-            var expectedCell = new Cell(coordinate);
+            var result = gameBoard.GetCell(coordinate);
 
-            var result = JsonConvert.SerializeObject(cell);
-            var expected = JsonConvert.SerializeObject(expectedCell);
-            Assert.Equal(expected, result);
+            var resultJson = JsonConvert.SerializeObject(result);
+            var expectedJson = JsonConvert.SerializeObject(new Cell(x, y));
+            Assert.Equal(expectedJson, resultJson);
+        }
+
+        [Fact]
+        public void ShouldReturnCorrectCellNeighbours()
+        {
+            var gameBoard = new GameBoard(5, 5);
+            var coordinate = new Coordinate(3, 3);
+            var cell = gameBoard.GetCell(coordinate);
+
+            var result = gameBoard.GetCellNeighbours(cell);
+
+            var expected = new List<Cell>
+            {
+                new Cell(2, 2), new Cell(3, 2), new Cell(4, 2),
+                new Cell(2, 3),                       new Cell(4, 3),
+                new Cell(2, 4), new Cell(3, 4), new Cell(4, 4)
+            };
+
+            var resultJson = JsonConvert.SerializeObject(result);
+            var expectedJson = JsonConvert.SerializeObject(expected);
+            Assert.Equal(expectedJson, resultJson);
         }
     }
 }
