@@ -32,7 +32,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldGetDimensionAndNumOfMinesOnce_WhenRunGame()
         {
-            SetupSequenceFinishGameInFourMoves();
+            SetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
                         
@@ -43,7 +43,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldCallGameEngineInitializeOnce_WhenRunGame()
         {
-            SetupSequenceFinishGameInFourMoves();
+            SetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -53,7 +53,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldContinueToPlayGameUntilIsGameFinishedIsTrue()
         {
-            SetupSequenceFinishGameInFourMoves();
+            SetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -65,7 +65,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldDisplayGameBoardDuringGameRun()
         {
-            SetupSequenceFinishGameInFourMoves();
+            SetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -75,7 +75,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldPrintResultWhenGameIsFinished()
         {
-            SetupSequenceFinishGameInFourMoves();
+            SetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -83,7 +83,7 @@ namespace Minesweeper.UnitTests
                 Times.Once);
         }
 
-        private void SetupSequenceFinishGameInFourMoves()
+        private void SetupGameEngineSequenceFinishGameInFourMoves()
         {
             _mockGameEngine
                 .SetupSequence(ge => ge.IsGameFinished)
