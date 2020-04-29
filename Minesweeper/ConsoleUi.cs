@@ -71,14 +71,23 @@ namespace Minesweeper
 
         private static PlayerCommand ParseToPlayerCommand(string[] input)
         {
+            ValidatePlayerCommand(input);
+            var commandOption = input[0].ToLower();
+            int x = int.Parse(input[1]), y = int.Parse(input[2]);
+            var coordinate = new Coordinate(x, y);
+
+            return CommandFactory.GetCommand(commandOption, coordinate);
+        }
+
+        private static void ValidatePlayerCommand(string[] input)
+        {
             try
             {
-                ValidatePlayerCommand(input);
-                var commandOption = input[0].ToLower();
+                if (input.Length != 3)
+                    throw new InvalidInputException("Invalid Inputs: must contain 3 values (e.g. r 2 2)");
                 int x = int.Parse(input[1]), y = int.Parse(input[2]);
-                var coordinate = new Coordinate(x, y);
-
-                return CommandFactory.GetCommand(commandOption, coordinate);
+                if (x < 0 || y < 0)
+                    throw new InvalidInputException("Invalid Input: coordinate values must be positive integers (e.g. r 2 2)");
             }
             catch (FormatException)
             {
@@ -89,16 +98,6 @@ namespace Minesweeper
             {
                 throw new InvalidInputException("Invalid Input: input cannot be empty (e.g. r 2 2)");
             }
-        }
-
-        private static void ValidatePlayerCommand(string[] input)
-        {
-            if (input.Length != 3)
-                throw new InvalidInputException("Invalid Inputs: must contain 3 values (e.g. r 2 2)");
-            
-            int x = int.Parse(input[1]), y = int.Parse(input[2]);
-            if (x < 0 || y < 0)
-                throw new InvalidInputException("Invalid Input: coordinate values must be positive integers (e.g. r 2 2)");
         }
 
         public void DisplayGameBoard(GameBoard gameBoard)
