@@ -15,11 +15,11 @@ namespace Minesweeper.UnitTests
         {
             _mockGameEngine = new Mock<IGameEngine>();
             _mockGameUi = new Mock<IGameUi>();
-            SetupInitialMockGameEngine();
+            MockGameDimensionAndNumOfMines();
             _game = new Game(_mockGameEngine.Object, _mockGameUi.Object);
         }
         
-        private void SetupInitialMockGameEngine()
+        private void MockGameDimensionAndNumOfMines()
         {
             _mockGameEngine.SetupSequence(ge => ge.GameBoard)
                 .Returns(value: null)
