@@ -76,7 +76,7 @@ namespace Minesweeper
             int x = int.Parse(input[1]), y = int.Parse(input[2]);
             var coordinate = new Coordinate(x, y);
 
-            return CommandFactory.GetCommand(commandOption, coordinate);
+            return CommandFactory(commandOption, coordinate);
         }
 
         private static void ValidatePlayerCommand(string[] input)
@@ -98,6 +98,17 @@ namespace Minesweeper
             {
                 throw new InvalidInputException("Invalid Input: input cannot be empty (e.g. r 2 2)");
             }
+        }
+
+        private static PlayerCommand CommandFactory(string commandOption, Coordinate coordinate)
+        {
+            return commandOption switch
+            {
+                "r" => new RevealCommand(coordinate),
+                "f" => new FlagCommand(coordinate),
+                _ => throw new InvalidInputException("Invalid Input: incorrect command option " +
+                                                     "(i.e. 'r' - reveal, 'f' - flag/unflag")
+            };
         }
 
         public void DisplayGameBoard(GameBoard gameBoard)
