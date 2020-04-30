@@ -19,49 +19,30 @@ namespace Minesweeper.UnitTests
             _mockGameEngine = new Mock<IGameEngine>();
             _mockGameUi = new Mock<IGameUi>();
             _game = new Game(_mockGameEngine.Object, _mockGameUi.Object);
-            MockSetGameState();
+            MockSetStartingGameState();
         }
         
-        private void MockSetGameState()
+        private void MockSetStartingGameState()
         {
-            _mockGameEngine.SetupSequence(ge => ge.GameBoard)
-                .Returns(value: null)
-                .Returns(value: null)
-                .Returns(new GameBoard(5, 5));
-            _mockGameEngine.Setup(ge => ge.NumOfMines)
-                .Returns(5);
+            _mockGameUi.Setup(ui => ui.GetDimension()).Returns(new GameBoard(5, 5));
+            _mockGameUi.Setup(ui => ui.GetNumOfMines()).Returns(5);
         }
 
         [Fact]
         public void ShouldGetDimensionAndNumOfMinesOnce_WhenRunGame()
         {
-            SetupGameEngineSequenceFinishGameInFourMoves();
+            MockSetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
                         
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
             _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
         }
-        
-        [Fact]
-        public void ShouldPrintExceptionMessage_WhenGetDimensionThrowsInvalidInputException()
-        {
-            SetupGameEngineSequenceFinishGameInFourMoves();
-            var consoleWriter = new StringWriter();
-            Console.SetOut(consoleWriter);
-            _mockGameUi.Setup(ui => ui.GetDimension())
-                .Callback(() => throw new InvalidInputException("invalid input"));
 
-            _game.Run();
-
-            var result = consoleWriter.GetStringBuilder().ToString();
-            Assert.Equal("invalid input\n", result);
-        }
-        
         [Fact]
         public void ShouldCallGameEngineInitializeOnce_WhenRunGame()
         {
-            SetupGameEngineSequenceFinishGameInFourMoves();
+            MockSetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -71,7 +52,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldContinueToPlayGameUntilIsGameFinishedIsTrue()
         {
-            SetupGameEngineSequenceFinishGameInFourMoves();
+            MockSetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -81,26 +62,52 @@ namespace Minesweeper.UnitTests
         }
 
         [Fact]
+        public void ShouldPrintExceptionMessage_WhenGetDimensionThrowsInvalidInputException()
+        {
+            MockGetDimensionThrowsInvalidInputException();
+            MockSetupGameEngineSequenceFinishGameInFourMoves();
+            var consoleWriteLineReader = ConsoleWriteLineReader();
+
+            _game.Run();
+
+            var result = consoleWriteLineReader.GetStringBuilder().ToString();
+            Assert.Equal("invalid input\n", result);
+        }
+
+        private void MockGetDimensionThrowsInvalidInputException()
+        {
+            _mockGameUi.SetupSequence(ui => ui.GetDimension())
+                .Returns(() => throw new InvalidInputException("invalid input"))
+                .Returns(new GameBoard(5, 5));
+        }
+
+        [Fact]
         public void ShouldPrintExceptionMessage_WhenGameExceptionIsThrownDuringGamePlay()
         {
+            _mockGameUi.Setup(ui => ui.GetPlayerCommand())
+                .Callback(() => throw new InvalidInputException("invalid input"));
             _mockGameEngine.SetupSequence(ge => ge.IsGameFinished)
                 .Returns(false)
                 .Returns(true);
-            _mockGameUi.Setup(ui => ui.GetPlayerCommand())
-                .Callback(() => throw new InvalidInputException("invalid input"));
-            var consoleWriter = new StringWriter();
-            Console.SetOut(consoleWriter);
+            var consoleWriteLineReader = ConsoleWriteLineReader();
             
             _game.Run();
 
-            var result = consoleWriter.GetStringBuilder().ToString();
+            var result = consoleWriteLineReader.GetStringBuilder().ToString();
             Assert.Equal("invalid input\n", result);
+        }
+
+        private static StringWriter ConsoleWriteLineReader()
+        {
+            var stringWriter = new StringWriter();
+            Console.SetOut(stringWriter);
+            return stringWriter;
         }
 
         [Fact]
         public void ShouldDisplayGameBoardDuringGameRun()
         {
-            SetupGameEngineSequenceFinishGameInFourMoves();
+            MockSetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -110,7 +117,7 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldPrintResultWhenGameIsFinished()
         {
-            SetupGameEngineSequenceFinishGameInFourMoves();
+            MockSetupGameEngineSequenceFinishGameInFourMoves();
 
             _game.Run();
             
@@ -118,7 +125,7 @@ namespace Minesweeper.UnitTests
                 Times.Once);
         }
 
-        private void SetupGameEngineSequenceFinishGameInFourMoves()
+        private void MockSetupGameEngineSequenceFinishGameInFourMoves()
         {
             _mockGameEngine
                 .SetupSequence(ge => ge.IsGameFinished)
