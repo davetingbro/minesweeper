@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using Minesweeper.Exceptions;
 using Minesweeper.Interfaces;
 using Minesweeper.PlayerCommands;
 using Moq;
@@ -60,6 +63,23 @@ namespace Minesweeper.UnitTests
             _mockGameUi.Verify(ui => ui.GetPlayerCommand(), Times.Exactly(4));
             _mockGameEngine.Verify(ge => ge.ExecutePlayerCommand(It.IsAny<PlayerCommand>()),
                 Times.Exactly(4));
+        }
+
+        [Fact]
+        public void ShouldPrintExceptionMessage_WhenGameExceptionIsThrownDuringGamePlay()
+        {
+            _mockGameEngine.SetupSequence(ge => ge.IsGameFinished)
+                .Returns(false)
+                .Returns(true);
+            _mockGameUi.Setup(ui => ui.GetPlayerCommand())
+                .Callback(() => throw new InvalidInputException("invalid input"));
+            var consoleWriter = new StringWriter();
+            Console.SetOut(consoleWriter);
+            
+            _game.Run();
+
+            var result = consoleWriter.GetStringBuilder().ToString();
+            Assert.Equal("invalid input\n", result);
         }
 
         [Fact]
