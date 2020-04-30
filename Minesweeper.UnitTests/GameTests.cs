@@ -18,11 +18,11 @@ namespace Minesweeper.UnitTests
         {
             _mockGameEngine = new Mock<IGameEngine>();
             _mockGameUi = new Mock<IGameUi>();
-            MockGameDimensionAndNumOfMines();
             _game = new Game(_mockGameEngine.Object, _mockGameUi.Object);
+            MockSetGameState();
         }
         
-        private void MockGameDimensionAndNumOfMines()
+        private void MockSetGameState()
         {
             _mockGameEngine.SetupSequence(ge => ge.GameBoard)
                 .Returns(value: null)
@@ -41,6 +41,21 @@ namespace Minesweeper.UnitTests
                         
             _mockGameUi.Verify(ui => ui.GetDimension(), Times.Once);
             _mockGameUi.Verify(ui => ui.GetNumOfMines(), Times.Once);
+        }
+        
+        [Fact]
+        public void ShouldPrintExceptionMessage_WhenGetDimensionThrowsInvalidInputException()
+        {
+            SetupGameEngineSequenceFinishGameInFourMoves();
+            var consoleWriter = new StringWriter();
+            Console.SetOut(consoleWriter);
+            _mockGameUi.Setup(ui => ui.GetDimension())
+                .Callback(() => throw new InvalidInputException("invalid input"));
+
+            _game.Run();
+
+            var result = consoleWriter.GetStringBuilder().ToString();
+            Assert.Equal("invalid input\n", result);
         }
         
         [Fact]
