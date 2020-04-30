@@ -22,7 +22,7 @@ namespace Minesweeper.PlayerCommands
         {
             var mineCount = gameBoard.BoardState.Count(c => c.IsMine);
             var flagCount = gameBoard.BoardState.Count(c => c.CellState == CellState.Flagged);
-            if (flagCount == mineCount) 
+            if (flagCount >= mineCount && cell.CellState != CellState.Flagged) 
                 throw new InvalidMoveException("Invalid move: You are out of flags.");
             if (cell.CellState == CellState.Revealed)
                 throw new InvalidMoveException("Invalid move: Cannot flag cell that is already revealed.");
