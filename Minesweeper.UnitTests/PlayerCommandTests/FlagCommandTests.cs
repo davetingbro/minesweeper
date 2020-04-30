@@ -11,13 +11,13 @@ namespace Minesweeper.UnitTests.PlayerCommandTests
         public FlagCommandTests()
         {
             _gameBoard = new GameBoard(5, 5);
+            _gameBoard.GetCell(new Coordinate(5, 5)).PlantMine();
         }
         
         [Fact]
         public void ShouldSetSelectedCellStateToFlagged()
         {
             var flagCoordinate = new Coordinate(1, 1);
-            _gameBoard.GetCell(flagCoordinate).PlantMine();
             var flagCommand = new FlagCommand(flagCoordinate);
             
             flagCommand.Execute(_gameBoard);
