@@ -18,7 +18,7 @@ namespace Minesweeper.UnitTests
             gameEngine.Initialize();
 
             var numOfMinePlanted = gameEngine.GameBoard.BoardState.Count(c => c.IsMine);
-            Assert.Equal(5, numOfMinePlanted);
+            Assert.Equal(gameEngine.NumOfMines, numOfMinePlanted);
         }
 
         [Fact]
