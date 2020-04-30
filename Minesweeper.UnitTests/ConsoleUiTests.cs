@@ -20,7 +20,7 @@ namespace Minesweeper.UnitTests
         }
         
         [Fact]
-        public void ShouldReturnGameBoardWithCorrectWidthAndHeight_WhenGetDimension()
+        public void ShouldReturnGameBoardWithCorrectWidthAndHeight_WhenGivenValidConsoleInput()
         {
             MockConsoleReadLine("5 5");
             var consoleUi = new ConsoleUi(_mockRenderer.Object);
