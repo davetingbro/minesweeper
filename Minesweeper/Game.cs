@@ -33,18 +33,22 @@ namespace Minesweeper
 
         private void SetGameState()
         {
-            while (_gameEngine.GameBoard == null || _gameEngine.NumOfMines == 0)
+            GameBoard gameBoard = null;
+            var numOfMines = 0;
+            while (gameBoard == null || numOfMines == 0)
             {
                 try
                 {
-                    _gameEngine.GameBoard ??= _gameUi.GetDimension();
-                    _gameEngine.NumOfMines = _gameUi.GetNumOfMines();
+                    gameBoard ??= _gameUi.GetDimension();
+                    numOfMines = _gameUi.GetNumOfMines();
                 }
                 catch (GameException e)
                 {
                     Console.WriteLine(e.Message);
                 }
             }
+            _gameEngine.GameBoard = gameBoard;
+            _gameEngine.NumOfMines = numOfMines;
         }
 
         private void PlayGame()
