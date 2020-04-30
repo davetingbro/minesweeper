@@ -66,21 +66,20 @@ namespace Minesweeper.UnitTests
         [Fact]
         public void ShouldCallPlayerCommandExecute_WhenExecutePlayerCommand()
         {
-            var stubGameBoard = new Mock<GameBoard>(5, 5);
+            var gameBoard = new GameBoard(5, 5);
+            var gameEngine = new GameEngine {GameBoard = gameBoard};
             var mockPlayerCommand = new Mock<PlayerCommand>(new Coordinate(1, 1));
-            var gameEngine = new GameEngine {GameBoard = stubGameBoard.Object};
 
             gameEngine.ExecutePlayerCommand(mockPlayerCommand.Object);
             
-            mockPlayerCommand.Verify(action => action.Execute(stubGameBoard.Object), Times.Once);
+            mockPlayerCommand.Verify(action => action.Execute(gameBoard), Times.Once);
         }
 
         [Fact]
         public void ShouldThrowInvalidMoveException_WhenGivenCoordinateOutOfBoardRange()
         {
-            var stubGameBoard = new Mock<GameBoard>(5, 5);
+            var gameEngine = new GameEngine {GameBoard = new GameBoard(5, 5)};
             var mockPlayerCommand = new Mock<PlayerCommand>(new Coordinate(6, 6));
-            var gameEngine = new GameEngine {GameBoard = stubGameBoard.Object};
 
             Assert.Throws<InvalidMoveException>(() => gameEngine.ExecutePlayerCommand(mockPlayerCommand.Object));
         }
