@@ -72,7 +72,7 @@ namespace Minesweeper.UnitTests
 
             gameEngine.ExecutePlayerCommand(mockPlayerCommand.Object);
             
-            mockPlayerCommand.Verify(action => action.Execute(gameBoard), Times.Once);
+            mockPlayerCommand.Verify(command => command.Execute(gameBoard), Times.Once);
         }
 
         [Fact]
